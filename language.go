@@ -36,7 +36,6 @@ import (
 //	
 //	cv.Languages = append(cv.Languages, jsonresume.Language{
 //		Language: nul.Something("Persian"),
-//		Name:     nul.Nullable("Workworking"),
 //		Fluency:  nul.Something("Beginner"),
 //	})
 type Language struct {

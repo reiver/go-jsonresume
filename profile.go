@@ -33,14 +33,14 @@ import (
 //	// ...
 //	
 //	cv.Profiles = append(cv.Profiles, jsonresume.Profile{
-//		Network:   nul.Nullable("Mastodon"),
-//		UserName:  nul.Nullable("joeblow"),
+//		Network:   nul.Something("Mastodon"),
+//		UserName:  nul.Something("joeblow"),
 //		Reference: activitypub.HRef("https://mastodon.example/@joeblow"),
 //	})
 //	
 //	cv.Profiles = append(cv.Profiles, jsonresume.Profile{
-//		Name:      nul.Nullable("Pixelfed"),
-//		UserName:  nul.Nullable("joeblow"),
+//		Name:      nul.Something("Pixelfed"),
+//		UserName:  nul.Something("joeblow"),
 //		Reference: activitypub.HRef("https://pixelfed.example/joeblow"),
 //	})
 type Profile struct {

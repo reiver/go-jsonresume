@@ -30,12 +30,12 @@ import (
 //	// ...
 //	
 //	cv.Skills = append(cv.Skills, jsonresume.Skill{
-//		Name:     nul.Nullable("Photography"),
+//		Name:     nul.Something("Photography"),
 //		Keywords: activitypub.SomeStrings("Astrophotography", "Food", "Nature"),
 //	})
 //	
 //	cv.Skills = append(cv.Skills, jsonresume.Skill{
-//		Name:     nul.Nullable("Workworking"),
+//		Name:     nul.Something("Workworking"),
 //		Keywords: activitypub.SomeString("Furniture"),
 //	})
 type Skill struct {

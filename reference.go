@@ -30,13 +30,13 @@ import (
 //	// ...
 //	
 //	cv.References = append(cv.References, jsonresume.Reference{
-//		Name:      nul.Nullable("Jane Doe"),
-//		Reference: nul.Nullable("Joe Blow is an exceptionally talented professional."),
+//		Name:      nul.Something("Jane Doe"),
+//		Reference: nul.Something("Joe Blow is an exceptionally talented professional."),
 //	})
 //	
 //	cv.References = append(cv.References, jsonresume.Reference{
-//		Name:      nul.Nullable("Bob Smith"),
-//		Reference: nul.Nullable("I enjoyed working with Joe Blow and give them my highest recommendation without reservation."),
+//		Name:      nul.Something("Bob Smith"),
+//		Reference: nul.Something("I enjoyed working with Joe Blow and give them my highest recommendation without reservation."),
 //	})
 type Reference struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`

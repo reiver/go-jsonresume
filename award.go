@@ -34,12 +34,12 @@ import (
 //	// ...
 //	
 //	cv.Awards = append(cv.Awards, jsonresume.Award{
-//		Name:     nul.Nullable("Photography"),
+//		Name:     nul.Something("Photography"),
 //		Keywords: activitypub.SomeStrings("Astrophotography", "Food", "Nature"),
 //	})
 //	
 //	cv.Awards = append(cv.Awards, jsonresume.Award{
-//		Name:     nul.Nullable("Workworking"),
+//		Name:     nul.Something("Workworking"),
 //		Keywords: activitypub.SomeString("Furniture"),
 //	})
 type Award struct {

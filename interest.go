@@ -30,12 +30,12 @@ import (
 //	// ...
 //	
 //	cv.Interests = append(cv.Interests, jsonresume.Interest{
-//		Name:     nul.Nullable("Back-End Development"),
+//		Name:     nul.Something("Back-End Development"),
 //		Keywords: activitypub.SomeStrings("Golang", "PHP", "HTTP"),
 //	})
 //	
 //	cv.Interests = append(cv.Interests, jsonresume.Interest{
-//		Name:     nul.Nullable("Web Development"),
+//		Name:     nul.Something("Web Development"),
 //		Keywords: activitypub.SomeStrings("CSS", "HTML", "JavaScript"),
 //	})
 type Interest struct {
