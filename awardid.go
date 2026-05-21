@@ -55,3 +55,13 @@ func (receiver AwardID) ProtoObject() activitypub.AnyObject {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+func (receiver AwardID) ProtoAward() AnyAward {
+	const _type string = TypeAward
+
+	return AnyAward{
+		ID:   jsonld.SomeID(string(receiver)),
+		Type: jsonld.SomeType(_type),
+	}
+}
+

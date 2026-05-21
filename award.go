@@ -4,7 +4,6 @@ import (
 	"codeberg.org/reiver/go-activitypub"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
-	"github.com/reiver/go-nul"
 )
 
 // Award implements an embedded item in the JSON Resume "awards" fields array.
@@ -52,11 +51,7 @@ type Award struct {
 
 	activitypub.CoreEntity
 	activitypub.CoreObject
-
-	Awarder nul.Nullable[string] `json:"awarder"`
-	Date    nul.Nullable[string] `json:"date"`
-	Summary nul.Nullable[string] `json:"summary"`
-	Title   nul.Nullable[string] `json:"title"`
+	CoreAward
 }
 
 func (receiver Award) ProtoNode() activitypub.AnyNode {
@@ -88,6 +83,24 @@ func (receiver Award) ProtoObject() activitypub.AnyObject {
 
 		CoreEntity: receiver.CoreEntity,
 		CoreObject: receiver.CoreObject,
+	}
+
+	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
+	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
+
+	return result
+}
+
+func (receiver Award) ProtoAward() AnyAward {
+	const _type string = TypeAward
+
+	var result = AnyAward{
+		ID:   receiver.ID,
+		Type: jsonld.SomeType(_type),
+
+		CoreEntity: receiver.CoreEntity,
+		CoreObject: receiver.CoreObject,
+		CoreAward:  receiver.CoreAward,
 	}
 
 	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
