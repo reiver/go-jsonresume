@@ -4,57 +4,55 @@ import (
 	"codeberg.org/reiver/go-activitypub"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
-	"github.com/reiver/go-nul"
 )
 
-// Skill implements an embedded item in the JSON Resume "skills" fields array.
+// Interest implements an embedded item in the JSON Resume "interests" fields array.
 //
 // In a JSON Resume document this might look like:
 //
-//	"skills": [
+//	"interests": [
 //		{
-//			"name": "Photography",
-//			"keywords": ["Astrophotography", "Food", "Nature"],
+//			"name": "Back-End Development",
+//			"keywords": ["Golang", "PHP", "HTTP"],
 //		},
 //		{
-//			"name": "Workworking",
-//			"keywords": ["Furniture"],
+//			"name": "Web Development",
+//			"keywords": ["CSS", "HTML", "JavaScript"],
 //		}
 //	],
 //
-// Skill is an implementation of the individual JSON objects in that JSON array.
+// Interest is an implementation of the individual JSON objects in that JSON array.
 //
 // Example usage:
 //
-//	var cv jsonresume.JSONResume
+//	var cv jsonresume.Resume
 //	
 //	// ...
 //	
-//	cv.Skills = append(cv.Skills, jsonresume.Skill{
-//		Name:     nul.Nullable("Photography"),
-//		Keywords: activitypub.SomeStrings("Astrophotography", "Food", "Nature"),
+//	cv.Interests = append(cv.Interests, jsonresume.Interest{
+//		Name:     nul.Nullable("Back-End Development"),
+//		Keywords: activitypub.SomeStrings("Golang", "PHP", "HTTP"),
 //	})
 //	
-//	cv.Skills = append(cv.Skills, jsonresume.Skill{
-//		Name:     nul.Nullable("Workworking"),
-//		Keywords: activitypub.SomeString("Furniture"),
+//	cv.Interests = append(cv.Interests, jsonresume.Interest{
+//		Name:     nul.Nullable("Web Development"),
+//		Keywords: activitypub.SomeStrings("CSS", "HTML", "JavaScript"),
 //	})
-type Skill struct {
+type Interest struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
 	ID   jsonld.ID          `json:"id,omitempty"`
-	Type json.Const[string] `json:"type" json.value:"Skill"`
+	Type json.Const[string] `json:"type" json.value:"Interest"`
 
 	activitypub.CoreEntity
 	activitypub.CoreObject
 
-	Level    nul.Nullable[string] `json:"level"`
-	Keywords activitypub.Strings  `json:"keywords"`
+	Keywords activitypub.Strings `json:"keywords"`
 }
 
-func (receiver Skill) ProtoNode() activitypub.AnyNode {
-	const _type string = TypeSkill
+func (receiver Interest) ProtoNode() activitypub.AnyNode {
+	const _type string = TypeInterest
 
 	return activitypub.AnyNode{
 		ID:   receiver.ID,
@@ -62,8 +60,8 @@ func (receiver Skill) ProtoNode() activitypub.AnyNode {
 	}
 }
 
-func (receiver Skill) ProtoEntity() activitypub.AnyEntity {
-	const _type string = TypeSkill
+func (receiver Interest) ProtoEntity() activitypub.AnyEntity {
+	const _type string = TypeInterest
 
 	return activitypub.AnyEntity{
 		ID:   receiver.ID,
@@ -73,8 +71,8 @@ func (receiver Skill) ProtoEntity() activitypub.AnyEntity {
 	}
 }
 
-func (receiver Skill) ProtoObject() activitypub.AnyObject {
-	const _type string = TypeSkill
+func (receiver Interest) ProtoObject() activitypub.AnyObject {
+	const _type string = TypeInterest
 
 	var result = activitypub.AnyObject{
 		ID:   receiver.ID,

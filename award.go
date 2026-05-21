@@ -7,22 +7,26 @@ import (
 	"github.com/reiver/go-nul"
 )
 
-// Skill implements an embedded item in the JSON Resume "skills" fields array.
+// Award implements an embedded item in the JSON Resume "awards" fields array.
 //
 // In a JSON Resume document this might look like:
 //
-//	"skills": [
+//	"awards": [
 //		{
-//			"name": "Photography",
-//			"keywords": ["Astrophotography", "Food", "Nature"],
+//			"title": "Best Employee (2024)",
+//			"date": "2024-05-21",
+//			"awarder": "SuperCo",
+//			"summary": "He did good work."
 //		},
 //		{
-//			"name": "Workworking",
-//			"keywords": ["Furniture"],
+//			"title": "Acme Excellence (2021)",
+//			"date": "2021-01-17",
+//			"awarder": "Acme",
+//			"summary": "For Joe Blow's excellent work."
 //		}
 //	],
 //
-// Skill is an implementation of the individual JSON objects in that JSON array.
+// Award is an implementation of the individual JSON objects in that JSON array.
 //
 // Example usage:
 //
@@ -30,31 +34,33 @@ import (
 //	
 //	// ...
 //	
-//	cv.Skills = append(cv.Skills, jsonresume.Skill{
+//	cv.Awards = append(cv.Awards, jsonresume.Award{
 //		Name:     nul.Nullable("Photography"),
 //		Keywords: activitypub.SomeStrings("Astrophotography", "Food", "Nature"),
 //	})
 //	
-//	cv.Skills = append(cv.Skills, jsonresume.Skill{
+//	cv.Awards = append(cv.Awards, jsonresume.Award{
 //		Name:     nul.Nullable("Workworking"),
 //		Keywords: activitypub.SomeString("Furniture"),
 //	})
-type Skill struct {
+type Award struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
 	ID   jsonld.ID          `json:"id,omitempty"`
-	Type json.Const[string] `json:"type" json.value:"Skill"`
+	Type json.Const[string] `json:"type" json.value:"Award"`
 
 	activitypub.CoreEntity
 	activitypub.CoreObject
 
-	Level    nul.Nullable[string] `json:"level"`
-	Keywords activitypub.Strings  `json:"keywords"`
+	Awarder nul.Nullable[string] `json:"awarder"`
+	Date    nul.Nullable[string] `json:"date"`
+	Summary nul.Nullable[string] `json:"summary"`
+	Title   nul.Nullable[string] `json:"title"`
 }
 
-func (receiver Skill) ProtoNode() activitypub.AnyNode {
-	const _type string = TypeSkill
+func (receiver Award) ProtoNode() activitypub.AnyNode {
+	const _type string = TypeAward
 
 	return activitypub.AnyNode{
 		ID:   receiver.ID,
@@ -62,8 +68,8 @@ func (receiver Skill) ProtoNode() activitypub.AnyNode {
 	}
 }
 
-func (receiver Skill) ProtoEntity() activitypub.AnyEntity {
-	const _type string = TypeSkill
+func (receiver Award) ProtoEntity() activitypub.AnyEntity {
+	const _type string = TypeAward
 
 	return activitypub.AnyEntity{
 		ID:   receiver.ID,
@@ -73,8 +79,8 @@ func (receiver Skill) ProtoEntity() activitypub.AnyEntity {
 	}
 }
 
-func (receiver Skill) ProtoObject() activitypub.AnyObject {
-	const _type string = TypeSkill
+func (receiver Award) ProtoObject() activitypub.AnyObject {
+	const _type string = TypeAward
 
 	var result = activitypub.AnyObject{
 		ID:   receiver.ID,

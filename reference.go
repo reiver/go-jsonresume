@@ -26,7 +26,7 @@ import (
 //
 // Example usage:
 //
-//	var cv jsonresume.JSONResume
+//	var cv jsonresume.Resume
 //	
 //	// ...
 //	

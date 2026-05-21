@@ -15,7 +15,7 @@ type Resume struct {
 
 	activitypub.CoreEntity
 	activitypub.CoreObject
-
+	CoreResume
 }
 
 func (receiver Resume) ProtoNode() activitypub.AnyNode {
@@ -47,6 +47,24 @@ func (receiver Resume) ProtoObject() activitypub.AnyObject {
 
 		CoreEntity: receiver.CoreEntity,
 		CoreObject: receiver.CoreObject,
+	}
+
+	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
+	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
+
+	return result
+}
+
+func (receiver Resume) ProtoResume() AnyResume {
+	const _type string = TypeResume
+
+	var result = AnyResume{
+		ID:   receiver.ID,
+		Type: jsonld.SomeType(_type),
+
+		CoreEntity: receiver.CoreEntity,
+		CoreObject: receiver.CoreObject,
+		CoreResume: receiver.CoreResume,
 	}
 
 	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
