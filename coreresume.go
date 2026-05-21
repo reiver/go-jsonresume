@@ -8,7 +8,7 @@ type CoreResume struct {
 //	Interests    ??? `json:"interests"`
 //	Languages    ??? `json:"languages"`
 //	Projects     ??? `json:"projects"`
-//	References   ??? `json:"references"`
+	References   []ProtoReference  `json:"references"`
 	Skills       []ProtoSkill      `json:"skills"`
 	Volunteer    []ProtoExperience `json:"volunteer"`
 	Work         []ProtoExperience `json:"work"`

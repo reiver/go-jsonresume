@@ -55,3 +55,12 @@ func (receiver ReferenceID) ProtoObject() activitypub.AnyObject {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+func (receiver ReferenceID) ProtoReference() AnyReference {
+	const _type string = TypeReference
+
+	return AnyReference{
+		ID:   jsonld.SomeID(string(receiver)),
+		Type: jsonld.SomeType(_type),
+	}
+}

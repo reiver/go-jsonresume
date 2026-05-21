@@ -4,7 +4,6 @@ import (
 	"codeberg.org/reiver/go-activitypub"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
-	"github.com/reiver/go-nul"
 )
 
 // Reference implements an embedded item in the JSON Resume "references" fields array.
@@ -48,8 +47,7 @@ type Reference struct {
 
 	activitypub.CoreEntity
 	activitypub.CoreObject
-
-	Reference nul.Nullable[string] `json:"reference"`
+	CoreReference
 }
 
 func (receiver Reference) ProtoNode() activitypub.AnyNode {
@@ -81,6 +79,24 @@ func (receiver Reference) ProtoObject() activitypub.AnyObject {
 
 		CoreEntity: receiver.CoreEntity,
 		CoreObject: receiver.CoreObject,
+	}
+
+	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
+	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
+
+	return result
+}
+
+func (receiver Reference) ProtoReference() AnyReference {
+	const _type string = TypeReference
+
+	var result = AnyReference{
+		ID:   receiver.ID,
+		Type: jsonld.SomeType(_type),
+
+		CoreEntity:    receiver.CoreEntity,
+		CoreObject:    receiver.CoreObject,
+		CoreReference: receiver.CoreReference,
 	}
 
 	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
