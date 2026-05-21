@@ -55,3 +55,12 @@ func (receiver SkillID) ProtoObject() activitypub.AnyObject {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+func (receiver SkillID) ProtoSkill() AnySkill {
+	const _type string = TypeSkill
+
+	return AnySkill{
+		ID:   jsonld.SomeID(string(receiver)),
+		Type: jsonld.SomeType(_type),
+	}
+}

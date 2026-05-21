@@ -4,7 +4,6 @@ import (
 	"codeberg.org/reiver/go-activitypub"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
-	"github.com/reiver/go-nul"
 )
 
 // Skill implements an embedded item in the JSON Resume "skills" fields array.
@@ -48,9 +47,7 @@ type Skill struct {
 
 	activitypub.CoreEntity
 	activitypub.CoreObject
-
-	Level    nul.Nullable[string] `json:"level"`
-	Keywords activitypub.Strings  `json:"keywords"`
+	CoreSkill
 }
 
 func (receiver Skill) ProtoNode() activitypub.AnyNode {
@@ -82,6 +79,24 @@ func (receiver Skill) ProtoObject() activitypub.AnyObject {
 
 		CoreEntity: receiver.CoreEntity,
 		CoreObject: receiver.CoreObject,
+	}
+
+	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
+	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
+
+	return result
+}
+
+func (receiver Skill) ProtoSkill() AnySkill {
+	const _type string = TypeSkill
+
+	var result = AnySkill{
+		ID:   receiver.ID,
+		Type: jsonld.SomeType(_type),
+
+		CoreEntity: receiver.CoreEntity,
+		CoreObject: receiver.CoreObject,
+		CoreSkill:  receiver.CoreSkill,
 	}
 
 	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
