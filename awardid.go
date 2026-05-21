@@ -24,9 +24,9 @@ import (
 //	
 //	// ...
 //	
-//	cv.References = append(cv.References, jsonresume.AwardID("http://example.com/resume/award/best-employee-2024"))
+//	cv.Awards = append(cv.Awards, jsonresume.AwardID("http://example.com/resume/award/best-employee-2024"))
 //	
-//	cv.References = append(cv.References, jsonresume.AwardID("http://example.com/resume/award/acme-excellence-2021"))
+//	cv.Awards = append(cv.Awards, jsonresume.AwardID("http://example.com/resume/award/acme-excellence-2021"))
 type AwardID string
 
 func (receiver AwardID) ProtoNode() activitypub.AnyNode {

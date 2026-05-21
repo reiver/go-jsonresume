@@ -1,7 +1,7 @@
 package jsonresume
 
 type CoreResume struct {
-	Awards       []ProtoAward `json:"awards"`
+	Awards       []ProtoAward      `json:"awards"`
 //	Basics       ??? `json:"basics"`
 //	Certificates ??? `json:"certificates"`
 //	Education    ??? `json:"education"`
@@ -10,6 +10,6 @@ type CoreResume struct {
 //	Projects     ??? `json:"projects"`
 //	References   ??? `json:"references"`
 //	Skills       ??? `json:"skills"`
-//	Volunteer    ??? `json:"volunteer"`
-//	Work         ??? `json:"work"`
+	Volunteer    []ProtoExperience `json:"volunteer"`
+	Work         []ProtoExperience `json:"work"`
 }

@@ -36,9 +36,9 @@ import (
 //	
 //	// ...
 //	
-//	obj.Resume = append(cv.References, jsonresume.ResumeID("http://example.com/resume/executive"))
+//	obj.Resume = append(cv.Resume, jsonresume.ResumeID("http://example.com/resume/executive"))
 //	
-//	obj.Resume = append(cv.References, jsonresume.ResumeID("http://example.com/resume/programmer"))
+//	obj.Resume = append(cv.Resume, jsonresume.ResumeID("http://example.com/resume/programmer"))
 type ResumeID string
 
 func (receiver ResumeID) ProtoNode() activitypub.AnyNode {

@@ -24,9 +24,9 @@ import (
 //	
 //	// ...
 //	
-//	cv.References = append(cv.References, jsonresume.ProfileID("http://example.com/resume/profile/mastodon"))
+//	cv.Profiles = append(cv.Profiles, jsonresume.ProfileID("http://example.com/resume/profile/mastodon"))
 //	
-//	cv.References = append(cv.References, jsonresume.ProfileID("http://example.com/resume/profile/pixelfed"))
+//	cv.Profiles = append(cv.Profiles, jsonresume.ProfileID("http://example.com/resume/profile/pixelfed"))
 type ProfileID string
 
 func (receiver ProfileID) ProtoNode() activitypub.AnyNode {
