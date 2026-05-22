@@ -49,6 +49,10 @@ func (receiver ResumeID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *ResumeID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver ResumeID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeResume
 

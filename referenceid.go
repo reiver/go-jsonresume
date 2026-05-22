@@ -37,6 +37,10 @@ func (receiver ReferenceID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *ReferenceID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver ReferenceID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeReference
 

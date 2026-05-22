@@ -37,6 +37,10 @@ func (receiver InterestID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *InterestID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver InterestID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeInterest
 

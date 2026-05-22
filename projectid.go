@@ -37,6 +37,10 @@ func (receiver ProjectID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *ProjectID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver ProjectID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeProject
 

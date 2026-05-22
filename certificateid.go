@@ -36,6 +36,10 @@ func (receiver CertificateID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *CertificateID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver CertificateID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeCertificate
 

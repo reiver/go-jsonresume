@@ -36,6 +36,10 @@ func (receiver EducationID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *EducationID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver EducationID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeEducation
 

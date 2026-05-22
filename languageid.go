@@ -42,6 +42,10 @@ func (receiver LanguageID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *LanguageID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver LanguageID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeLanguage
 

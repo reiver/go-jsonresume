@@ -37,6 +37,10 @@ func (receiver SkillID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *SkillID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver SkillID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeSkill
 

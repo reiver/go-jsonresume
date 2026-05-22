@@ -47,6 +47,10 @@ func (receiver ExperienceID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *ExperienceID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver ExperienceID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeExperience
 

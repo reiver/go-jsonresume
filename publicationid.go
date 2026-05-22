@@ -36,6 +36,10 @@ func (receiver PublicationID) MarshalJSON() ([]byte, error) {
 	return jsonld.ID(receiver).MarshalJSON()
 }
 
+func (receiver *PublicationID) UnmarshalJSON(data []byte) error {
+	return (*jsonld.ID)(receiver).UnmarshalJSON(data)
+}
+
 func (receiver PublicationID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypePublication
 
