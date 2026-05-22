@@ -1,6 +1,13 @@
 package jsonresume
 
+import (
+	"github.com/reiver/go-jsonld"
+)
+
 type CoreResume struct {
+	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
+	Prefix    jsonld.Prefix    `jsonld:"cv"`
+
 	Awards       []ProtoAward       `json:"awards"`
 	Basics       ProtoBasics        `json:"basics"`
 	Certificates []ProtoCertificate `json:"certificates"`
