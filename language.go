@@ -12,7 +12,7 @@ import (
 //
 //	"languages": [
 //		{
-//			"language": "Enlish",
+//			"language": "English",
 //			"fluency": "Fluent"
 //		},
 //		{
