@@ -70,7 +70,7 @@ import (
 //	
 //	// ...
 //	
-//	cv.Educations = append(cv.Educations, jsonresume.Education{
+//	cv.Education = append(cv.Education, jsonresume.Education{
 //			Institution: nul.Something("SFU"),
 //			URL:         nul.Something("https://www.sfu.ca"),
 //			Area:        activitypub.SomeString("computer science"),
@@ -98,7 +98,7 @@ import (
 //			),
 //	})
 //	
-//	cv.Educations = append(cv.Educations, jsonresume.Education{
+//	cv.Education = append(cv.Education, jsonresume.Education{
 //			Institution: nul.Something("KPU"),
 //			URL:         nul.Something("https://www.kpu.ca"),
 //			Area:        activitypub.SomeString("mathematics"),
