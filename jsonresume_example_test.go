@@ -13,8 +13,8 @@ func ExampleJSONResume() {
 
 	var jsonResume jsonresume.JSONResume
 
-	jsonResume.AppendResumeIRI("http://example.com/resume/executive")
-	jsonResume.AppendResumeIRI("http://example.com/resume/programmer")
+	jsonResume.AppendResumeID("http://example.com/resume/executive")
+	jsonResume.AppendResumeID("http://example.com/resume/programmer")
 
 	bytes, err := jsonld.Marshal(activitypub.SomeName("Joe Blow"), jsonResume)
 	if nil != err {

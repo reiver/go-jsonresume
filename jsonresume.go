@@ -17,18 +17,18 @@ type JSONResume struct {
 	Resume []ProtoResume `json:"resume"`
 }
 
-func (receiver *JSONResume) AppendResumeIRI(iri string) {
+func (receiver *JSONResume) AppendResumeID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Resume = append(receiver.Resume, SomeResumeID(iri))
+	receiver.Resume = append(receiver.Resume, SomeResumeID(id))
 }
 
-func (receiver *JSONResume) SetResumeIRI(iri string) {
+func (receiver *JSONResume) SetResumeID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Resume = []ProtoResume{SomeResumeID(iri)}
+	receiver.Resume = []ProtoResume{SomeResumeID(id)}
 }
