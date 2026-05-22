@@ -25,3 +25,8 @@ GOPROXY=direct go get github.com/reiver/go-jsonresume
 ## Author
 
 Package **jsonresume** was written by [Charles Iliya Krempeaux](http://reiver.link)
+
+## See also:
+
+* [JSON Resume](https://jsonresume.org/)
+* [JSON Resume schema.json](https://github.com/jsonresume/resume-schema/blob/master/schema.json)
