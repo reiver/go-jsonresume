@@ -16,3 +16,19 @@ type JSONResume struct {
 
 	Resume []ProtoResume `json:"resume"`
 }
+
+func (receiver *JSONResume) AppendResumeIRI(iri string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Resume = append(receiver.Resume, SomeResumeID(iri))
+}
+
+func (receiver *JSONResume) SetResumeIRI(iri string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Resume = []ProtoResume{SomeResumeID(iri)}
+}

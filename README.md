@@ -8,6 +8,28 @@ Online documentation, which includes examples, can be found at: http://godoc.org
 
 [![GoDoc](https://godoc.org/github.com/reiver/go-jsonresume?status.svg)](https://godoc.org/github.com/reiver/go-jsonresume)
 
+## Example
+
+To point to a resume from an ActivityPub actor, do something similar to the following:
+
+```golang
+import (
+	"codeberg.org/reiver/go-activitypub"
+	"github.com/reiver/go-jsonld"
+	"github.com/reiver/go-jsonresume"
+)
+
+// ...
+
+var actor activitypub.Person
+//@TODO: set the values of the actor
+
+var jsonResume json.JSONResume
+jsonResume.SetResumeIRI("https://example.com/path/to/resume")
+
+err := jsonld.Marshal(actor, jsonResume)
+```
+
 ## Import
 
 To import package **jsonresume** use `import` code like the following:
