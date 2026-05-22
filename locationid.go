@@ -13,7 +13,7 @@ import (
 //
 //	"location": "http://example.com/resume/location",
 //
-// LocationID is an implementation of the individual JSON strings in that JSON array.
+// LocationID is an implementation of a JSON-LD reference for the location object.
 //
 // Example usage:
 //
