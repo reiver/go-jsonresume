@@ -5,6 +5,6 @@ import (
 )
 
 type CoreProfile struct {
-        Network  nul.Nullable[string] `json:"network"`
-        UserName nul.Nullable[string] `json:"username"`
+	Network  nul.Nullable[string] `json:"network"`
+	UserName nul.Nullable[string] `json:"username"`
 }
