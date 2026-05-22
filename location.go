@@ -14,20 +14,24 @@ import (
 //		"countryCode": "CA",
 //		"region": "British Columbia",
 //		"city": "Vancouver",
-//		"address": "1234 Second Streee",
+//		"address": "1234 Second Street",
 //		"postalCode": "H0H 0H0"
 //	},
 //
-// Location is an implementation of the individual JSON objects in that JSON array.
+// Location is an implementation of the JSON Resume location object.
 //
 // Example usage:
 //
-//	var cv jsonresume.Resume
-//	
+//	var basics jsonresume.Basics
+//
 //	// ...
-//	
-//	cv.Basics = jsonresume.Basics{
-//		Location: jsonresume.Location
+//
+//	basics.Location = jsonresume.Location{
+//		CountryCode: nul.Something("CA"),
+//		Region:      nul.Something("British Columbia"),
+//		City:        nul.Something("Vancouver"),
+//		Address:     nul.Something("1234 Second Street"),
+//		PostalCode:  nul.Something("H0H 0H0"),
 //	}
 type Location struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
