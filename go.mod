@@ -3,9 +3,11 @@ module github.com/reiver/go-jsonresume
 go 1.26.1
 
 require (
-	codeberg.org/reiver/go-activitypub v0.0.0-20260517205606-5806d76694fd
+	codeberg.org/reiver/go-activitypub v0.0.0-20260522060709-64356044f4d1
 	github.com/reiver/go-json v0.0.0-20260502054102-0a3481c07116
-	github.com/reiver/go-jsonld v0.0.0-20260517194026-494c2339390e
+	github.com/reiver/go-jsonld v0.0.0-20260522055855-eb919226c068
+	github.com/reiver/go-nul v0.0.0-20260309043606-3c1893100dc2
+	github.com/reiver/go-opt v0.0.0-20260410151028-cc34d487e508
 )
 
 require (
@@ -17,8 +19,6 @@ require (
 	github.com/reiver/go-erorr v0.0.0-20240801233437-8cbde6d1fa3f // indirect
 	github.com/reiver/go-etag v0.0.0-20241130123934-1a98d29fda6e // indirect
 	github.com/reiver/go-lck v0.0.0-20240808133902-b56df221c39f // indirect
-	github.com/reiver/go-nul v0.0.0-20260309043606-3c1893100dc2 // indirect
-	github.com/reiver/go-opt v0.0.0-20260410151028-cc34d487e508 // indirect
 	github.com/reiver/go-ord v0.0.0-20260222220705-d6aedb3eb0fc // indirect
 	github.com/reiver/go-pckstr v0.0.0-20260425220659-60660d07c451 // indirect
 	golang.org/x/exp v0.0.0-20251125195548-87e1e737ad39 // indirect

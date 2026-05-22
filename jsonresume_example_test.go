@@ -12,8 +12,8 @@ func ExampleJSONResume() {
 
 	var obj jsonresume.JSONResume
 
-	obj.Resume = append(obj.Resume, jsonresume.ResumeID("http://example.com/resume/executive"))
-	obj.Resume = append(obj.Resume, jsonresume.ResumeID("http://example.com/resume/programmer"))
+	obj.Resume = append(obj.Resume, jsonresume.SomeResumeID("http://example.com/resume/executive"))
+	obj.Resume = append(obj.Resume, jsonresume.SomeResumeID("http://example.com/resume/programmer"))
 
 	bytes, err := json.Marshal(obj)
 	if nil != err {

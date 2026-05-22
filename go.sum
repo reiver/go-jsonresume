@@ -1,5 +1,5 @@
-codeberg.org/reiver/go-activitypub v0.0.0-20260517205606-5806d76694fd h1:fc6D1mEPCEFQhzVd6LXa4Yee1Q11Grh/ljzDYvujcp8=
-codeberg.org/reiver/go-activitypub v0.0.0-20260517205606-5806d76694fd/go.mod h1:M9LOf5eDDTiSSVIXbfgydbIJYo2yEXz6htyGzZNqTFc=
+codeberg.org/reiver/go-activitypub v0.0.0-20260522060709-64356044f4d1 h1:QmHOhHYDkGboBQIvCAskUj1LrfkwuIcEqlvGscQnpGo=
+codeberg.org/reiver/go-activitypub v0.0.0-20260522060709-64356044f4d1/go.mod h1:H+ugZ1JRtWRSzjOYuH4XOJjmH4O81UnvdHuOklW2UGk=
 codeberg.org/reiver/go-ascii v0.0.0-20250831011101-29ac37bfb987 h1:8f7cz3PdXP+F2AVqYcWnodS3PPG2gEFvuJ4wPj1kv4s=
 codeberg.org/reiver/go-ascii v0.0.0-20250831011101-29ac37bfb987/go.mod h1:GuoN8yLT3H0D+0rswq8A+6sQF99w/HvueBMU3n4IPk4=
 codeberg.org/reiver/go-erorr v0.0.0-20260414214747-7b76f85a93ac h1:Rf1Y1tEmk+jU/ePubSv5KSkb7smImaDH7ZAff2TEy80=
@@ -16,8 +16,8 @@ github.com/reiver/go-etag v0.0.0-20241130123934-1a98d29fda6e h1:2FJeuK9Uc6BGLnXz
 github.com/reiver/go-etag v0.0.0-20241130123934-1a98d29fda6e/go.mod h1:TGoPFV3b4+PE2rF27XiFZLu6dg4faIEx7AUITCKyj4c=
 github.com/reiver/go-json v0.0.0-20260502054102-0a3481c07116 h1:lub7onbgTujYHB9DfHjGxzSiZWpJcSd7lOgeOhEvV5k=
 github.com/reiver/go-json v0.0.0-20260502054102-0a3481c07116/go.mod h1:VefFGTBXCXZ7DwID0jXaAJBQoNnmDQitBQ80E73QPAg=
-github.com/reiver/go-jsonld v0.0.0-20260517194026-494c2339390e h1:VLF2cPuiQR7SmFfGAdO8geDdljLD9HvCocuwrzQrJC8=
-github.com/reiver/go-jsonld v0.0.0-20260517194026-494c2339390e/go.mod h1:wI/nYE1Nq6drRc/nenh3v7V4P/1AkNbA9kjqJb14DoE=
+github.com/reiver/go-jsonld v0.0.0-20260522055855-eb919226c068 h1:93zqY5uUG6l+MdihpPc6fNdelWKqvUV+joEHsNJO8Uc=
+github.com/reiver/go-jsonld v0.0.0-20260522055855-eb919226c068/go.mod h1:wI/nYE1Nq6drRc/nenh3v7V4P/1AkNbA9kjqJb14DoE=
 github.com/reiver/go-jsonpp v0.0.0-20240802002345-16cd4c5a34ee h1:KhA+fe6qjEw6ZbN3vjPICGL0NqR+rghYre4SQB0WWVs=
 github.com/reiver/go-jsonpp v0.0.0-20240802002345-16cd4c5a34ee/go.mod h1:iubeYYU+lR1wqKssI6Sz1DK/Aw/N/qmRcam0wf8hYIs=
 github.com/reiver/go-lck v0.0.0-20240808133902-b56df221c39f h1:KBVWBoNIM8mHkUR3dP64hm2p2vxoD5xHZ6wUllCjFTc=

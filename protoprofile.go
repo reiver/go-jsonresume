@@ -18,5 +18,5 @@ type ProtoProfile interface {
 
 var (
 	_ ProtoProfile = Profile{}
-	_ ProtoProfile = ProfileID("")
+	_ ProtoProfile = ProfileID{}
 )

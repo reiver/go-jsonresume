@@ -21,18 +21,26 @@ import (
 // Example usage:
 //
 //	var cv jsonresume.Resume
-//	
+//
 //	// ...
-//	
+//
 //	cv.Certificates = append(cv.Certificates, jsonresume.CertificateID("http://example.com/resume/certificate/8"))
 //	cv.Certificates = append(cv.Certificates, jsonresume.CertificateID("http://example.com/resume/certificate/7"))
-type CertificateID string
+type CertificateID jsonld.ID
+
+func SomeCertificateID(value string) CertificateID {
+	return CertificateID(jsonld.SomeID(value))
+}
+
+func (receiver CertificateID) MarshalJSON() ([]byte, error) {
+	return jsonld.ID(receiver).MarshalJSON()
+}
 
 func (receiver CertificateID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeCertificate
 
 	return activitypub.AnyNode{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -41,7 +49,7 @@ func (receiver CertificateID) ProtoEntity() activitypub.AnyEntity {
 	const _type string = TypeCertificate
 
 	return activitypub.AnyEntity{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -50,7 +58,7 @@ func (receiver CertificateID) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeCertificate
 
 	return activitypub.AnyObject{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -59,12 +67,12 @@ func (receiver CertificateID) ProtoCertificate() AnyCertificate {
 	const _type string = TypeCertificate
 
 	return AnyCertificate{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
 
 // String makes [CertificateID] fit the [fmt.Stringer] interface.
 func (receiver CertificateID) String() string {
-	return string(receiver)
+	return jsonld.ID(receiver).GetElse("")
 }

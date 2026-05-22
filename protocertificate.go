@@ -18,5 +18,5 @@ type ProtoCertificate interface {
 
 var (
 	_ ProtoCertificate = Certificate{}
-	_ ProtoCertificate = CertificateID("")
+	_ ProtoCertificate = CertificateID{}
 )

@@ -25,25 +25,33 @@ import (
 // Example usage:
 //
 //	var cv jsonresume.Resume
-//	
+//
 //	// ...
-//	
+//
 //	cv.Work = append(cv.Work, jsonresume.ExperienceID("http://example.com/resume/experience/3"))
-//	
+//
 //	cv.Work = append(cv.Work, jsonresume.ExperienceID("http://example.com/resume/experience/2"))
-//	
+//
 //	// ...
-//	
+//
 //	cv.Volunteer = append(cv.Volunteer, jsonresume.ExperienceID("http://example.com/resume/experience/4"))
-//	
+//
 //	cv.Volunteer = append(cv.Volunteer, jsonresume.ExperienceID("http://example.com/resume/experience/1"))
-type ExperienceID string
+type ExperienceID jsonld.ID
+
+func SomeExperienceID(value string) ExperienceID {
+	return ExperienceID(jsonld.SomeID(value))
+}
+
+func (receiver ExperienceID) MarshalJSON() ([]byte, error) {
+	return jsonld.ID(receiver).MarshalJSON()
+}
 
 func (receiver ExperienceID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeExperience
 
 	return activitypub.AnyNode{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -52,7 +60,7 @@ func (receiver ExperienceID) ProtoEntity() activitypub.AnyEntity {
 	const _type string = TypeExperience
 
 	return activitypub.AnyEntity{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -61,7 +69,7 @@ func (receiver ExperienceID) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeExperience
 
 	return activitypub.AnyObject{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -70,12 +78,12 @@ func (receiver ExperienceID) ProtoExperience() AnyExperience {
 	const _type string = TypeExperience
 
 	return AnyExperience{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
 
 // String makes [ExperienceID] fit the [fmt.Stringer] interface.
 func (receiver ExperienceID) String() string {
-	return string(receiver)
+	return jsonld.ID(receiver).GetElse("")
 }

@@ -18,5 +18,5 @@ type ProtoInterest interface {
 
 var (
 	_ ProtoInterest = Interest{}
-	_ ProtoInterest = InterestID("")
+	_ ProtoInterest = InterestID{}
 )

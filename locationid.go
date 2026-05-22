@@ -18,17 +18,25 @@ import (
 // Example usage:
 //
 //	var cv jsonresume.Resume
-//	
+//
 //	// ...
-//	
+//
 //	cv.Locations = jsonresume.LocationID("http://example.com/resume/location")
-type LocationID string
+type LocationID jsonld.ID
+
+func SomeLocationID(value string) LocationID {
+	return LocationID(jsonld.SomeID(value))
+}
+
+func (receiver LocationID) MarshalJSON() ([]byte, error) {
+	return jsonld.ID(receiver).MarshalJSON()
+}
 
 func (receiver LocationID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeLocation
 
 	return activitypub.AnyNode{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -37,7 +45,7 @@ func (receiver LocationID) ProtoEntity() activitypub.AnyEntity {
 	const _type string = TypeLocation
 
 	return activitypub.AnyEntity{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -46,7 +54,7 @@ func (receiver LocationID) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeLocation
 
 	return activitypub.AnyObject{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -55,12 +63,12 @@ func (receiver LocationID) ProtoLocation() AnyLocation {
 	const _type string = TypeLocation
 
 	return AnyLocation{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
 
 // String makes [LocationID] fit the [fmt.Stringer] interface.
 func (receiver LocationID) String() string {
-	return string(receiver)
+	return jsonld.ID(receiver).GetElse("")
 }

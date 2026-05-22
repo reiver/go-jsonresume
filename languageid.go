@@ -24,21 +24,29 @@ import (
 // Example usage:
 //
 //	var cv jsonresume.Resume
-//	
+//
 //	// ...
-//	
+//
 //	cv.Languages = append(cv.Languages, jsonresume.LanguageID("http://example.com/resume/language/algonquian"))
 //	cv.Languages = append(cv.Languages, jsonresume.LanguageID("http://example.com/resume/language/english"))
 //	cv.Languages = append(cv.Languages, jsonresume.LanguageID("http://example.com/resume/language/korean"))
 //	cv.Languages = append(cv.Languages, jsonresume.LanguageID("http://example.com/resume/language/persian"))
 //	cv.Languages = append(cv.Languages, jsonresume.LanguageID("http://example.com/resume/language/scots"))
-type LanguageID string
+type LanguageID jsonld.ID
+
+func SomeLanguageID(value string) LanguageID {
+	return LanguageID(jsonld.SomeID(value))
+}
+
+func (receiver LanguageID) MarshalJSON() ([]byte, error) {
+	return jsonld.ID(receiver).MarshalJSON()
+}
 
 func (receiver LanguageID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeLanguage
 
 	return activitypub.AnyNode{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -47,7 +55,7 @@ func (receiver LanguageID) ProtoEntity() activitypub.AnyEntity {
 	const _type string = TypeLanguage
 
 	return activitypub.AnyEntity{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -56,7 +64,7 @@ func (receiver LanguageID) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeLanguage
 
 	return activitypub.AnyObject{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -65,12 +73,12 @@ func (receiver LanguageID) ProtoLanguage() AnyLanguage {
 	const _type string = TypeLanguage
 
 	return AnyLanguage{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
 
 // String makes [LanguageID] fit the [fmt.Stringer] interface.
 func (receiver LanguageID) String() string {
-	return string(receiver)
+	return jsonld.ID(receiver).GetElse("")
 }

@@ -18,5 +18,5 @@ type ProtoBasics interface {
 
 var (
 	_ ProtoBasics = Basics{}
-	_ ProtoBasics = BasicsID("")
+	_ ProtoBasics = BasicsID{}
 )

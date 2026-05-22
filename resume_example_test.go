@@ -84,19 +84,19 @@ func ExampleResume_withIDs() {
 
 	var cv jsonresume.Resume
 
-	cv.Basics = jsonresume.BasicsID("http://example.com/resume/basics")
+	cv.Basics = jsonresume.SomeBasicsID("http://example.com/resume/basics")
 
-	cv.Awards = append(cv.Awards, jsonresume.AwardID("http://example.com/resume/award/best-employee-2024"))
-	cv.Awards = append(cv.Awards, jsonresume.AwardID("http://example.com/resume/award/acme-excellence-2021"))
+	cv.Awards = append(cv.Awards, jsonresume.SomeAwardID("http://example.com/resume/award/best-employee-2024"))
+	cv.Awards = append(cv.Awards, jsonresume.SomeAwardID("http://example.com/resume/award/acme-excellence-2021"))
 
-	cv.Work = append(cv.Work, jsonresume.ExperienceID("http://example.com/resume/experience/3"))
-	cv.Work = append(cv.Work, jsonresume.ExperienceID("http://example.com/resume/experience/2"))
+	cv.Work = append(cv.Work, jsonresume.SomeExperienceID("http://example.com/resume/experience/3"))
+	cv.Work = append(cv.Work, jsonresume.SomeExperienceID("http://example.com/resume/experience/2"))
 
-	cv.Volunteer = append(cv.Volunteer, jsonresume.ExperienceID("http://example.com/resume/experience/4"))
+	cv.Volunteer = append(cv.Volunteer, jsonresume.SomeExperienceID("http://example.com/resume/experience/4"))
 
-	cv.Skills = append(cv.Skills, jsonresume.SkillID("http://example.com/resume/skill/backend-development"))
+	cv.Skills = append(cv.Skills, jsonresume.SomeSkillID("http://example.com/resume/skill/backend-development"))
 
-	cv.Languages = append(cv.Languages, jsonresume.LanguageID("http://example.com/resume/language/english"))
+	cv.Languages = append(cv.Languages, jsonresume.SomeLanguageID("http://example.com/resume/language/english"))
 
 	bytes, err := json.Marshal(cv)
 	if nil != err {

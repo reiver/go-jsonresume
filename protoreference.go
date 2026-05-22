@@ -18,5 +18,5 @@ type ProtoReference interface {
 
 var (
 	_ ProtoReference = Reference{}
-	_ ProtoReference = ReferenceID("")
+	_ ProtoReference = ReferenceID{}
 )

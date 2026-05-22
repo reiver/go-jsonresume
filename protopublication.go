@@ -18,5 +18,5 @@ type ProtoPublication interface {
 
 var (
 	_ ProtoPublication = Publication{}
-	_ ProtoPublication = PublicationID("")
+	_ ProtoPublication = PublicationID{}
 )

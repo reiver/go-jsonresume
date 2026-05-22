@@ -18,5 +18,5 @@ type ProtoEducation interface {
 
 var (
 	_ ProtoEducation = Education{}
-	_ ProtoEducation = EducationID("")
+	_ ProtoEducation = EducationID{}
 )

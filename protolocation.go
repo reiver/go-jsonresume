@@ -18,5 +18,5 @@ type ProtoLocation interface {
 
 var (
 	_ ProtoLocation = Location{}
-	_ ProtoLocation = LocationID("")
+	_ ProtoLocation = LocationID{}
 )

@@ -21,19 +21,27 @@ import (
 // Example usage:
 //
 //	var cv jsonresume.Resume
-//	
+//
 //	// ...
-//	
+//
 //	cv.References = append(cv.References, jsonresume.ReferenceID("http://example.com/resume/reference/jane-doe"))
-//	
+//
 //	cv.References = append(cv.References, jsonresume.ReferenceID("http://example.com/resume/reference/bob-smith"))
-type ReferenceID string
+type ReferenceID jsonld.ID
+
+func SomeReferenceID(value string) ReferenceID {
+	return ReferenceID(jsonld.SomeID(value))
+}
+
+func (receiver ReferenceID) MarshalJSON() ([]byte, error) {
+	return jsonld.ID(receiver).MarshalJSON()
+}
 
 func (receiver ReferenceID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeReference
 
 	return activitypub.AnyNode{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -42,7 +50,7 @@ func (receiver ReferenceID) ProtoEntity() activitypub.AnyEntity {
 	const _type string = TypeReference
 
 	return activitypub.AnyEntity{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -51,7 +59,7 @@ func (receiver ReferenceID) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeReference
 
 	return activitypub.AnyObject{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -60,12 +68,12 @@ func (receiver ReferenceID) ProtoReference() AnyReference {
 	const _type string = TypeReference
 
 	return AnyReference{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
 
 // String makes [ReferenceID] fit the [fmt.Stringer] interface.
 func (receiver ReferenceID) String() string {
-	return string(receiver)
+	return jsonld.ID(receiver).GetElse("")
 }

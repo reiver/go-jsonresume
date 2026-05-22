@@ -18,17 +18,25 @@ import (
 // Example usage:
 //
 //	var cv jsonresume.Resume
-//	
+//
 //	// ...
-//	
+//
 //	cv.Basics = jsonresume.BasicsID("http://example.com/resume/basics")
-type BasicsID string
+type BasicsID jsonld.ID
+
+func SomeBasicsID(value string) BasicsID {
+	return BasicsID(jsonld.SomeID(value))
+}
+
+func (receiver BasicsID) MarshalJSON() ([]byte, error) {
+	return jsonld.ID(receiver).MarshalJSON()
+}
 
 func (receiver BasicsID) ProtoNode() activitypub.AnyNode {
 	const _type string = TypeBasics
 
 	return activitypub.AnyNode{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -37,7 +45,7 @@ func (receiver BasicsID) ProtoEntity() activitypub.AnyEntity {
 	const _type string = TypeBasics
 
 	return activitypub.AnyEntity{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -46,7 +54,7 @@ func (receiver BasicsID) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeBasics
 
 	return activitypub.AnyObject{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
@@ -55,12 +63,12 @@ func (receiver BasicsID) ProtoBasics() AnyBasics {
 	const _type string = TypeBasics
 
 	return AnyBasics{
-		ID:   jsonld.SomeID(string(receiver)),
+		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
 		Type: jsonld.SomeType(_type),
 	}
 }
 
 // String makes [BasicsID] fit the [fmt.Stringer] interface.
 func (receiver BasicsID) String() string {
-	return string(receiver)
+	return jsonld.ID(receiver).GetElse("")
 }
