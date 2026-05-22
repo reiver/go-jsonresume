@@ -34,12 +34,12 @@ This will create ActivityPub JSON-LD similar to:
 
 ```json
 {
-  "@context": [
-    "https://www.w3.org/ns/activitystreams",
-    "https://w3id.org/fep/6158",
+  "@context": {
+    "as":"https://www.w3.org/ns/activitystreams",
+    "cv":"https://w3id.org/fep/6158",
 
     ...
-  ],
+  },
 
 
   ...
