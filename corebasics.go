@@ -5,7 +5,7 @@ import (
 )
 
 type CoreBasics struct {
-	EMail    activitypub.Strings  `json:"email"`
+	EMail    activitypub.Strings `json:"email"`
 	Label    activitypub.Strings `json:"label"`
 	Phone    activitypub.Strings `json:"phone"`
 	Profiles []ProtoProfile      `json:"profiles"`
