@@ -8,6 +8,7 @@ type CoreResume struct {
 	Interests    []ProtoInterest    `json:"interests"`
 	Languages    []ProtoLanguage    `json:"languages"`
 	Projects     []ProtoProject     `json:"projects"`
+	Publications []ProtoPublication `json:"publications"`
 	References   []ProtoReference   `json:"references"`
 	Skills       []ProtoSkill       `json:"skills"`
 	Volunteer    []ProtoExperience  `json:"volunteer"`

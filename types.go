@@ -11,6 +11,7 @@ const (
 	TypeLocation     = "Location"    // https://w3id.org/fep/6158#Location
 	TypeProfile      = "Profile"     // https://w3id.org/fep/6158#Profile
 	TypeProject      = "Project"     // https://w3id.org/fep/6158#Project
+	TypePublication  = "Publication" // https://w3id.org/fep/6158#Publication
 	TypeReference    = "Reference"   // https://w3id.org/fep/6158#Reference
 	TypeResume       = "Resume"      // https://w3id.org/fep/6158#Resume
 	TypeSkill        = "Skill"       // https://w3id.org/fep/6158#Skill
