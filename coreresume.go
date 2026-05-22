@@ -109,3 +109,91 @@ func (receiver *CoreResume) AppendWorkID(id string) {
 
 	receiver.Work = append(receiver.Work, SomeExperienceID(id))
 }
+
+func (receiver *CoreResume) SetAwardID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Awards = []ProtoAward{SomeAwardID(id)}
+}
+
+func (receiver *CoreResume) SetCertificateID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Certificates = []ProtoCertificate{SomeCertificateID(id)}
+}
+
+func (receiver *CoreResume) SetEducationID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Education = []ProtoEducation{SomeEducationID(id)}
+}
+
+func (receiver *CoreResume) SetInterestID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Interests = []ProtoInterest{SomeInterestID(id)}
+}
+
+func (receiver *CoreResume) SetLanguageID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Languages = []ProtoLanguage{SomeLanguageID(id)}
+}
+
+func (receiver *CoreResume) SetProjectID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Projects = []ProtoProject{SomeProjectID(id)}
+}
+
+func (receiver *CoreResume) SetPublicationID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Publications = []ProtoPublication{SomePublicationID(id)}
+}
+
+func (receiver *CoreResume) SetReferenceID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.References = []ProtoReference{SomeReferenceID(id)}
+}
+
+func (receiver *CoreResume) SetSkillID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Skills = []ProtoSkill{SomeSkillID(id)}
+}
+
+func (receiver *CoreResume) SetVolunteerID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Volunteer = []ProtoExperience{SomeExperienceID(id)}
+}
+
+func (receiver *CoreResume) SetWorkID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Work = []ProtoExperience{SomeExperienceID(id)}
+}
