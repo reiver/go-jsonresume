@@ -34,13 +34,17 @@ import (
 //	// ...
 //	
 //	cv.Awards = append(cv.Awards, jsonresume.Award{
-//		Name:     nul.Something("Photography"),
-//		Keywords: activitypub.SomeStrings("Astrophotography", "Food", "Nature"),
+//		Title:   nul.Something("Best Employee (2024)"),
+//		Date:    nul.Something("2024-05-21"),
+//		Awarder: nul.Something("SuperCo"),
+//		Summary: nul.Something("He did good work."),
 //	})
-//	
+//
 //	cv.Awards = append(cv.Awards, jsonresume.Award{
-//		Name:     nul.Something("Workworking"),
-//		Keywords: activitypub.SomeString("Furniture"),
+//		Title:   nul.Something("Acme Excellence (2021)"),
+//		Date:    nul.Something("2021-01-17"),
+//		Awarder: nul.Something("Acme"),
+//		Summary: nul.Something("For Joe Blow's excellent work."),
 //	})
 type Award struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
