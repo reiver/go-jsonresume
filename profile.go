@@ -14,12 +14,12 @@ import (
 //		{
 //			"network": "Mastodon",
 //			"username": "joeblow",
-//			"reference": "https://mastodon.example/@joeblow"
+//			"url": "https://mastodon.example/@joeblow"
 //		},
 //		{
 //			"network": "Pixelfed",
 //			"username": "joeblow",
-//			"reference": "https://pixelfed.example/joeblow"
+//			"url": "https://pixelfed.example/joeblow"
 //		},
 //	],
 //
@@ -38,7 +38,7 @@ import (
 //	})
 //	
 //	cv.Profiles = append(cv.Profiles, jsonresume.Profile{
-//		Name:      nul.Something("Pixelfed"),
+//		Network:   nul.Something("Pixelfed"),
 //		UserName:  nul.Something("joeblow"),
 //		Reference: activitypub.HRef("https://pixelfed.example/joeblow"),
 //	})
