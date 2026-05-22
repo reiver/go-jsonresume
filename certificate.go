@@ -15,13 +15,13 @@ import (
 //			"name": "CP+",
 //			"date": "2018-06-01",
 //			"issuer": "CPEdu",
-//			"url": "http://cp.example."
+//			"url": "http://cp.example"
 //		},
 //		{
 //			"name": "Event Sourcing Core",
 //			"date": "2017-03-12",
 //			"issuer": "EngWorks",
-//			"url": "http://engworks.example."
+//			"url": "http://engworks.example"
 //		}
 //	],
 //
@@ -37,14 +37,14 @@ import (
 //		Name:   nul.Something("CP+"),
 //		Date:   nul.Something("2018-06-01"),
 //		Issuer: nul.Something("CPEdu"),
-//		URL:    activitypub.HRef("http://cp.example."),
+//		URL:    activitypub.HRef("http://cp.example"),
 //	})
-//	
+//
 //	cv.Certificates = append(cv.Certificates, jsonresume.Certificate{
 //		Name:   nul.Something("Event Sourcing Core"),
 //		Date:   nul.Something("2017-03-12"),
 //		Issuer: nul.Something("EngWorks"),
-//		URL:    activitypub.HRef("http://engworks.example."),
+//		URL:    activitypub.HRef("http://engworks.example"),
 //	})
 type Certificate struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
