@@ -55,3 +55,12 @@ func (receiver ProfileID) ProtoObject() activitypub.AnyObject {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+func (receiver ProfileID) ProtoProfile() AnyProfile {
+	const _type string = TypeProfile
+
+	return AnyProfile{
+		ID:   jsonld.SomeID(string(receiver)),
+		Type: jsonld.SomeType(_type),
+	}
+}

@@ -2,6 +2,7 @@ package jsonresume
 
 const (
 	TypeAward        = "Award"
+	TypeBasics       = "Basics"
 	TypeCertificate  = "Certificate"
 	TypeEducation    = "Education"
 	TypeExperience   = "Experience"

@@ -4,7 +4,6 @@ import (
 	"codeberg.org/reiver/go-activitypub"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
-	"github.com/reiver/go-nul"
 )
 
 // Profile implements an embedded item in the JSON Resume "profiles" fields array.
@@ -52,9 +51,7 @@ type Profile struct {
 
 	activitypub.CoreEntity
 	activitypub.CoreObject
-
-	Network  nul.Nullable[string] `json:"network"`
-	UserName nul.Nullable[string] `json:"username"`
+	CoreProfile
 }
 
 func (receiver Profile) ProtoNode() activitypub.AnyNode {
@@ -86,6 +83,24 @@ func (receiver Profile) ProtoObject() activitypub.AnyObject {
 
 		CoreEntity: receiver.CoreEntity,
 		CoreObject: receiver.CoreObject,
+	}
+
+	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
+	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
+
+	return result
+}
+
+func (receiver Profile) ProtoProfile() AnyProfile {
+	const _type string = TypeProfile
+
+	var result = AnyProfile{
+		ID:   receiver.ID,
+		Type: jsonld.SomeType(_type),
+
+		CoreEntity:  receiver.CoreEntity,
+		CoreObject:  receiver.CoreObject,
+		CoreProfile: receiver.CoreProfile,
 	}
 
 	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
