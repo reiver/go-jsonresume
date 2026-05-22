@@ -11,19 +11,57 @@ import (
 // In a JSON Resume document this might look like:
 //
 //	"basics": {
-//		
+//		"name": "Joe Blow",
+//		"label": "Programmer",
+//		"image": "https://joeblow.example/photos/joeblow.jpeg",
+//		"email": "joeblow@example.com",
+//		"phone": "(604) 555-1234",
+//		"url": "https://joeblow.example",
+//		"summary": "CTO, Experienced Programmer",
+//		"location": {
+//			"countryCode": "CA",
+//			"region": "British Columbia",
+//			"city": "Vancouver",
+//			"address": "1234 Second Street",
+//			"postalCode": "H0H 0H0"
+//		},
+//		"profiles": [
+//			{
+//				"network": "Mastodon",
+//				"username": "joeblow",
+//				"url": "https://mastodon.example/@joeblow"
+//			},
+//			{
+//				"network": "Pixelfed",
+//				"username": "joeblow",
+//				"url": "https://pixelfed.example/joeblow"
+//			}
+//		]
 //	},
 //
 // Basics is an implementation of the individual JSON objects in that JSON array.
 //
 // Example usage:
 //
+//	var basics json.Basics
+//	
+//	// ...
+//	
+//	basics.Location = append(basics.Location, jsonresume.Location{
+//		CountryCode: nul.Something("CA"),
+//		Region:      nul.Something("British Columbia"),
+//		City:        nul.Something("Vancouver"),
+//		Address:     nul.Something("1234 Second Street"),
+//		PostalCode:  nul.Something("H0H 0H0"),
+//	})
+//	
+//	// ...
+//	
 //	var cv jsonresume.Resume
 //	
 //	// ...
 //	
-//	cv.Basicss = jsonresume.Basics{
-//	})
+//	cv.Basics = basics
 type Basics struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
