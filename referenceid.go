@@ -64,3 +64,8 @@ func (receiver ReferenceID) ProtoReference() AnyReference {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [ReferenceID] fit the [fmt.Stringer] interface.
+func (receiver ReferenceID) String() string {
+	return string(receiver)
+}

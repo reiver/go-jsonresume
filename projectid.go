@@ -65,3 +65,7 @@ func (receiver ProjectID) ProtoProject() AnyProject {
 	}
 }
 
+// String makes [ProjectID] fit the [fmt.Stringer] interface.
+func (receiver ProjectID) String() string {
+	return string(receiver)
+}

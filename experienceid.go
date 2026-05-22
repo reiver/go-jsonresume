@@ -74,3 +74,8 @@ func (receiver ExperienceID) ProtoExperience() AnyExperience {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [ExperienceID] fit the [fmt.Stringer] interface.
+func (receiver ExperienceID) String() string {
+	return string(receiver)
+}

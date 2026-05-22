@@ -59,3 +59,8 @@ func (receiver BasicsID) ProtoBasics() AnyBasics {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [BasicsID] fit the [fmt.Stringer] interface.
+func (receiver BasicsID) String() string {
+	return string(receiver)
+}

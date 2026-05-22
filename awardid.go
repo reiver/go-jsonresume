@@ -65,3 +65,7 @@ func (receiver AwardID) ProtoAward() AnyAward {
 	}
 }
 
+// String makes [AwardID] fit the [fmt.Stringer] interface.
+func (receiver AwardID) String() string {
+	return string(receiver)
+}

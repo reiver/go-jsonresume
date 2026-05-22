@@ -70,3 +70,7 @@ func (receiver LanguageID) ProtoLanguage() AnyLanguage {
 	}
 }
 
+// String makes [LanguageID] fit the [fmt.Stringer] interface.
+func (receiver LanguageID) String() string {
+	return string(receiver)
+}

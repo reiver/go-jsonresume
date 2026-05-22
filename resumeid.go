@@ -76,3 +76,8 @@ func (receiver ResumeID) ProtoResume() AnyResume {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [ResumeID] fit the [fmt.Stringer] interface.
+func (receiver ResumeID) String() string {
+	return string(receiver)
+}

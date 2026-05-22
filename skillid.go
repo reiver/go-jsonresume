@@ -64,3 +64,8 @@ func (receiver SkillID) ProtoSkill() AnySkill {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [SkillID] fit the [fmt.Stringer] interface.
+func (receiver SkillID) String() string {
+	return string(receiver)
+}

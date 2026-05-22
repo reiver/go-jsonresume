@@ -63,3 +63,8 @@ func (receiver CertificateID) ProtoCertificate() AnyCertificate {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [CerticiateID] fit the [fmt.Stringer] interface.
+func (receiver CertificateID) String() string {
+	return string(receiver)
+}

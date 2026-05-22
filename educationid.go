@@ -63,3 +63,8 @@ func (receiver EducationID) ProtoEducation() AnyEducation {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [EducationID] fit the [fmt.Stringer] interface.
+func (receiver EducationID) String() string {
+	return string(receiver)
+}

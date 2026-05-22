@@ -64,3 +64,8 @@ func (receiver InterestID) ProtoInterest() AnyInterest {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [InterestID] fit the [fmt.Stringer] interface.
+func (receiver InterestID) String() string {
+	return string(receiver)
+}

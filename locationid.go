@@ -59,3 +59,8 @@ func (receiver LocationID) ProtoLocation() AnyLocation {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [LocationID] fit the [fmt.Stringer] interface.
+func (receiver LocationID) String() string {
+	return string(receiver)
+}

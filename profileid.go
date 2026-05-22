@@ -64,3 +64,8 @@ func (receiver ProfileID) ProtoProfile() AnyProfile {
 		Type: jsonld.SomeType(_type),
 	}
 }
+
+// String makes [ProfileID] fit the [fmt.Stringer] interface.
+func (receiver ProfileID) String() string {
+	return string(receiver)
+}
