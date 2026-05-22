@@ -1,17 +1,17 @@
 package jsonresume
 
 const (
-	TypeAward        = "Award"
-	TypeBasics       = "Basics"
-	TypeCertificate  = "Certificate"
-	TypeEducation    = "Education"
-	TypeExperience   = "Experience"
-	TypeInterest     = "Interest"
-	TypeLanguage     = "Language"
-	TypeLocation     = "Location"
-	TypeProfile      = "Profile"
-	TypeProject      = "Project"
-	TypeReference    = "Reference"
-	TypeResume       = "Resume"
-	TypeSkill        = "Skill"
+	TypeAward        = "Award"       // https://w3id.org/fep/6158#Award
+	TypeBasics       = "Basics"      // https://w3id.org/fep/6158#Basics
+	TypeCertificate  = "Certificate" // https://w3id.org/fep/6158#Certificate
+	TypeEducation    = "Education"   // https://w3id.org/fep/6158#Education
+	TypeExperience   = "Experience"  // https://w3id.org/fep/6158#Experience
+	TypeInterest     = "Interest"    // https://w3id.org/fep/6158#Interest
+	TypeLanguage     = "Language"    // https://w3id.org/fep/6158#Language
+	TypeLocation     = "Location"    // https://w3id.org/fep/6158#Location
+	TypeProfile      = "Profile"     // https://w3id.org/fep/6158#Profile
+	TypeProject      = "Project"     // https://w3id.org/fep/6158#Project
+	TypeReference    = "Reference"   // https://w3id.org/fep/6158#Reference
+	TypeResume       = "Resume"      // https://w3id.org/fep/6158#Resume
+	TypeSkill        = "Skill"       // https://w3id.org/fep/6158#Skill
 )
