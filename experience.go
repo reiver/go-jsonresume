@@ -73,7 +73,7 @@ import (
 //	cv.Work = append(cv.Work, jsonresume.Experience{
 //		Name:         nul.Something("SuperCo"),
 //		URL:          nul.Something("http://super.example"),
-//		Position:     nul.Something("Chief Technology Officer (CTO)"),
+//		Position:     activitypub.SomeStrings("Chief Technology Officer (CTO)"),
 //		StartDate:    nul.Something("2024-01-01"),
 //		Summary:      nul.Something("Technical leadership for a company of 50+ people."),
 //		Highlights:   activitypub.SomeStrings(
@@ -86,7 +86,7 @@ import (
 //	cv.Work = append(cv.Work, jsonresume.Experience{
 //		Name:         nul.Something("Acme"),
 //		URL:          nul.Something("http://acme.example"),
-//		Position:     nul.Something("Software Engineer"),
+//		Position:     activitypub.SomeStrings("Software Engineer"),
 //		StartDate:    nul.Something("2019-03-13"),
 //		EndDate:      nul.Something("2023-12-31"),
 //		Summary:      nul.Something("Create an electronic wallet."),
@@ -101,7 +101,7 @@ import (
 //	cv.Volunteer = append(cv.Volunteer, jsonresume.Experience{
 //		Organization: nul.Something("Tech Conf"),
 //		URL:          nul.Something("http://techconf.example"),
-//		Position:     nul.Something("Organizer"),
+//		Position:     activitypub.SomeStrings("Organizer"),
 //		StartDate:    nul.Something("2025-02-01"),
 //		EndDate:      nul.Something("2026-08-24"),
 //		Summary:      nul.Something("Founded and organized Tech Conf."),
@@ -114,7 +114,7 @@ import (
 //	cv.Volunteer = append(cv.Volunteer, jsonresume.Experience{
 //		Organization: nul.Something("Code School 123"),
 //		URL:          nul.Something("http://school123.example"),
-//		Position:     nul.Something("Instructor"),
+//		Position:     activitypub.SomeStrings("Instructor"),
 //		StartDate:    nul.Something("2018-03-13"),
 //		EndDate:      nul.Something("2024-07-07"),
 //		Summary:      nul.Something("Taught class on Golang."),
