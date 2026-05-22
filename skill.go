@@ -16,7 +16,7 @@ import (
 //			"keywords": ["Astrophotography", "Food", "Nature"],
 //		},
 //		{
-//			"name": "Workworking",
+//			"name": "Woodworking",
 //			"keywords": ["Furniture"],
 //		}
 //	],
@@ -35,7 +35,7 @@ import (
 //	})
 //	
 //	cv.Skills = append(cv.Skills, jsonresume.Skill{
-//		Name:     nul.Something("Workworking"),
+//		Name:     nul.Something("Woodworking"),
 //		Keywords: activitypub.SomeString("Furniture"),
 //	})
 type Skill struct {
