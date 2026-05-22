@@ -30,6 +30,36 @@ jsonResume.SetResumeIRI("https://example.com/path/to/resume")
 err := jsonld.Marshal(actor, jsonResume)
 ```
 
+This will create ActivityPub JSON-LD similar to:
+
+```json
+{
+  "@context": {
+    "https://www.w3.org/ns/activitystreams",
+    "https://w3id.org/fep/6158",
+
+    ...
+  ],
+
+
+  ...
+
+  "type": "Person",
+
+  ...
+
+  "resume": "https://example.com/path/to/resume",
+
+  ...
+}
+```
+
+Notice 2 things in this ActivityPub JSON-LD.
+
+№1: The new JSON-LD namespace: `https://w3id.org/fep/6158`
+
+№2: The new field, `resume`, that whose value is the same value we set in the Go code (`https://example.com/path/to/resume`).
+
 ## Import
 
 To import package **jsonresume** use `import` code like the following:
