@@ -24,7 +24,7 @@ import (
 //			"name": "SpaceMax",
 //			"url": "https://spacemax.example"
 //			"startDate": "2011-03-02",
-//			"startDate": "2015-08-17",
+//			"endDate": "2015-08-17",
 //			"description": "virtual drive",
 //			"highlights": [
 //				"reached more-than 100,000 users",
@@ -44,9 +44,9 @@ import (
 //	cv.Projects = append(cv.Projects, jsonresume.Project{
 //		Name:        nul.Something("Microdon"),
 //		URL:         activitypub.HRef("https://codeberg.org/reiver/microdon"),
-//		StartDate:   null.Something("2024-11-16"),
-//		Description: null.Something("lightweight ActivityPub back-end"),
-//		Highlights:  activitypub.SomeString(
+//		StartDate:   nul.Something("2024-11-16"),
+//		Description: nul.Something("lightweight ActivityPub back-end"),
+//		Highlights:  activitypub.SomeStrings(
 //			"created ActivityPub back-end from scratch"
 //		),
 //	})
@@ -54,10 +54,10 @@ import (
 //	cv.Projects = append(cv.Projects, jsonresume.Project{
 //		Name:        nul.Something("SpaceMax"),
 //		URL:         activitypub.HRef("https://spacemax.example"),
-//		StartDate:   null.Something("2011-03-02"),
-//		EndDate:     null.Something("2015-08-17"),
-//		Description: null.Something("virtual drive"),
-//		Highlights:  activitypub.SomeString(
+//		StartDate:   nul.Something("2011-03-02"),
+//		EndDate:     nul.Something("2015-08-17"),
+//		Description: nul.Something("virtual drive"),
+//		Highlights:  activitypub.SomeStrings(
 //			"reached more-than 100,000 users",
 //			"released version 2"
 //		),
