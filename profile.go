@@ -27,20 +27,20 @@ import (
 //
 // Example usage:
 //
-//	var cv jsonresume.Resume
+//	var basics jsonresume.Basics
 //	
 //	// ...
 //	
-//	cv.Profiles = append(cv.Profiles, jsonresume.Profile{
+//	basics.Profiles = append(basics.Profiles, jsonresume.Profile{
 //		Network:   nul.Something("Mastodon"),
 //		UserName:  nul.Something("joeblow"),
-//		Reference: activitypub.HRef("https://mastodon.example/@joeblow"),
+//		URL:       activitypub.HRef("https://mastodon.example/@joeblow"),
 //	})
 //	
-//	cv.Profiles = append(cv.Profiles, jsonresume.Profile{
+//	basics.Profiles = append(basics.Profiles, jsonresume.Profile{
 //		Network:   nul.Something("Pixelfed"),
 //		UserName:  nul.Something("joeblow"),
-//		Reference: activitypub.HRef("https://pixelfed.example/joeblow"),
+//		URL:       activitypub.HRef("https://pixelfed.example/joeblow"),
 //	})
 type Profile struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
