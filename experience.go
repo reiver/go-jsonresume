@@ -75,8 +75,8 @@ import (
 //		URL:          nul.Something("http://super.example"),
 //		Position:     nul.Something("Chief Technology Officer (CTO)"),
 //		StartDate:    nul.Something("2024-01-01"),
-//		Summary:      nul.Something(""Technical leadership for a company of 50+ people.),
-//		Highlights:   activitypub.SomeString(
+//		Summary:      nul.Something("Technical leadership for a company of 50+ people."),
+//		Highlights:   activitypub.SomeStrings(
 //			"Hired initial team.",
 //			"Created architecture.",
 //			"Set up management structure.",
@@ -90,14 +90,14 @@ import (
 //		StartDate:    nul.Something("2019-03-13"),
 //		EndDate:      nul.Something("2023-12-31"),
 //		Summary:      nul.Something("Create an electronic wallet."),
-//		Highlights:   activitypub.SomeString(
+//		Highlights:   activitypub.SomeStrings(
 //			"Built the back-end in Golang from scratch",
 //			"Created payment system",
 //		),
 //	})
-//	
+//
 //	// ...
-//	
+//
 //	cv.Volunteer = append(cv.Volunteer, jsonresume.Experience{
 //		Organization: nul.Something("Tech Conf"),
 //		URL:          nul.Something("http://techconf.example"),
@@ -105,7 +105,7 @@ import (
 //		StartDate:    nul.Something("2025-02-01"),
 //		EndDate:      nul.Something("2026-08-24"),
 //		Summary:      nul.Something("Founded and organized Tech Conf."),
-//		Highlights:   activitypub.SomeString(
+//		Highlights:   activitypub.SomeStrings(
 //			"Organized Tech Conf",
 //			"Brought in sponsors",
 //		),
@@ -118,7 +118,7 @@ import (
 //		StartDate:    nul.Something("2018-03-13"),
 //		EndDate:      nul.Something("2024-07-07"),
 //		Summary:      nul.Something("Taught class on Golang."),
-//		Highlights:   activitypub.SomeString(
+//		Highlights:   activitypub.SomeStrings(
 //			"Taught 531 students the Go programming-language over a number of years.",
 //		),
 //	})
