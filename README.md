@@ -2,7 +2,7 @@
 
 Package **jsonresume** provides tools for working with **JSON Resume** including **JSON Resume** expressed as JSON-LD (i.e., **FEP-6158**), for the Go programming language.
 
-## Documention
+## Documentation
 
 Online documentation, which includes examples, can be found at: http://godoc.org/github.com/reiver/go-jsonresume
 
@@ -10,7 +10,7 @@ Online documentation, which includes examples, can be found at: http://godoc.org
 
 ## Import
 
-To import package **jsonresume** use `import` code like the follownig:
+To import package **jsonresume** use `import` code like the following:
 ```
 import "github.com/reiver/go-jsonresume"
 ```
