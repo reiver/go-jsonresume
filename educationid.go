@@ -24,8 +24,8 @@ import (
 //	
 //	// ...
 //	
-//	cv.Educations = append(cv.Educations, jsonresume.EducationID("http://example.com/resume/education/sfu"))
-//	cv.Educations = append(cv.Educations, jsonresume.EducationID("http://example.com/resume/education/kpu"))
+//	cv.Education = append(cv.Education, jsonresume.EducationID("http://example.com/resume/education/sfu"))
+//	cv.Education = append(cv.Education, jsonresume.EducationID("http://example.com/resume/education/kpu"))
 type EducationID string
 
 func (receiver EducationID) ProtoNode() activitypub.AnyNode {
