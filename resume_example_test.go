@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"codeberg.org/reiver/go-activitypub"
-	"github.com/reiver/go-json"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 	"github.com/reiver/go-opt"
 
@@ -69,7 +69,7 @@ func ExampleResume() {
 		},
 	})
 
-	bytes, err := json.Marshal(cv)
+	bytes, err := jsonld.Marshal(cv)
 	if nil != err {
 		fmt.Println("ERROR:", err)
 		return
@@ -77,7 +77,7 @@ func ExampleResume() {
 	fmt.Println(string(bytes))
 
 	// Output:
-	// {"type":"Resume","name":"Joe Blow","summary":"CTO, Experienced Programmer","awards":[{"type":"Award","awarder":"SuperCo","date":"2024-05-21","title":"Best Employee (2024)"}],"basics":{"type":"Basics","email":"joeblow@example.com","label":"Programmer","phone":"(604) 555-1234","profiles":[{"type":"Profile","network":"Mastodon","username":"joeblow"}]},"certificates":[],"education":[],"interests":[],"languages":[{"type":"Language","fluency":"Fluent","language":"English"}],"projects":[],"publications":[],"references":[],"skills":[{"type":"Skill","keywords":["Golang","PHP","HTTP"],"level":"Senior"}],"volunteer":[],"work":[{"type":"Experience","endDate":null,"highlights":["Hired initial team.","Created architecture."],"organization":"SuperCo","position":"Chief Technology Officer (CTO)","startDate":"2024-01-01"}]}
+	// {"@context":{"cv":"https://w3id.org/fep/6158","as":"https://www.w3.org/ns/activitystreams","alsoKnownAs":"cv:alsoKnownAs","attachment":"cv:attachment","attributedTo":"cv:attributedTo","audience":"cv:audience","awards":"cv:awards","basics":"cv:basics","cc":"cv:cc","certificates":"cv:certificates","content":"cv:content","contentMap":"cv:contentMap","duration":"cv:duration","education":"cv:education","endTime":"cv:endTime","generator":"cv:generator","icon":"cv:icon","id":"cv:id","image":"cv:image","inReplyTo":"cv:inReplyTo","interests":"cv:interests","languages":"cv:languages","likes":"cv:likes","location":"cv:location","mediaType":"cv:mediaType","movedTo":"cv:movedTo","name":"cv:name","nameMap":"cv:nameMap","preview":"cv:preview","projects":"cv:projects","publications":"cv:publications","published":"cv:published","references":"cv:references","replies":"cv:replies","shares":"cv:shares","skills":"cv:skills","startTime":"cv:startTime","summary":"cv:summary","summaryMap":"cv:summaryMap","tag":"cv:tag","to":"cv:to","type":"cv:type","updated":"cv:updated","url":"cv:url","volunteer":"cv:volunteer","work":"cv:work","alsoKnownAs":"as:alsoKnownAs","attachment":"as:attachment","attributedTo":"as:attributedTo","audience":"as:audience","cc":"as:cc","content":"as:content","contentMap":"as:contentMap","duration":"as:duration","endTime":"as:endTime","generator":"as:generator","icon":"as:icon","image":"as:image","inReplyTo":"as:inReplyTo","likes":"as:likes","location":"as:location","mediaType":"as:mediaType","movedTo":"as:movedTo","name":"as:name","nameMap":"as:nameMap","preview":"as:preview","published":"as:published","replies":"as:replies","shares":"as:shares","startTime":"as:startTime","summary":"as:summary","summaryMap":"as:summaryMap","tag":"as:tag","to":"as:to","updated":"as:updated","url":"as:url"},"type":"Resume","name":"Joe Blow","summary":"CTO, Experienced Programmer","awards":[{"type":"Award","awarder":"SuperCo","date":"2024-05-21","title":"Best Employee (2024)"}],"basics":{"type":"Basics","email":"joeblow@example.com","label":"Programmer","phone":"(604) 555-1234","profiles":[{"type":"Profile","network":"Mastodon","username":"joeblow"}]},"certificates":[],"education":[],"interests":[],"languages":[{"type":"Language","fluency":"Fluent","language":"English"}],"projects":[],"publications":[],"references":[],"skills":[{"type":"Skill","keywords":["Golang","PHP","HTTP"],"level":"Senior"}],"volunteer":[],"work":[{"type":"Experience","endDate":null,"highlights":["Hired initial team.","Created architecture."],"organization":"SuperCo","position":"Chief Technology Officer (CTO)","startDate":"2024-01-01"}]}
 }
 
 func ExampleResume_withIDs() {
@@ -86,19 +86,19 @@ func ExampleResume_withIDs() {
 
 	cv.Basics = jsonresume.SomeBasicsID("http://example.com/resume/basics")
 
-	cv.Awards = append(cv.Awards, jsonresume.SomeAwardID("http://example.com/resume/award/best-employee-2024"))
-	cv.Awards = append(cv.Awards, jsonresume.SomeAwardID("http://example.com/resume/award/acme-excellence-2021"))
+	cv.AppendAwardID("http://example.com/resume/award/best-employee-2024")
+	cv.AppendAwardID("http://example.com/resume/award/acme-excellence-2021")
 
-	cv.Work = append(cv.Work, jsonresume.SomeExperienceID("http://example.com/resume/experience/3"))
-	cv.Work = append(cv.Work, jsonresume.SomeExperienceID("http://example.com/resume/experience/2"))
+	cv.AppendWorkID("http://example.com/resume/experience/3")
+	cv.AppendWorkID("http://example.com/resume/experience/2")
 
-	cv.Volunteer = append(cv.Volunteer, jsonresume.SomeExperienceID("http://example.com/resume/experience/4"))
+	cv.AppendVolunteerID("http://example.com/resume/experience/4")
 
-	cv.Skills = append(cv.Skills, jsonresume.SomeSkillID("http://example.com/resume/skill/backend-development"))
+	cv.AppendSkillID("http://example.com/resume/skill/backend-development")
 
-	cv.Languages = append(cv.Languages, jsonresume.SomeLanguageID("http://example.com/resume/language/english"))
+	cv.AppendLanguageID("http://example.com/resume/language/english")
 
-	bytes, err := json.Marshal(cv)
+	bytes, err := jsonld.Marshal(cv)
 	if nil != err {
 		fmt.Println("ERROR:", err)
 		return
@@ -106,5 +106,5 @@ func ExampleResume_withIDs() {
 	fmt.Println(string(bytes))
 
 	// Output:
-	// {"type":"Resume","awards":["http://example.com/resume/award/best-employee-2024","http://example.com/resume/award/acme-excellence-2021"],"basics":"http://example.com/resume/basics","certificates":[],"education":[],"interests":[],"languages":["http://example.com/resume/language/english"],"projects":[],"publications":[],"references":[],"skills":["http://example.com/resume/skill/backend-development"],"volunteer":["http://example.com/resume/experience/4"],"work":["http://example.com/resume/experience/3","http://example.com/resume/experience/2"]}
+	// {"@context":{"cv":"https://w3id.org/fep/6158","as":"https://www.w3.org/ns/activitystreams","alsoKnownAs":"cv:alsoKnownAs","attachment":"cv:attachment","attributedTo":"cv:attributedTo","audience":"cv:audience","awards":"cv:awards","basics":"cv:basics","cc":"cv:cc","certificates":"cv:certificates","content":"cv:content","contentMap":"cv:contentMap","duration":"cv:duration","education":"cv:education","endTime":"cv:endTime","generator":"cv:generator","icon":"cv:icon","id":"cv:id","image":"cv:image","inReplyTo":"cv:inReplyTo","interests":"cv:interests","languages":"cv:languages","likes":"cv:likes","location":"cv:location","mediaType":"cv:mediaType","movedTo":"cv:movedTo","name":"cv:name","nameMap":"cv:nameMap","preview":"cv:preview","projects":"cv:projects","publications":"cv:publications","published":"cv:published","references":"cv:references","replies":"cv:replies","shares":"cv:shares","skills":"cv:skills","startTime":"cv:startTime","summary":"cv:summary","summaryMap":"cv:summaryMap","tag":"cv:tag","to":"cv:to","type":"cv:type","updated":"cv:updated","url":"cv:url","volunteer":"cv:volunteer","work":"cv:work","alsoKnownAs":"as:alsoKnownAs","attachment":"as:attachment","attributedTo":"as:attributedTo","audience":"as:audience","cc":"as:cc","content":"as:content","contentMap":"as:contentMap","duration":"as:duration","endTime":"as:endTime","generator":"as:generator","icon":"as:icon","image":"as:image","inReplyTo":"as:inReplyTo","likes":"as:likes","location":"as:location","mediaType":"as:mediaType","movedTo":"as:movedTo","name":"as:name","nameMap":"as:nameMap","preview":"as:preview","published":"as:published","replies":"as:replies","shares":"as:shares","startTime":"as:startTime","summary":"as:summary","summaryMap":"as:summaryMap","tag":"as:tag","to":"as:to","updated":"as:updated","url":"as:url"},"type":"Resume","awards":["http://example.com/resume/award/best-employee-2024","http://example.com/resume/award/acme-excellence-2021"],"basics":"http://example.com/resume/basics","certificates":[],"education":[],"interests":[],"languages":["http://example.com/resume/language/english"],"projects":[],"publications":[],"references":[],"skills":["http://example.com/resume/skill/backend-development"],"volunteer":["http://example.com/resume/experience/4"],"work":["http://example.com/resume/experience/3","http://example.com/resume/experience/2"]}
 }
