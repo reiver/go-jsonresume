@@ -21,7 +21,7 @@ import (
 //	
 //	// ...
 //	
-//	cv.Basics = activitypub.HRef("http://example.com/resume/reference/jane-doe")
+//	cv.Basics = jsonresume.BasicsID("http://example.com/resume/basics")
 type BasicsID string
 
 func (receiver BasicsID) ProtoNode() activitypub.AnyNode {
