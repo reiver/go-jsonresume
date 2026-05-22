@@ -47,7 +47,7 @@ import (
 //		StartDate:   nul.Something("2024-11-16"),
 //		Description: nul.Something("lightweight ActivityPub back-end"),
 //		Highlights:  activitypub.SomeStrings(
-//			"created ActivityPub back-end from scratch"
+//			"created ActivityPub back-end from scratch",
 //		),
 //	})
 //	
@@ -59,7 +59,7 @@ import (
 //		Description: nul.Something("virtual drive"),
 //		Highlights:  activitypub.SomeStrings(
 //			"reached more-than 100,000 users",
-//			"released version 2"
+//			"released version 2",
 //		),
 //	})
 type Project struct {
