@@ -39,21 +39,21 @@ import (
 //		]
 //	},
 //
-// Basics is an implementation of the individual JSON objects in that JSON array.
+// Basics is an implementation of the JSON Resume basics object.
 //
 // Example usage:
 //
-//	var basics json.Basics
-//	
+//	var basics jsonresume.Basics
+//
 //	// ...
-//	
-//	basics.Location = append(basics.Location, jsonresume.Location{
+//
+//	basics.Location = jsonresume.Location{
 //		CountryCode: nul.Something("CA"),
 //		Region:      nul.Something("British Columbia"),
 //		City:        nul.Something("Vancouver"),
 //		Address:     nul.Something("1234 Second Street"),
 //		PostalCode:  nul.Something("H0H 0H0"),
-//	})
+//	}
 //	
 //	// ...
 //	
