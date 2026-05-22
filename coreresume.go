@@ -22,90 +22,90 @@ type CoreResume struct {
 	Work         []ProtoExperience  `json:"work"`
 }
 
-func (receiver *CoreResume) AppendAwardIRI(iri string) {
+func (receiver *CoreResume) AppendAwardID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Awards = append(receiver.Awards, SomeAwardID(iri))
+	receiver.Awards = append(receiver.Awards, SomeAwardID(id))
 }
 
-func (receiver *CoreResume) AppendCertificateIRI(iri string) {
+func (receiver *CoreResume) AppendCertificateID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Certificates = append(receiver.Certificates, SomeCertificateID(iri))
+	receiver.Certificates = append(receiver.Certificates, SomeCertificateID(id))
 }
 
-func (receiver *CoreResume) AppendEducationIRI(iri string) {
+func (receiver *CoreResume) AppendEducationID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Education = append(receiver.Education, SomeEducationID(iri))
+	receiver.Education = append(receiver.Education, SomeEducationID(id))
 }
 
-func (receiver *CoreResume) AppendInterestIRI(iri string) {
+func (receiver *CoreResume) AppendInterestID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Interests = append(receiver.Interests, SomeInterestID(iri))
+	receiver.Interests = append(receiver.Interests, SomeInterestID(id))
 }
 
-func (receiver *CoreResume) AppendLanguageIRI(iri string) {
+func (receiver *CoreResume) AppendLanguageID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Languages = append(receiver.Languages, SomeLanguageID(iri))
+	receiver.Languages = append(receiver.Languages, SomeLanguageID(id))
 }
 
-func (receiver *CoreResume) AppendProjectIRI(iri string) {
+func (receiver *CoreResume) AppendProjectID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Projects = append(receiver.Projects, SomeProjectID(iri))
+	receiver.Projects = append(receiver.Projects, SomeProjectID(id))
 }
 
-func (receiver *CoreResume) AppendPublicationIRI(iri string) {
+func (receiver *CoreResume) AppendPublicationID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Publications = append(receiver.Publications, SomePublicationID(iri))
+	receiver.Publications = append(receiver.Publications, SomePublicationID(id))
 }
 
-func (receiver *CoreResume) AppendReferenceIRI(iri string) {
+func (receiver *CoreResume) AppendReferenceID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.References = append(receiver.References, SomeReferenceID(iri))
+	receiver.References = append(receiver.References, SomeReferenceID(id))
 }
 
-func (receiver *CoreResume) AppendSkillIRI(iri string) {
+func (receiver *CoreResume) AppendSkillID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Skills = append(receiver.Skills, SomeSkillID(iri))
+	receiver.Skills = append(receiver.Skills, SomeSkillID(id))
 }
 
-func (receiver *CoreResume) AppendVolunteerIRI(iri string) {
+func (receiver *CoreResume) AppendVolunteerID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Volunteer = append(receiver.Volunteer, SomeExperienceID(iri))
+	receiver.Volunteer = append(receiver.Volunteer, SomeExperienceID(id))
 }
 
-func (receiver *CoreResume) AppendWorkIRI(iri string) {
+func (receiver *CoreResume) AppendWorkID(id string) {
 	if nil == receiver {
 		return
 	}
 
-	receiver.Work = append(receiver.Work, SomeExperienceID(iri))
+	receiver.Work = append(receiver.Work, SomeExperienceID(id))
 }
