@@ -80,5 +80,6 @@ Package **jsonresume** was written by [Charles Iliya Krempeaux](http://reiver.li
 
 ## See also:
 
+* [FEP-6158](https://w3id.org/fep/6158)
 * [JSON Resume](https://jsonresume.org/)
 * [JSON Resume schema.json](https://github.com/jsonresume/resume-schema/blob/master/schema.json)
