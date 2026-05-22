@@ -25,7 +25,7 @@ var actor activitypub.Person
 //@TODO: set the values of the actor
 
 var jsonResume json.JSONResume
-jsonResume.SetResumeIRI("https://example.com/path/to/resume")
+jsonResume.SetResumeID("https://example.com/path/to/resume")
 
 err := jsonld.Marshal(actor, jsonResume)
 ```
