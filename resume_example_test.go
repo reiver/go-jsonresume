@@ -70,7 +70,7 @@ func ExampleResume() {
 	})
 
 	bytes, err := json.Marshal(cv)
-	if err != nil {
+	if nil != err {
 		fmt.Println("ERROR:", err)
 		return
 	}
@@ -99,7 +99,7 @@ func ExampleResume_withIDs() {
 	cv.Languages = append(cv.Languages, jsonresume.LanguageID("http://example.com/resume/language/english"))
 
 	bytes, err := json.Marshal(cv)
-	if err != nil {
+	if nil != err {
 		fmt.Println("ERROR:", err)
 		return
 	}
