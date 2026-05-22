@@ -64,7 +64,7 @@ func (receiver CertificateID) ProtoCertificate() AnyCertificate {
 	}
 }
 
-// String makes [CerticiateID] fit the [fmt.Stringer] interface.
+// String makes [CertificateID] fit the [fmt.Stringer] interface.
 func (receiver CertificateID) String() string {
 	return string(receiver)
 }
