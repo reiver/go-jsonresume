@@ -174,17 +174,10 @@ func (receiver Experience) ProtoObject() activitypub.AnyObject {
 func (receiver Experience) ProtoExperience() AnyExperience {
 	const _type string = TypeExperience
 
-	var result = AnyExperience{
+	return AnyExperience{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity:     receiver.CoreEntity,
-		CoreObject:     receiver.CoreObject,
 		CoreExperience: receiver.CoreExperience,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

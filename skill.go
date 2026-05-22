@@ -90,17 +90,10 @@ func (receiver Skill) ProtoObject() activitypub.AnyObject {
 func (receiver Skill) ProtoSkill() AnySkill {
 	const _type string = TypeSkill
 
-	var result = AnySkill{
+	return AnySkill{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
-		CoreSkill:  receiver.CoreSkill,
+		CoreSkill: receiver.CoreSkill,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

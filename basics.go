@@ -114,17 +114,10 @@ func (receiver Basics) ProtoObject() activitypub.AnyObject {
 func (receiver Basics) ProtoBasics() AnyBasics {
 	const _type string = TypeBasics
 
-	var result = AnyBasics{
+	return AnyBasics{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
-		CoreBasics:  receiver.CoreBasics,
+		CoreBasics: receiver.CoreBasics,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

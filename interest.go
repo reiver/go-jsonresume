@@ -90,17 +90,10 @@ func (receiver Interest) ProtoObject() activitypub.AnyObject {
 func (receiver Interest) ProtoInterest() AnyInterest {
 	const _type string = TypeInterest
 
-	var result = AnyInterest{
+	return AnyInterest{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity:   receiver.CoreEntity,
-		CoreObject:   receiver.CoreObject,
 		CoreInterest: receiver.CoreInterest,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

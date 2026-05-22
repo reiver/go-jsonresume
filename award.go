@@ -98,17 +98,10 @@ func (receiver Award) ProtoObject() activitypub.AnyObject {
 func (receiver Award) ProtoAward() AnyAward {
 	const _type string = TypeAward
 
-	var result = AnyAward{
+	return AnyAward{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
-		CoreAward:  receiver.CoreAward,
+		CoreAward: receiver.CoreAward,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

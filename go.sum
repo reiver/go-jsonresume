@@ -1,5 +1,5 @@
-codeberg.org/reiver/go-activitypub v0.0.0-20260522060709-64356044f4d1 h1:QmHOhHYDkGboBQIvCAskUj1LrfkwuIcEqlvGscQnpGo=
-codeberg.org/reiver/go-activitypub v0.0.0-20260522060709-64356044f4d1/go.mod h1:H+ugZ1JRtWRSzjOYuH4XOJjmH4O81UnvdHuOklW2UGk=
+codeberg.org/reiver/go-activitypub v0.0.0-20260522192209-e4e125e9d36f h1:zqtXhh2Jqqcm72O4KgRUvq1VDxtf+TPH7bULjASNARk=
+codeberg.org/reiver/go-activitypub v0.0.0-20260522192209-e4e125e9d36f/go.mod h1:H+ugZ1JRtWRSzjOYuH4XOJjmH4O81UnvdHuOklW2UGk=
 codeberg.org/reiver/go-ascii v0.0.0-20250831011101-29ac37bfb987 h1:8f7cz3PdXP+F2AVqYcWnodS3PPG2gEFvuJ4wPj1kv4s=
 codeberg.org/reiver/go-ascii v0.0.0-20250831011101-29ac37bfb987/go.mod h1:GuoN8yLT3H0D+0rswq8A+6sQF99w/HvueBMU3n4IPk4=
 codeberg.org/reiver/go-erorr v0.0.0-20260414214747-7b76f85a93ac h1:Rf1Y1tEmk+jU/ePubSv5KSkb7smImaDH7ZAff2TEy80=

@@ -90,17 +90,10 @@ func (receiver Language) ProtoObject() activitypub.AnyObject {
 func (receiver Language) ProtoLanguage() AnyLanguage {
 	const _type string = TypeLanguage
 
-	var result = AnyLanguage{
+	return AnyLanguage{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
-		CoreLanguage:  receiver.CoreLanguage,
+		CoreLanguage: receiver.CoreLanguage,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

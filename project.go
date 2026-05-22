@@ -114,17 +114,10 @@ func (receiver Project) ProtoObject() activitypub.AnyObject {
 func (receiver Project) ProtoProject() AnyProject {
 	const _type string = TypeProject
 
-	var result = AnyProject{
+	return AnyProject{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
-		CoreProject:  receiver.CoreProject,
+		CoreProject: receiver.CoreProject,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

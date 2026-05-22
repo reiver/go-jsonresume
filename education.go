@@ -172,17 +172,10 @@ func (receiver Education) ProtoObject() activitypub.AnyObject {
 func (receiver Education) ProtoEducation() AnyEducation {
 	const _type string = TypeEducation
 
-	var result = AnyEducation{
+	return AnyEducation{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
-		CoreEducation:  receiver.CoreEducation,
+		CoreEducation: receiver.CoreEducation,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

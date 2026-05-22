@@ -85,17 +85,10 @@ func (receiver Location) ProtoObject() activitypub.AnyObject {
 func (receiver Location) ProtoLocation() AnyLocation {
 	const _type string = TypeLocation
 
-	var result = AnyLocation{
+	return AnyLocation{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
-		CoreLocation:  receiver.CoreLocation,
+		CoreLocation: receiver.CoreLocation,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

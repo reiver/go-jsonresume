@@ -98,17 +98,10 @@ func (receiver Certificate) ProtoObject() activitypub.AnyObject {
 func (receiver Certificate) ProtoCertificate() AnyCertificate {
 	const _type string = TypeCertificate
 
-	var result = AnyCertificate{
+	return AnyCertificate{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
-		CoreCertificate:  receiver.CoreCertificate,
+		CoreCertificate: receiver.CoreCertificate,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

@@ -1,7 +1,6 @@
 package jsonresume
 
 import (
-	"codeberg.org/reiver/go-activitypub"
 	"github.com/reiver/go-jsonld"
 )
 
@@ -12,7 +11,5 @@ type AnyResume struct {
 	ID   jsonld.ID    `json:"id,omitempty"`
 	Type jsonld.Types `json:"type,omitempty"`
 
-	activitypub.CoreEntity
-	activitypub.CoreObject
 	CoreResume
 }

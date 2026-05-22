@@ -94,17 +94,10 @@ func (receiver Profile) ProtoObject() activitypub.AnyObject {
 func (receiver Profile) ProtoProfile() AnyProfile {
 	const _type string = TypeProfile
 
-	var result = AnyProfile{
+	return AnyProfile{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity:  receiver.CoreEntity,
-		CoreObject:  receiver.CoreObject,
 		CoreProfile: receiver.CoreProfile,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

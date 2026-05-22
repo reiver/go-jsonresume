@@ -90,17 +90,10 @@ func (receiver Reference) ProtoObject() activitypub.AnyObject {
 func (receiver Reference) ProtoReference() AnyReference {
 	const _type string = TypeReference
 
-	var result = AnyReference{
+	return AnyReference{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity:    receiver.CoreEntity,
-		CoreObject:    receiver.CoreObject,
 		CoreReference: receiver.CoreReference,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

@@ -58,17 +58,10 @@ func (receiver Resume) ProtoObject() activitypub.AnyObject {
 func (receiver Resume) ProtoResume() AnyResume {
 	const _type string = TypeResume
 
-	var result = AnyResume{
+	return AnyResume{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
 		CoreResume: receiver.CoreResume,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }

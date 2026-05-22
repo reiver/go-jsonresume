@@ -3,7 +3,7 @@ module github.com/reiver/go-jsonresume
 go 1.26.1
 
 require (
-	codeberg.org/reiver/go-activitypub v0.0.0-20260522060709-64356044f4d1
+	codeberg.org/reiver/go-activitypub v0.0.0-20260522192209-e4e125e9d36f
 	github.com/reiver/go-json v0.0.0-20260502054102-0a3481c07116
 	github.com/reiver/go-jsonld v0.0.0-20260522055855-eb919226c068
 	github.com/reiver/go-nul v0.0.0-20260309043606-3c1893100dc2
