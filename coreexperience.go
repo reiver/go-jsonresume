@@ -7,7 +7,7 @@ import (
 
 type CoreExperience struct {
 	EndDate    nul.Nullable[string] `json:"endDate"`
-	Highlights nul.Nullable[string] `json:"highlights"`
+	Highlights activitypub.Strings  `json:"highlights"`
 	Position   activitypub.Strings  `json:"position"`
 	StartDate  nul.Nullable[string] `json:"startDate"`
 }
