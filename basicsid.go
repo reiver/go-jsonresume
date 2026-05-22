@@ -13,7 +13,7 @@ import (
 //
 //	"basics": "http://example.com/resume/basics",
 //
-// BasicsID is an implementation of the individual JSON strings in that JSON array.
+// BasicsID is an implementation of a JSON-LD reference for the basics object.
 //
 // Example usage:
 //
