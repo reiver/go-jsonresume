@@ -11,7 +11,7 @@ import (
 	"github.com/reiver/go-jsonresume"
 )
 
-func ExampleResume() {
+func ExampleResume_jsonMarshal() {
 
 	var cv jsonresume.Resume
 
