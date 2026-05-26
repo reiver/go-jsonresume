@@ -122,6 +122,17 @@ import (
 //			"Taught 531 students the Go programming-language over a number of years.",
 //		),
 //	})
+//
+// Note that you should use Experience for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyExperience].
+//
+// See also:
+//
+//	• [AnyExperience]
+//	• [CoreExperience]
+//	• [ExperienceID]
+//	• [ProtoExperience]
+//	• [TypeExperience]
 type Experience struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

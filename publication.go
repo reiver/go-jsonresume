@@ -50,6 +50,17 @@ import (
 //		URL:         activitypub.HRef("http://example.com/vcfmm"),
 //		Summary:     nul.Something("An introduction to video compression."),
 //	})
+//
+// Note that you should use Publication for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyPublication].
+//
+// See also:
+//
+//	• [AnyPublication]
+//	• [CorePublication]
+//	• [ProtoPublication]
+//	• [PublicationID]
+//	• [TypePublication]
 type Publication struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

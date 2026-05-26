@@ -9,6 +9,16 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
+// Note that you should use Resume for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyResume].
+//
+// See also:
+//
+//	• [AnyResume]
+//	• [CoreResume]
+//	• [ProtoResume]
+//	• [ResumeID]
+//	• [TypeResume]
 type Resume struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

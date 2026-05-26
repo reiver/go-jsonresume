@@ -38,6 +38,17 @@ import (
 //		Name:     nul.Something("Web Development"),
 //		Keywords: activitypub.SomeStrings("CSS", "HTML", "JavaScript"),
 //	})
+//
+// Note that you should use Interest for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyInterest].
+//
+// See also:
+//
+//	• [AnyInterest]
+//	• [CoreInterest]
+//	• [InterestID]
+//	• [ProtoInterest]
+//	• [TypeInterest]
 type Interest struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

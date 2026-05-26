@@ -62,6 +62,17 @@ import (
 //	// ...
 //	
 //	cv.Basics = basics
+//
+// Note that you should use Basics for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyBasics].
+//
+// See also:
+//
+//	• [AnyBasics]
+//	• [BasicsID]
+//	• [CoreBasics]
+//	• [ProtoBasics]
+//	• [TypeBasics]
 type Basics struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

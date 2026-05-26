@@ -38,6 +38,17 @@ import (
 //		Language: nul.Something("Persian"),
 //		Fluency:  nul.Something("Beginner"),
 //	})
+//
+// Note that you should use Language for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyLanguage].
+//
+// See also:
+//
+//	• [AnyLanguage]
+//	• [CoreLanguage]
+//	• [LanguageID]
+//	• [ProtoLanguage]
+//	• [TypeLanguage]
 type Language struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

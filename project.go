@@ -62,6 +62,17 @@ import (
 //			"released version 2",
 //		),
 //	})
+//
+// Note that you should use Project for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyProject].
+//
+// See also:
+//
+//	• [AnyProject]
+//	• [CoreProject]
+//	• [ProjectID]
+//	• [ProtoProject]
+//	• [TypeProject]
 type Project struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

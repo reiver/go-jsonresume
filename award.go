@@ -46,6 +46,17 @@ import (
 //		Awarder: nul.Something("Acme"),
 //		Summary: nul.Something("For Joe Blow's excellent work."),
 //	})
+//
+// Note that you should use Award for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyAward].
+//
+// See also:
+//
+//	• [AnyAward]
+//	• [AwardID]
+//	• [CoreAward]
+//	• [ProtoAward]
+//	• [TypeAward]
 type Award struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

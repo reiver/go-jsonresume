@@ -38,6 +38,17 @@ import (
 //		Name:     nul.Something("Woodworking"),
 //		Keywords: activitypub.SomeString("Furniture"),
 //	})
+//
+// Note that you should use Skill for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnySkill].
+//
+// See also:
+//
+//	• [AnySkill]
+//	• [CoreSkill]
+//	• [ProtoSkill]
+//	• [SkillID]
+//	• [TypeSkill]
 type Skill struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

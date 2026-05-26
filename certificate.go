@@ -46,6 +46,17 @@ import (
 //		Issuer: nul.Something("EngWorks"),
 //		URL:    activitypub.HRef("http://engworks.example"),
 //	})
+//
+// Note that you should use Certificate for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyCertificate].
+//
+// See also:
+//
+//	• [AnyCertificate]
+//	• [CoreCertificate]
+//	• [CertificateID]
+//	• [ProtoCertificate]
+//	• [TypeCertificate]
 type Certificate struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

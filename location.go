@@ -33,6 +33,17 @@ import (
 //		Address:     nul.Something("1234 Second Street"),
 //		PostalCode:  nul.Something("H0H 0H0"),
 //	}
+//
+// Note that you should use Location for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyLocation].
+//
+// See also:
+//
+//	• [AnyLocation]
+//	• [CoreLocation]
+//	• [LocationID]
+//	• [ProtoLocation]
+//	• [TypeLocation]
 type Location struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

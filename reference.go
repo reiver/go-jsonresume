@@ -38,6 +38,17 @@ import (
 //		Name:      nul.Something("Bob Smith"),
 //		Reference: nul.Something("I enjoyed working with Joe Blow and give them my highest recommendation without reservation."),
 //	})
+//
+// Note that you should use Reference for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyReference].
+//
+// See also:
+//
+//	• [AnyReference]
+//	• [CoreReference]
+//	• [ProtoReference]
+//	• [ReferenceID]
+//	• [TypeReference]
 type Reference struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

@@ -42,6 +42,17 @@ import (
 //		UserName:  nul.Something("joeblow"),
 //		URL:       activitypub.HRef("https://pixelfed.example/joeblow"),
 //	})
+//
+// Note that you should use Profile for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyProfile].
+//
+// See also:
+//
+//	• [AnyProfile]
+//	• [CoreProfile]
+//	• [ProfileID]
+//	• [ProtoProfile]
+//	• [TypeProfile]
 type Profile struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

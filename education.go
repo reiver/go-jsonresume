@@ -120,6 +120,17 @@ import (
 //				"MATH 2821 - Multivariate and Vector Calculus"
 //			),
 //	})
+//
+// Note that you should use Education for marshaling but not unmarshaling.
+// For unmarshaling instead use [AnyEducation].
+//
+// See also:
+//
+//	• [AnyEducation]
+//	• [CoreEducation]
+//	• [EducationID]
+//	• [ProtoEducation]
+//	• [TypeEducation]
 type Education struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
