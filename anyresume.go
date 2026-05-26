@@ -1,6 +1,9 @@
 package jsonresume
 
 import (
+	gobytes "bytes"
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
@@ -14,6 +17,22 @@ type AnyResume struct {
 	Type jsonld.Types `json:"type,omitempty"`
 
 	CoreResume
+}
+
+func (receiver AnyResume) String() string {
+	var buffer gobytes.Buffer
+
+	bytes, err := jsonld.Marshal(receiver)
+	if nil != err {
+		return "{}"
+	}
+
+	err = gojson.Indent(&buffer, bytes, "", "  ")
+	if nil != err {
+		return "{}"
+	}
+
+	return buffer.String()
 }
 
 func (receiver *AnyResume) UnmarshalJSON(bytes []byte) error {

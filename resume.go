@@ -1,6 +1,7 @@
 package jsonresume
 
 import (
+	gobytes "bytes"
 	gojson "encoding/json"
 
 	"codeberg.org/reiver/go-activitypub"
@@ -68,12 +69,19 @@ func (receiver Resume) ProtoResume() AnyResume {
 }
 
 func (receiver Resume) String() string {
-	bytes, err := gojson.MarshalIndent(receiver, "", "  ")
+	var buffer gobytes.Buffer
+
+	bytes, err := jsonld.Marshal(receiver)
 	if nil != err {
 		return "{}"
 	}
 
-	return string(bytes)
+	err = gojson.Indent(&buffer, bytes, "", "  ")
+	if nil != err {
+		return "{}"
+	}
+
+	return buffer.String()
 }
 
 //@TODO: the user should NOT unmarshal into this, but should instead unmarshal into [AnyResume]
