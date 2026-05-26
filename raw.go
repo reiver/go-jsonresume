@@ -10,9 +10,9 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
-// rawResume is used as an intermediate step in [Resume.UnmarshalJSON].
+// rawResume is used as an intermediate step in [AnyResume.UnmarshalJSON] and [Resume.UnmarshalJSON].
 //
-// The JSON for [Resume] has a number of fields:
+// The JSON for [AnyResume] and [Resume] has a number of JSON resume fields:
 //
 //	• "awards"
 //	• "basics"
@@ -27,6 +27,11 @@ import (
 //	• "skills"
 //	• "volunteer"
 //	• "work"
+//
+// As well as some ActivityPub related fields:
+//
+//	• "id"
+//	• "type"
 //
 // The original raw JSON []byte for a resume is first loaded into rawResume.
 //
@@ -46,11 +51,17 @@ import (
 //	• "volunteer"    → rawResume.Volunteer
 //	• "work"         → rawResume.Work
 //
+// And:
+//
+//	• "id"           → rawResume.ID
+//	• "type"         → rawResume.Type
+//
 // Each of these contains the raw JSON just for that field.
 //
 // This is then used in the next step that [protoSliceUnmarshalJSON] provides.
 type rawResume struct {
 	ID           gojson.RawMessage `json:"id"`
+	Type         gojson.RawMessage `json:"type"`
 	Awards       gojson.RawMessage `json:"awards"`
 	Basics       gojson.RawMessage `json:"basics"`
 	Certificates gojson.RawMessage `json:"certificates"`
@@ -66,7 +77,7 @@ type rawResume struct {
 	Work         gojson.RawMessage `json:"work"`
 }
 
-// rawSliceUnmarshalJSON is used as an intermediate step in [Resume.UnmarshalJSON].
+// rawSliceUnmarshalJSON is used as an intermediate step in [AnyResume.UnmarshalJSON] and [Resume.UnmarshalJSON].
 //
 // The JSON for [Resume] has a number of fields whose values could be JSON arrays:
 //
@@ -82,7 +93,12 @@ type rawResume struct {
 //	• "volunteer"
 //	• "work"
 //
-// rawSliceUnmarshalJSON takes a []byte that contains that (raw) JSON array, and into a []gojson.RawMessage.
+// As well as some ActivityPub related fields:
+//
+//	• "id"
+//	• "type"
+//
+// rawSliceUnmarshalJSON takes a []byte that contains that (raw) JSON array, and puts it into a []gojson.RawMessage.
 //
 // This is then used in the next step that [protoSliceUnmarshalJSON] provides.
 func rawSliceUnmarshalJSON(bytes []byte, target *[]gojson.RawMessage) error {
