@@ -3,12 +3,12 @@ module github.com/reiver/go-jsonresume
 go 1.26.1
 
 require (
-	codeberg.org/reiver/go-activitypub v0.0.0-20260526181312-bc38d08a05b0
+	codeberg.org/reiver/go-activitypub v0.0.0-20260526194611-eeba6e9e9a89
 	codeberg.org/reiver/go-erorr v0.0.0-20260414214747-7b76f85a93ac
 	codeberg.org/reiver/go-field v0.0.0-20260414030601-d901062f0b09
 	github.com/google/go-cmp v0.7.0
 	github.com/reiver/go-json v0.0.0-20260526180757-93b3b3c7827d
-	github.com/reiver/go-jsonld v0.0.0-20260526180952-5fba5707e149
+	github.com/reiver/go-jsonld v0.0.0-20260526193457-d974adc56ff7
 	github.com/reiver/go-nul v0.0.0-20260309043606-3c1893100dc2
 	github.com/reiver/go-opt v0.0.0-20260410151028-cc34d487e508
 )
