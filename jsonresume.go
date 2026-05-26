@@ -38,11 +38,10 @@ func (receiver *JSONResume) UnmarshalJSON(bytes []byte) error {
 		var bb []byte = []byte(raw.Resume)
 
 		if 0 < len(bb) {
-			protoResumeSlice, err := protoSliceUnmarshalJSON[ProtoResume, ResumeID, AnyResume](bb)
+			err := jsonld.UnmarshalJSONStringOrJSONObjectOrJSONArray[ProtoResume, ResumeID, AnyResume](bb, &receiver.Resume)
 			if nil != err {
 				return erorr.Wrap(err, "failed to json-unmarshal json-resume resume")
 			}
-			receiver.Resume = protoResumeSlice
 		}
 	}
 

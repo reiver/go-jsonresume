@@ -24,7 +24,7 @@ func TestProtoLanguageUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: ErrBytesEmpty,
+			ExpectedError: jsonld.ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -57,14 +57,14 @@ func TestProtoLanguageUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: ErrTypeUnsupported,
+			ExpectedError: jsonld.ErrJSONTypeUnsupported,
 		},
 
 		// 5: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: ErrTypeUnsupported,
+			ExpectedError: jsonld.ErrJSONTypeUnsupported,
 		},
 
 		// 6: another JSON string (IRI)
@@ -84,7 +84,8 @@ func TestProtoLanguageUnmarshalJSON(t *testing.T) {
 
 	for testNumber, test := range tests {
 
-		actual, err := protoUnmarshalJSON[ProtoLanguage, LanguageID, AnyLanguage](test.JSON)
+		var actual ProtoLanguage
+		err := jsonld.UnmarshalJSONStringOrJSONObject[ProtoLanguage, LanguageID, AnyLanguage](test.JSON, &actual)
 
 		if test.ExpectError {
 			if nil == err {
