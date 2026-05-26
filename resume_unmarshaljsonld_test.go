@@ -31,32 +31,39 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 		JSON     string
 		Expected jsonresume.Resume
 	}{
-		// 0: minimal — just type
+		{
+			JSON: `{}`,
+		},
+
+		// minimal — just type
 		{
 			JSON: `{"type":"Resume"}`,
 		},
 
-		// 1: with name (ignored — Resume has no Name field)
+		// with name (ignored — Resume has no Name field)
 		{
 			JSON: `{"type":"Resume","name":"Joe Blow"}`,
 		},
 
-		// 2: with name and summary (ignored — Resume has no Name or Summary field)
+		// with name and summary (ignored — Resume has no Name or Summary field)
 		{
 			JSON: `{"type":"Resume","name":"Joe Blow","summary":"CTO, Experienced Programmer"}`,
 		},
 
-		// 3: with name and summary null (ignored)
+		// with name and summary null (ignored)
 		{
 			JSON: `{"type":"Resume","name":"Joe Blow","summary":null}`,
 		},
 
-		// 4: with id, name, summary (name and summary ignored)
+		// with id, name, summary (name and summary ignored)
 		{
 			JSON: `{"id":"http://example.com/resume/1","type":"Resume","name":"Joe Blow","summary":"CTO"}`,
+			Expected: jsonresume.Resume{
+				ID: jsonld.SomeID("http://example.com/resume/1"),
+			},
 		},
 
-		// 5: with @context (should be ignored)
+		// with @context (should be ignored)
 		{
 			JSON: `{` +
 				`"@context":{` +
@@ -71,7 +78,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`}`,
 		},
 
-		// 6: empty collections, basics null
+		// empty collections, basics null
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -102,7 +109,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`}`,
 		},
 
-		// 7: full with id, name, summary, empty collections, @context
+		// full with id, name, summary, empty collections, @context
 		{
 			JSON: `{` +
 				`"@context":{` +
@@ -143,9 +150,12 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`,` +
 				`"work":[]` +
 				`}`,
+			Expected: jsonresume.Resume{
+				ID: jsonld.SomeID("http://example.com/resume/executive"),
+			},
 		},
 
-		// 8: with published and content (ignored — Resume has no Published or Content field)
+		// with published and content (ignored — Resume has no Published or Content field)
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -160,12 +170,12 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`}`,
 		},
 
-		// 9: name only, no type
+		// name only, no type
 		{
 			JSON: `{"name":"Alice"}`,
 		},
 
-		// 10: partial collections — only some present
+		// partial collections — only some present
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -180,12 +190,12 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`}`,
 		},
 
-		// 11: empty JSON object
+		// empty JSON object
 		{
 			JSON: `{}`,
 		},
 
-		// 12: single award as JSON object
+		// single award as JSON object
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -208,7 +218,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 			},
 		},
 
-		// 13: multiple awards as JSON objects
+		// multiple awards as JSON objects
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -239,7 +249,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 			},
 		},
 
-		// 14: award as IRI string (JSON-LD style)
+		// award as IRI string (JSON-LD style)
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -255,7 +265,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 			},
 		},
 
-		// 15: single work experience
+		// single work experience
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -278,7 +288,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 			},
 		},
 
-		// 16: single skill
+		// single skill
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -299,7 +309,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 			},
 		},
 
-		// 17: mixed — awards, skills, and work together
+		// mixed — awards, skills, and work together
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -337,7 +347,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 			},
 		},
 
-		// 18: mixed awards — one IRI string, one JSON object
+		// mixed awards — one IRI string, one JSON object
 		{
 			JSON: `{` +
 				`"type":"Resume"` +

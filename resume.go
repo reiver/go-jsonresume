@@ -90,6 +90,18 @@ func (receiver *Resume) UnmarshalJSON(bytes []byte) error {
 	}
 
 	{
+		var bb []byte = []byte(raw.ID)
+
+		if 0 < len(bb) {
+			err := jsonld.Unmarshal(bb, &receiver.ID)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal resume id")
+				return err
+			}
+		}
+	}
+
+	{
 		{
 			var bb []byte = []byte(raw.Awards)
 

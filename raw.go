@@ -50,6 +50,7 @@ import (
 //
 // This is then used in the next step that [protoSliceUnmarshalJSON] provides.
 type rawResume struct {
+	ID           gojson.RawMessage `json:"id"`
 	Awards       gojson.RawMessage `json:"awards"`
 	Basics       gojson.RawMessage `json:"basics"`
 	Certificates gojson.RawMessage `json:"certificates"`
