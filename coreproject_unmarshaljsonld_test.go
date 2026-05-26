@@ -1,8 +1,10 @@
 package jsonresume_test
 
 import (
-	"encoding/json"
 	"testing"
+
+	"github.com/reiver/go-jsonld"
+	"reflect"
 
 	"codeberg.org/reiver/go-activitypub"
 	"github.com/reiver/go-jsonresume"
@@ -70,7 +72,7 @@ func TestCoreProject_unmarshalJSONLD(t *testing.T) {
 
 		var actual jsonresume.CoreProject
 
-		err := json.Unmarshal([]byte(test.JSON), &actual)
+		err := jsonld.Unmarshal([]byte(test.JSON), &actual)
 		if nil != err {
 			t.Errorf("For test #%d, did not expect an error but actually got one.", testNumber)
 			t.Logf("ERROR: %s", err)
@@ -80,7 +82,7 @@ func TestCoreProject_unmarshalJSONLD(t *testing.T) {
 
 		expected := test.Expected
 
-		if expected != actual {
+		if !reflect.DeepEqual(expected, actual) {
 			t.Errorf("For test #%d, the actual value is not what was expected.", testNumber)
 			t.Logf("EXPECTED: %#v", expected)
 			t.Logf("ACTUAL:   %#v", actual)

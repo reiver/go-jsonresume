@@ -3,17 +3,18 @@ module github.com/reiver/go-jsonresume
 go 1.26.1
 
 require (
-	codeberg.org/reiver/go-activitypub v0.0.0-20260522192209-e4e125e9d36f
+	codeberg.org/reiver/go-activitypub v0.0.0-20260526043930-ffa8adfab967
+	codeberg.org/reiver/go-erorr v0.0.0-20260414214747-7b76f85a93ac
+	codeberg.org/reiver/go-field v0.0.0-20260414030601-d901062f0b09
+	github.com/google/go-cmp v0.7.0
 	github.com/reiver/go-json v0.0.0-20260502054102-0a3481c07116
-	github.com/reiver/go-jsonld v0.0.0-20260522055855-eb919226c068
+	github.com/reiver/go-jsonld v0.0.0-20260526011245-fdfbcd9439fc
 	github.com/reiver/go-nul v0.0.0-20260309043606-3c1893100dc2
 	github.com/reiver/go-opt v0.0.0-20260410151028-cc34d487e508
 )
 
 require (
 	codeberg.org/reiver/go-ascii v0.0.0-20250831011101-29ac37bfb987 // indirect
-	codeberg.org/reiver/go-erorr v0.0.0-20260414214747-7b76f85a93ac // indirect
-	codeberg.org/reiver/go-field v0.0.0-20260414030601-d901062f0b09 // indirect
 	github.com/reiver/go-blanknode v0.0.0-20260223080216-e52d50c68f52 // indirect
 	github.com/reiver/go-calltrace v0.0.0-20251216205616-3931a8c7b154 // indirect
 	github.com/reiver/go-erorr v0.0.0-20240801233437-8cbde6d1fa3f // indirect

@@ -127,8 +127,6 @@ type Education struct {
 	ID   jsonld.ID          `json:"id,omitempty"`
 	Type json.Const[string] `json:"type" json.value:"Education"`
 
-	activitypub.CoreEntity
-	activitypub.CoreObject
 	CoreEducation
 }
 
@@ -147,26 +145,20 @@ func (receiver Education) ProtoEntity() activitypub.AnyEntity {
 	return activitypub.AnyEntity{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
-
-		CoreEntity: receiver.CoreEntity,
 	}
 }
 
 func (receiver Education) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeEducation
 
-	var result = activitypub.AnyObject{
+	return activitypub.AnyObject{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
+		CoreObject: activitypub.CoreObject{
+			URL: receiver.URL,
+		},
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }
 
 func (receiver Education) ProtoEducation() AnyEducation {

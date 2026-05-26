@@ -1,4 +1,4 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"codeberg.org/reiver/go-activitypub"
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -17,15 +17,15 @@ func TestProtoExperienceUnmarshalJSON(t *testing.T) {
 		ExpectNil          bool
 		ExpectError        bool
 		ExpectedError      error
-		ExpectExperienceID bool
-		ExpectExperience   bool
-		Expected           jsonresume.ProtoExperience
+		ExpectExperienceID  bool
+		ExpectAnyExperience bool
+		Expected           ProtoExperience
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -38,15 +38,16 @@ func TestProtoExperienceUnmarshalJSON(t *testing.T) {
 		{
 			JSON:               []byte(`"http://example.com/resume/experience/senior-dev"`),
 			ExpectExperienceID: true,
-			Expected:           jsonresume.SomeExperienceID("http://example.com/resume/experience/senior-dev"),
+			Expected:           SomeExperienceID("http://example.com/resume/experience/senior-dev"),
 		},
 
 		// 3: JSON object → Experience (work)
 		{
 			JSON:             []byte(`{"type":"Experience","organization":"Acme Corp","startDate":"2020-01-15","endDate":"2024-12-31"}`),
-			ExpectExperience: true,
-			Expected: jsonresume.Experience{
-				CoreExperience: jsonresume.CoreExperience{
+			ExpectAnyExperience: true,
+			Expected: AnyExperience{
+				Type: jsonld.SomeType("Experience"),
+				CoreExperience: CoreExperience{
 					Organization: nul.Something("Acme Corp"),
 					StartDate:    nul.Something("2020-01-15"),
 					EndDate:      nul.Something("2024-12-31"),
@@ -57,9 +58,10 @@ func TestProtoExperienceUnmarshalJSON(t *testing.T) {
 		// 4: JSON object → Experience with position and highlights
 		{
 			JSON:             []byte(`{"type":"Experience","position":["Senior Developer"],"highlights":["Led team of 5","Shipped v2.0"]}`),
-			ExpectExperience: true,
-			Expected: jsonresume.Experience{
-				CoreExperience: jsonresume.CoreExperience{
+			ExpectAnyExperience: true,
+			Expected: AnyExperience{
+				Type: jsonld.SomeType("Experience"),
+				CoreExperience: CoreExperience{
 					Position:   activitypub.SomeStrings("Senior Developer"),
 					Highlights: activitypub.SomeStrings("Led team of 5", "Shipped v2.0"),
 				},
@@ -69,9 +71,10 @@ func TestProtoExperienceUnmarshalJSON(t *testing.T) {
 		// 5: JSON object → Experience with all fields
 		{
 			JSON:             []byte(`{"type":"Experience","organization":"Acme Corp","position":["Senior Developer"],"startDate":"2020-01-15","endDate":"2024-12-31","highlights":["Led team of 5","Shipped v2.0"]}`),
-			ExpectExperience: true,
-			Expected: jsonresume.Experience{
-				CoreExperience: jsonresume.CoreExperience{
+			ExpectAnyExperience: true,
+			Expected: AnyExperience{
+				Type: jsonld.SomeType("Experience"),
+				CoreExperience: CoreExperience{
 					Organization: nul.Something("Acme Corp"),
 					Position:     activitypub.SomeStrings("Senior Developer"),
 					StartDate:    nul.Something("2020-01-15"),
@@ -85,34 +88,34 @@ func TestProtoExperienceUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 7: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 8: another JSON string (IRI) — volunteer
 		{
 			JSON:               []byte(`"http://example.com/resume/experience/open-source-volunteer"`),
 			ExpectExperienceID: true,
-			Expected:           jsonresume.SomeExperienceID("http://example.com/resume/experience/open-source-volunteer"),
+			Expected:           SomeExperienceID("http://example.com/resume/experience/open-source-volunteer"),
 		},
 
 		// 9: minimal JSON object
 		{
 			JSON:             []byte(`{}`),
-			ExpectExperience: true,
-			Expected:         jsonresume.Experience{},
+			ExpectAnyExperience: true,
+			Expected:            AnyExperience{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoExperienceUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoExperience, ExperienceID, AnyExperience](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -157,17 +160,17 @@ func TestProtoExperienceUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectExperienceID {
-			if _, ok := actual.(jsonresume.ExperienceID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.ExperienceID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(ExperienceID); !ok {
+				t.Errorf("For test #%d, expected type ExperienceID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectExperience {
-			if _, ok := actual.(jsonresume.Experience); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Experience but actually got %T.", testNumber, actual)
+		if test.ExpectAnyExperience {
+			if _, ok := actual.(AnyExperience); !ok {
+				t.Errorf("For test #%d, expected type AnyExperience but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

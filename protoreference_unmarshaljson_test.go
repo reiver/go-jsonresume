@@ -1,11 +1,11 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
 	"reflect"
 	"testing"
 
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -16,15 +16,15 @@ func TestProtoReferenceUnmarshalJSON(t *testing.T) {
 		ExpectNil         bool
 		ExpectError       bool
 		ExpectedError     error
-		ExpectReferenceID bool
-		ExpectReference   bool
-		Expected          jsonresume.ProtoReference
+		ExpectReferenceID  bool
+		ExpectAnyReference bool
+		Expected          ProtoReference
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -37,15 +37,16 @@ func TestProtoReferenceUnmarshalJSON(t *testing.T) {
 		{
 			JSON:              []byte(`"http://example.com/resume/reference/jane-doe"`),
 			ExpectReferenceID: true,
-			Expected:          jsonresume.SomeReferenceID("http://example.com/resume/reference/jane-doe"),
+			Expected:          SomeReferenceID("http://example.com/resume/reference/jane-doe"),
 		},
 
 		// 3: JSON object → Reference
 		{
 			JSON:            []byte(`{"type":"Reference","reference":"Joe is a great worker."}`),
-			ExpectReference: true,
-			Expected: jsonresume.Reference{
-				CoreReference: jsonresume.CoreReference{
+			ExpectAnyReference: true,
+			Expected: AnyReference{
+				Type: jsonld.SomeType("Reference"),
+				CoreReference: CoreReference{
 					Reference: nul.Something("Joe is a great worker."),
 				},
 			},
@@ -55,34 +56,34 @@ func TestProtoReferenceUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 5: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 6: another JSON string (IRI)
 		{
 			JSON:              []byte(`"http://example.com/resume/reference/john-smith"`),
 			ExpectReferenceID: true,
-			Expected:          jsonresume.SomeReferenceID("http://example.com/resume/reference/john-smith"),
+			Expected:          SomeReferenceID("http://example.com/resume/reference/john-smith"),
 		},
 
 		// 7: minimal JSON object
 		{
 			JSON:            []byte(`{}`),
-			ExpectReference: true,
-			Expected:        jsonresume.Reference{},
+			ExpectAnyReference: true,
+			Expected:           AnyReference{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoReferenceUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoReference, ReferenceID, AnyReference](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -127,17 +128,17 @@ func TestProtoReferenceUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectReferenceID {
-			if _, ok := actual.(jsonresume.ReferenceID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.ReferenceID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(ReferenceID); !ok {
+				t.Errorf("For test #%d, expected type ReferenceID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectReference {
-			if _, ok := actual.(jsonresume.Reference); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Reference but actually got %T.", testNumber, actual)
+		if test.ExpectAnyReference {
+			if _, ok := actual.(AnyReference); !ok {
+				t.Errorf("For test #%d, expected type AnyReference but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

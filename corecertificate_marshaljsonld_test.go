@@ -12,12 +12,18 @@ func TestCoreCertificate_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
 		`"date":"cv:date"` +
 		`,` +
 		`"issuer":"cv:issuer"` +
+		`,` +
+		`"name":"as:name"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -33,9 +39,7 @@ func TestCoreCertificate_marshalJSONLD(t *testing.T) {
 			Expected: `{` +
 				context +
 				`,` +
-				`"date":null` +
-				`,` +
-				`"issuer":null` +
+				`"url ":[]` +
 				`}`,
 		},
 
@@ -51,6 +55,8 @@ func TestCoreCertificate_marshalJSONLD(t *testing.T) {
 				`"date":"2023-06-01"` +
 				`,` +
 				`"issuer":"Amazon"` +
+				`,` +
+				`"url ":[]` +
 				`}`,
 		},
 	}

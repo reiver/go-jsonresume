@@ -11,5 +11,6 @@ type CoreSkill struct {
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
 	Keywords activitypub.Strings  `json:"keywords"`
-	Level    nul.Nullable[string] `json:"level"`
+	Level    nul.Nullable[string] `json:"level,omitempty"`
+	Name     nul.Nullable[string] `json:"name,omitempty"     jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 }

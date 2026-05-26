@@ -14,6 +14,8 @@ func TestAnyInterest_marshalJSONLD(t *testing.T) {
 		`"as":"https://www.w3.org/ns/activitystreams"` +
 		`,` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -26,6 +28,8 @@ func TestAnyInterest_marshalJSONLD(t *testing.T) {
 		`"keywords":"cv:keywords"` +
 		`,` +
 		`"type":"cv:type"` +
+		`,` +
+		`"name":"as:name"` +
 	`}`
 
 	tests := []struct {

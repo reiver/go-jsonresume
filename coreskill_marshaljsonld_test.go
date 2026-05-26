@@ -13,12 +13,16 @@ func TestCoreSkill_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
 		`"keywords":"cv:keywords"` +
 		`,` +
 		`"level":"cv:level"` +
+		`,` +
+		`"name":"as:name"` +
 	`}`
 
 	tests := []struct {
@@ -34,8 +38,6 @@ func TestCoreSkill_marshalJSONLD(t *testing.T) {
 				context +
 				`,` +
 				`"keywords":null` +
-				`,` +
-				`"level":null` +
 				`}`,
 		},
 

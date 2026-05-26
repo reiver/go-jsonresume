@@ -9,6 +9,6 @@ type CoreLanguage struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
-	Fluency  nul.Nullable[string] `json:"fluency"`
-	Language nul.Nullable[string] `json:"language"`
+	Fluency  nul.Nullable[string] `json:"fluency,omitempty"`
+	Language nul.Nullable[string] `json:"language,omitempty"`
 }

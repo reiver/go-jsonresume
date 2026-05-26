@@ -1,4 +1,4 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"codeberg.org/reiver/go-activitypub"
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -17,15 +17,15 @@ func TestProtoEducationUnmarshalJSON(t *testing.T) {
 		ExpectNil         bool
 		ExpectError       bool
 		ExpectedError     error
-		ExpectEducationID bool
-		ExpectEducation   bool
-		Expected          jsonresume.ProtoEducation
+		ExpectEducationID  bool
+		ExpectAnyEducation bool
+		Expected          ProtoEducation
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -38,15 +38,16 @@ func TestProtoEducationUnmarshalJSON(t *testing.T) {
 		{
 			JSON:              []byte(`"http://example.com/resume/education/bs-compsci"`),
 			ExpectEducationID: true,
-			Expected:          jsonresume.SomeEducationID("http://example.com/resume/education/bs-compsci"),
+			Expected:          SomeEducationID("http://example.com/resume/education/bs-compsci"),
 		},
 
 		// 3: JSON object → Education
 		{
 			JSON:            []byte(`{"type":"Education","institution":"MIT","score":"3.8","startDate":"2010-09-01","endDate":"2014-06-15"}`),
-			ExpectEducation: true,
-			Expected: jsonresume.Education{
-				CoreEducation: jsonresume.CoreEducation{
+			ExpectAnyEducation: true,
+			Expected: AnyEducation{
+				Type: jsonld.SomeType("Education"),
+				CoreEducation: CoreEducation{
 					Institution: nul.Something("MIT"),
 					Score:       nul.Something("3.8"),
 					StartDate:   nul.Something("2010-09-01"),
@@ -58,9 +59,10 @@ func TestProtoEducationUnmarshalJSON(t *testing.T) {
 		// 4: JSON object → Education with area, studyType, courses
 		{
 			JSON:            []byte(`{"type":"Education","area":["Computer Science"],"studyType":["Bachelor"],"courses":["CS101","CS201"]}`),
-			ExpectEducation: true,
-			Expected: jsonresume.Education{
-				CoreEducation: jsonresume.CoreEducation{
+			ExpectAnyEducation: true,
+			Expected: AnyEducation{
+				Type: jsonld.SomeType("Education"),
+				CoreEducation: CoreEducation{
 					Area:      activitypub.SomeStrings("Computer Science"),
 					StudyType: activitypub.SomeStrings("Bachelor"),
 					Courses:   activitypub.SomeStrings("CS101", "CS201"),
@@ -71,9 +73,10 @@ func TestProtoEducationUnmarshalJSON(t *testing.T) {
 		// 5: JSON object → Education with all fields
 		{
 			JSON:            []byte(`{"type":"Education","institution":"MIT","area":["Computer Science"],"studyType":["Bachelor"],"startDate":"2010-09-01","endDate":"2014-06-15","score":"3.8","courses":["CS101","CS201","CS301"]}`),
-			ExpectEducation: true,
-			Expected: jsonresume.Education{
-				CoreEducation: jsonresume.CoreEducation{
+			ExpectAnyEducation: true,
+			Expected: AnyEducation{
+				Type: jsonld.SomeType("Education"),
+				CoreEducation: CoreEducation{
 					Institution: nul.Something("MIT"),
 					Area:        activitypub.SomeStrings("Computer Science"),
 					StudyType:   activitypub.SomeStrings("Bachelor"),
@@ -89,34 +92,34 @@ func TestProtoEducationUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 7: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 8: another JSON string (IRI)
 		{
 			JSON:              []byte(`"http://example.com/resume/education/ms-physics"`),
 			ExpectEducationID: true,
-			Expected:          jsonresume.SomeEducationID("http://example.com/resume/education/ms-physics"),
+			Expected:          SomeEducationID("http://example.com/resume/education/ms-physics"),
 		},
 
 		// 9: minimal JSON object
 		{
 			JSON:            []byte(`{}`),
-			ExpectEducation: true,
-			Expected:        jsonresume.Education{},
+			ExpectAnyEducation: true,
+			Expected:           AnyEducation{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoEducationUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoEducation, EducationID, AnyEducation](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -161,17 +164,17 @@ func TestProtoEducationUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectEducationID {
-			if _, ok := actual.(jsonresume.EducationID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.EducationID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(EducationID); !ok {
+				t.Errorf("For test #%d, expected type EducationID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectEducation {
-			if _, ok := actual.(jsonresume.Education); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Education but actually got %T.", testNumber, actual)
+		if test.ExpectAnyEducation {
+			if _, ok := actual.(AnyEducation); !ok {
+				t.Errorf("For test #%d, expected type AnyEducation but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

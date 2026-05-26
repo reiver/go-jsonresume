@@ -15,6 +15,8 @@ func TestAnySkill_marshalJSONLD(t *testing.T) {
 		`"as":"https://www.w3.org/ns/activitystreams"` +
 		`,` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -29,6 +31,8 @@ func TestAnySkill_marshalJSONLD(t *testing.T) {
 		`"level":"cv:level"` +
 		`,` +
 		`"type":"cv:type"` +
+		`,` +
+		`"name":"as:name"` +
 	`}`
 
 	tests := []struct {
@@ -53,8 +57,6 @@ func TestAnySkill_marshalJSONLD(t *testing.T) {
 				`"type":"Skill"` +
 				`,` +
 				`"keywords":null` +
-				`,` +
-				`"level":null` +
 				`}`,
 		},
 

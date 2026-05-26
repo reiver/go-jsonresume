@@ -1,4 +1,4 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"codeberg.org/reiver/go-activitypub"
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 )
 
 func TestProtoInterestUnmarshalJSON(t *testing.T) {
@@ -16,15 +16,15 @@ func TestProtoInterestUnmarshalJSON(t *testing.T) {
 		ExpectNil        bool
 		ExpectError      bool
 		ExpectedError    error
-		ExpectInterestID bool
-		ExpectInterest   bool
-		Expected         jsonresume.ProtoInterest
+		ExpectInterestID  bool
+		ExpectAnyInterest bool
+		Expected         ProtoInterest
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -37,15 +37,16 @@ func TestProtoInterestUnmarshalJSON(t *testing.T) {
 		{
 			JSON:             []byte(`"http://example.com/resume/interest/hiking"`),
 			ExpectInterestID: true,
-			Expected:         jsonresume.SomeInterestID("http://example.com/resume/interest/hiking"),
+			Expected:         SomeInterestID("http://example.com/resume/interest/hiking"),
 		},
 
 		// 3: JSON object → Interest
 		{
 			JSON:           []byte(`{"type":"Interest","keywords":["hiking","camping"]}`),
-			ExpectInterest: true,
-			Expected: jsonresume.Interest{
-				CoreInterest: jsonresume.CoreInterest{
+			ExpectAnyInterest: true,
+			Expected: AnyInterest{
+				Type: jsonld.SomeType("Interest"),
+				CoreInterest: CoreInterest{
 					Keywords: activitypub.SomeStrings("hiking", "camping"),
 				},
 			},
@@ -55,34 +56,34 @@ func TestProtoInterestUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 5: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 6: another JSON string (IRI)
 		{
 			JSON:             []byte(`"http://example.com/resume/interest/photography"`),
 			ExpectInterestID: true,
-			Expected:         jsonresume.SomeInterestID("http://example.com/resume/interest/photography"),
+			Expected:         SomeInterestID("http://example.com/resume/interest/photography"),
 		},
 
 		// 7: minimal JSON object
 		{
 			JSON:           []byte(`{}`),
-			ExpectInterest: true,
-			Expected:       jsonresume.Interest{},
+			ExpectAnyInterest: true,
+			Expected:          AnyInterest{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoInterestUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoInterest, InterestID, AnyInterest](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -127,17 +128,17 @@ func TestProtoInterestUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectInterestID {
-			if _, ok := actual.(jsonresume.InterestID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.InterestID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(InterestID); !ok {
+				t.Errorf("For test #%d, expected type InterestID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectInterest {
-			if _, ok := actual.(jsonresume.Interest); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Interest but actually got %T.", testNumber, actual)
+		if test.ExpectAnyInterest {
+			if _, ok := actual.(AnyInterest); !ok {
+				t.Errorf("For test #%d, expected type AnyInterest but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

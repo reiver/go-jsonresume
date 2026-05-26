@@ -12,6 +12,8 @@ func TestAnyAward_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -24,6 +26,8 @@ func TestAnyAward_marshalJSONLD(t *testing.T) {
 		`"title":"cv:title"` +
 		`,` +
 		`"type":"cv:type"` +
+		`,` +
+		`"summary":"as:summary"` +
 	`}`
 
 	tests := []struct {
@@ -44,12 +48,6 @@ func TestAnyAward_marshalJSONLD(t *testing.T) {
 				context +
 				`,` +
 				`"type":"Award"` +
-				`,` +
-				`"awarder":null` +
-				`,` +
-				`"date":null` +
-				`,` +
-				`"title":null` +
 				`}`,
 		},
 		// 1

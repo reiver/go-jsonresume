@@ -1,6 +1,7 @@
 package jsonresume
 
 import (
+	"codeberg.org/reiver/go-activitypub"
 	"github.com/reiver/go-jsonld"
 )
 
@@ -12,4 +13,37 @@ type AnyInterest struct {
 	Type jsonld.Types `json:"type,omitempty"`
 
 	CoreInterest
+}
+
+func (receiver AnyInterest) ProtoNode() activitypub.AnyNode {
+	return activitypub.AnyNode{
+		ID:   receiver.ID,
+		Type: receiver.Type,
+	}
+}
+
+func (receiver AnyInterest) ProtoEntity() activitypub.AnyEntity {
+	return activitypub.AnyEntity{
+		ID:   receiver.ID,
+		Type: receiver.Type,
+
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
+	}
+}
+
+func (receiver AnyInterest) ProtoObject() activitypub.AnyObject {
+	return activitypub.AnyObject{
+		ID:   receiver.ID,
+		Type: receiver.Type,
+
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
+	}
+}
+
+func (receiver AnyInterest) ProtoInterest() AnyInterest {
+	return receiver
 }

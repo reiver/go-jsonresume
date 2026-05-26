@@ -69,8 +69,6 @@ type Basics struct {
 	ID   jsonld.ID          `json:"id,omitempty"`
 	Type json.Const[string] `json:"type" json.value:"Basics"`
 
-	activitypub.CoreEntity
-	activitypub.CoreObject
 	CoreBasics
 }
 
@@ -90,25 +88,28 @@ func (receiver Basics) ProtoEntity() activitypub.AnyEntity {
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
 	}
 }
 
 func (receiver Basics) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeBasics
 
-	var result = activitypub.AnyObject{
+	return activitypub.AnyObject{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
+		CoreObject: activitypub.CoreObject{
+			Image:   receiver.Image,
+			Summary: receiver.Summary,
+			URL:     receiver.URL,
+		},
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }
 
 func (receiver Basics) ProtoBasics() AnyBasics {

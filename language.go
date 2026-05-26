@@ -45,8 +45,6 @@ type Language struct {
 	ID   jsonld.ID          `json:"id,omitempty"`
 	Type json.Const[string] `json:"type" json.value:"Language"`
 
-	activitypub.CoreEntity
-	activitypub.CoreObject
 	CoreLanguage
 }
 
@@ -65,26 +63,16 @@ func (receiver Language) ProtoEntity() activitypub.AnyEntity {
 	return activitypub.AnyEntity{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
-
-		CoreEntity: receiver.CoreEntity,
 	}
 }
 
 func (receiver Language) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeLanguage
 
-	var result = activitypub.AnyObject{
+	return activitypub.AnyObject{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
-
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }
 
 func (receiver Language) ProtoLanguage() AnyLanguage {

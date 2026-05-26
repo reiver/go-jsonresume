@@ -45,8 +45,6 @@ type Interest struct {
 	ID   jsonld.ID          `json:"id,omitempty"`
 	Type json.Const[string] `json:"type" json.value:"Interest"`
 
-	activitypub.CoreEntity
-	activitypub.CoreObject
 	CoreInterest
 }
 
@@ -66,25 +64,23 @@ func (receiver Interest) ProtoEntity() activitypub.AnyEntity {
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
 	}
 }
 
 func (receiver Interest) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeInterest
 
-	var result = activitypub.AnyObject{
+	return activitypub.AnyObject{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }
 
 func (receiver Interest) ProtoInterest() AnyInterest {

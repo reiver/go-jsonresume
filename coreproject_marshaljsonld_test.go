@@ -13,6 +13,8 @@ func TestCoreProject_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -29,6 +31,10 @@ func TestCoreProject_marshalJSONLD(t *testing.T) {
 		`"roles":"cv:roles"` +
 		`,` +
 		`"startDate":"cv:startDate"` +
+		`,` +
+		`"name":"as:name"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -51,10 +57,6 @@ func TestCoreProject_marshalJSONLD(t *testing.T) {
 				`,` +
 				`"description":"An ActivityPub server"` +
 				`,` +
-				`"endDate":null` +
-				`,` +
-				`"entity":null` +
-				`,` +
 				`"highlights":"federation support"` +
 				`,` +
 				`"keywords":["activitypub","go"]` +
@@ -62,6 +64,8 @@ func TestCoreProject_marshalJSONLD(t *testing.T) {
 				`"roles":"lead developer"` +
 				`,` +
 				`"startDate":"2023-01-01"` +
+				`,` +
+				`"url":[]` +
 				`}`,
 		},
 	}

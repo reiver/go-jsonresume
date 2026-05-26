@@ -45,8 +45,6 @@ type Skill struct {
 	ID   jsonld.ID          `json:"id,omitempty"`
 	Type json.Const[string] `json:"type" json.value:"Skill"`
 
-	activitypub.CoreEntity
-	activitypub.CoreObject
 	CoreSkill
 }
 
@@ -65,26 +63,16 @@ func (receiver Skill) ProtoEntity() activitypub.AnyEntity {
 	return activitypub.AnyEntity{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
-
-		CoreEntity: receiver.CoreEntity,
 	}
 }
 
 func (receiver Skill) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeSkill
 
-	var result = activitypub.AnyObject{
+	return activitypub.AnyObject{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
-
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }
 
 func (receiver Skill) ProtoSkill() AnySkill {

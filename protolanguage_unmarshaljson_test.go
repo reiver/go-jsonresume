@@ -1,11 +1,11 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
 	"reflect"
 	"testing"
 
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -16,15 +16,15 @@ func TestProtoLanguageUnmarshalJSON(t *testing.T) {
 		ExpectNil        bool
 		ExpectError      bool
 		ExpectedError    error
-		ExpectLanguageID bool
-		ExpectLanguage   bool
-		Expected         jsonresume.ProtoLanguage
+		ExpectLanguageID  bool
+		ExpectAnyLanguage bool
+		Expected         ProtoLanguage
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -37,15 +37,16 @@ func TestProtoLanguageUnmarshalJSON(t *testing.T) {
 		{
 			JSON:             []byte(`"http://example.com/resume/language/english"`),
 			ExpectLanguageID: true,
-			Expected:         jsonresume.SomeLanguageID("http://example.com/resume/language/english"),
+			Expected:         SomeLanguageID("http://example.com/resume/language/english"),
 		},
 
 		// 3: JSON object → Language
 		{
 			JSON:           []byte(`{"type":"Language","fluency":"native","language":"English"}`),
-			ExpectLanguage: true,
-			Expected: jsonresume.Language{
-				CoreLanguage: jsonresume.CoreLanguage{
+			ExpectAnyLanguage: true,
+			Expected: AnyLanguage{
+				Type: jsonld.SomeType("Language"),
+				CoreLanguage: CoreLanguage{
 					Fluency:  nul.Something("native"),
 					Language: nul.Something("English"),
 				},
@@ -56,34 +57,34 @@ func TestProtoLanguageUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 5: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 6: another JSON string (IRI)
 		{
 			JSON:             []byte(`"http://example.com/resume/language/french"`),
 			ExpectLanguageID: true,
-			Expected:         jsonresume.SomeLanguageID("http://example.com/resume/language/french"),
+			Expected:         SomeLanguageID("http://example.com/resume/language/french"),
 		},
 
 		// 7: minimal JSON object
 		{
 			JSON:           []byte(`{}`),
-			ExpectLanguage: true,
-			Expected:       jsonresume.Language{},
+			ExpectAnyLanguage: true,
+			Expected:          AnyLanguage{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoLanguageUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoLanguage, LanguageID, AnyLanguage](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -128,17 +129,17 @@ func TestProtoLanguageUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectLanguageID {
-			if _, ok := actual.(jsonresume.LanguageID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.LanguageID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(LanguageID); !ok {
+				t.Errorf("For test #%d, expected type LanguageID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectLanguage {
-			if _, ok := actual.(jsonresume.Language); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Language but actually got %T.", testNumber, actual)
+		if test.ExpectAnyLanguage {
+			if _, ok := actual.(AnyLanguage); !ok {
+				t.Errorf("For test #%d, expected type AnyLanguage but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

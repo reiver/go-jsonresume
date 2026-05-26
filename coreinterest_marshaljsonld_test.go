@@ -12,10 +12,14 @@ func TestCoreInterest_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
 		`"keywords":"cv:keywords"` +
+		`,` +
+		`"name":"as:name"` +
 	`}`
 
 	tests := []struct {

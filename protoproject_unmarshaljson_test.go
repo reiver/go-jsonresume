@@ -1,4 +1,4 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"codeberg.org/reiver/go-activitypub"
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -17,15 +17,15 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 		ExpectNil       bool
 		ExpectError     bool
 		ExpectedError   error
-		ExpectProjectID bool
-		ExpectProject   bool
-		Expected        jsonresume.ProtoProject
+		ExpectProjectID  bool
+		ExpectAnyProject bool
+		Expected        ProtoProject
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -38,15 +38,16 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 		{
 			JSON:            []byte(`"http://example.com/resume/project/cool-app"`),
 			ExpectProjectID: true,
-			Expected:        jsonresume.SomeProjectID("http://example.com/resume/project/cool-app"),
+			Expected:        SomeProjectID("http://example.com/resume/project/cool-app"),
 		},
 
 		// 3: JSON object → Project
 		{
 			JSON:          []byte(`{"type":"Project","entity":"Acme Corp","startDate":"2023-06-01","description":"A cool project."}`),
-			ExpectProject: true,
-			Expected: jsonresume.Project{
-				CoreProject: jsonresume.CoreProject{
+			ExpectAnyProject: true,
+			Expected: AnyProject{
+				Type: jsonld.SomeType("Project"),
+				CoreProject: CoreProject{
 					Entity:      nul.Something("Acme Corp"),
 					StartDate:   nul.Something("2023-06-01"),
 					Description: nul.Something("A cool project."),
@@ -57,9 +58,10 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 		// 4: JSON object → Project with highlights, keywords, roles
 		{
 			JSON:          []byte(`{"type":"Project","highlights":["Built API","Wrote docs"],"keywords":["Go","REST"],"roles":["Lead","Developer"]}`),
-			ExpectProject: true,
-			Expected: jsonresume.Project{
-				CoreProject: jsonresume.CoreProject{
+			ExpectAnyProject: true,
+			Expected: AnyProject{
+				Type: jsonld.SomeType("Project"),
+				CoreProject: CoreProject{
 					Highlights: activitypub.SomeStrings("Built API", "Wrote docs"),
 					Keywords:   activitypub.SomeStrings("Go", "REST"),
 					Roles:      activitypub.SomeStrings("Lead", "Developer"),
@@ -70,9 +72,10 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 		// 5: JSON object → Project with all fields
 		{
 			JSON:          []byte(`{"type":"Project","description":"A cool project.","entity":"Acme Corp","startDate":"2023-06-01","endDate":"2024-01-31","highlights":["Built API"],"keywords":["Go"],"roles":["Lead"]}`),
-			ExpectProject: true,
-			Expected: jsonresume.Project{
-				CoreProject: jsonresume.CoreProject{
+			ExpectAnyProject: true,
+			Expected: AnyProject{
+				Type: jsonld.SomeType("Project"),
+				CoreProject: CoreProject{
 					Description: nul.Something("A cool project."),
 					Entity:      nul.Something("Acme Corp"),
 					StartDate:   nul.Something("2023-06-01"),
@@ -88,34 +91,34 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 7: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 8: another JSON string (IRI)
 		{
 			JSON:            []byte(`"http://example.com/resume/project/side-project"`),
 			ExpectProjectID: true,
-			Expected:        jsonresume.SomeProjectID("http://example.com/resume/project/side-project"),
+			Expected:        SomeProjectID("http://example.com/resume/project/side-project"),
 		},
 
 		// 9: minimal JSON object
 		{
 			JSON:          []byte(`{}`),
-			ExpectProject: true,
-			Expected:      jsonresume.Project{},
+			ExpectAnyProject: true,
+			Expected:         AnyProject{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoProjectUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoProject, ProjectID, AnyProject](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -160,17 +163,17 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectProjectID {
-			if _, ok := actual.(jsonresume.ProjectID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.ProjectID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(ProjectID); !ok {
+				t.Errorf("For test #%d, expected type ProjectID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectProject {
-			if _, ok := actual.(jsonresume.Project); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Project but actually got %T.", testNumber, actual)
+		if test.ExpectAnyProject {
+			if _, ok := actual.(AnyProject); !ok {
+				t.Errorf("For test #%d, expected type AnyProject but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

@@ -15,6 +15,8 @@ func TestAnyExperience_marshalJSONLD(t *testing.T) {
 		`"as":"https://www.w3.org/ns/activitystreams"` +
 		`,` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -22,11 +24,15 @@ func TestAnyExperience_marshalJSONLD(t *testing.T) {
 
 		`,` +
 
+		`"description":"cv:description"` +
+		`,` +
 		`"endDate":"cv:endDate"` +
 		`,` +
 		`"highlights":"cv:highlights"` +
 		`,` +
 		`"id":"cv:id"` +
+		`,` +
+		`"location":"cv:location"` +
 		`,` +
 		`"organization":"cv:organization"` +
 		`,` +
@@ -35,6 +41,12 @@ func TestAnyExperience_marshalJSONLD(t *testing.T) {
 		`"startDate":"cv:startDate"` +
 		`,` +
 		`"type":"cv:type"` +
+		`,` +
+		`"name":"as:name"` +
+		`,` +
+		`"summary":"as:summary"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -65,15 +77,13 @@ func TestAnyExperience_marshalJSONLD(t *testing.T) {
 				`,` +
 				`"type":"Experience"` +
 				`,` +
-				`"endDate":null` +
-				`,` +
 				`"highlights":["built backend","led team"]` +
-				`,` +
-				`"organization":null` +
 				`,` +
 				`"position":"Software Engineer"` +
 				`,` +
 				`"startDate":"2020-01-01"` +
+				`,` +
+				`"url":[]` +
 				`}`,
 		},
 	}

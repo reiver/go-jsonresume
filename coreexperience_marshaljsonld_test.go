@@ -13,18 +13,30 @@ func TestCoreExperience_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
+		`"description":"cv:description"` +
+		`,` +
 		`"endDate":"cv:endDate"` +
 		`,` +
 		`"highlights":"cv:highlights"` +
+		`,` +
+		`"location":"cv:location"` +
 		`,` +
 		`"organization":"cv:organization"` +
 		`,` +
 		`"position":"cv:position"` +
 		`,` +
 		`"startDate":"cv:startDate"` +
+		`,` +
+		`"name":"as:name"` +
+		`,` +
+		`"summary":"as:summary"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -43,15 +55,13 @@ func TestCoreExperience_marshalJSONLD(t *testing.T) {
 			Expected: `{` +
 				context +
 				`,` +
-				`"endDate":null` +
-				`,` +
 				`"highlights":["built backend","led team"]` +
-				`,` +
-				`"organization":null` +
 				`,` +
 				`"position":"Software Engineer"` +
 				`,` +
 				`"startDate":"2020-01-01"` +
+				`,` +
+				`"url":[]` +
 				`}`,
 		},
 	}

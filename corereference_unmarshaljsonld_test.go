@@ -1,7 +1,7 @@
 package jsonresume_test
 
 import (
-	"encoding/json"
+	"github.com/reiver/go-jsonld"
 	"testing"
 
 	"github.com/reiver/go-jsonresume"
@@ -39,7 +39,7 @@ func TestCoreReference_unmarshalJSONLD(t *testing.T) {
 
 		var actual jsonresume.CoreReference
 
-		err := json.Unmarshal([]byte(test.JSON), &actual)
+		err := jsonld.Unmarshal([]byte(test.JSON), &actual)
 		if nil != err {
 			t.Errorf("For test #%d, did not expect an error but actually got one.", testNumber)
 			t.Logf("ERROR: %s", err)

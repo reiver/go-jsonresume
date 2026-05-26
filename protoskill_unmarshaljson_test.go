@@ -1,4 +1,4 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"codeberg.org/reiver/go-activitypub"
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -17,15 +17,15 @@ func TestProtoSkillUnmarshalJSON(t *testing.T) {
 		ExpectNil     bool
 		ExpectError   bool
 		ExpectedError error
-		ExpectSkillID bool
-		ExpectSkill   bool
-		Expected      jsonresume.ProtoSkill
+		ExpectSkillID  bool
+		ExpectAnySkill bool
+		Expected      ProtoSkill
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -38,15 +38,16 @@ func TestProtoSkillUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`"http://example.com/resume/skill/go"`),
 			ExpectSkillID: true,
-			Expected:      jsonresume.SomeSkillID("http://example.com/resume/skill/go"),
+			Expected:      SomeSkillID("http://example.com/resume/skill/go"),
 		},
 
 		// 3: JSON object → Skill with level
 		{
 			JSON:        []byte(`{"type":"Skill","level":"advanced"}`),
-			ExpectSkill: true,
-			Expected: jsonresume.Skill{
-				CoreSkill: jsonresume.CoreSkill{
+			ExpectAnySkill: true,
+			Expected: AnySkill{
+				Type: jsonld.SomeType("Skill"),
+				CoreSkill: CoreSkill{
 					Level: nul.Something("advanced"),
 				},
 			},
@@ -55,9 +56,10 @@ func TestProtoSkillUnmarshalJSON(t *testing.T) {
 		// 4: JSON object → Skill with keywords
 		{
 			JSON:        []byte(`{"type":"Skill","keywords":["goroutines","channels","testing"]}`),
-			ExpectSkill: true,
-			Expected: jsonresume.Skill{
-				CoreSkill: jsonresume.CoreSkill{
+			ExpectAnySkill: true,
+			Expected: AnySkill{
+				Type: jsonld.SomeType("Skill"),
+				CoreSkill: CoreSkill{
 					Keywords: activitypub.SomeStrings("goroutines", "channels", "testing"),
 				},
 			},
@@ -66,9 +68,10 @@ func TestProtoSkillUnmarshalJSON(t *testing.T) {
 		// 5: JSON object → Skill with level and keywords
 		{
 			JSON:        []byte(`{"type":"Skill","level":"expert","keywords":["REST","GraphQL"]}`),
-			ExpectSkill: true,
-			Expected: jsonresume.Skill{
-				CoreSkill: jsonresume.CoreSkill{
+			ExpectAnySkill: true,
+			Expected: AnySkill{
+				Type: jsonld.SomeType("Skill"),
+				CoreSkill: CoreSkill{
 					Level:    nul.Something("expert"),
 					Keywords: activitypub.SomeStrings("REST", "GraphQL"),
 				},
@@ -79,34 +82,34 @@ func TestProtoSkillUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 7: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 8: another JSON string (IRI)
 		{
 			JSON:          []byte(`"http://example.com/resume/skill/rust"`),
 			ExpectSkillID: true,
-			Expected:      jsonresume.SomeSkillID("http://example.com/resume/skill/rust"),
+			Expected:      SomeSkillID("http://example.com/resume/skill/rust"),
 		},
 
 		// 9: minimal JSON object
 		{
 			JSON:        []byte(`{}`),
-			ExpectSkill: true,
-			Expected:    jsonresume.Skill{},
+			ExpectAnySkill: true,
+			Expected:       AnySkill{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoSkillUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoSkill, SkillID, AnySkill](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -151,17 +154,17 @@ func TestProtoSkillUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectSkillID {
-			if _, ok := actual.(jsonresume.SkillID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.SkillID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(SkillID); !ok {
+				t.Errorf("For test #%d, expected type SkillID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectSkill {
-			if _, ok := actual.(jsonresume.Skill); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Skill but actually got %T.", testNumber, actual)
+		if test.ExpectAnySkill {
+			if _, ok := actual.(AnySkill); !ok {
+				t.Errorf("For test #%d, expected type AnySkill but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

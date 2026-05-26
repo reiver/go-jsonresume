@@ -15,6 +15,8 @@ func TestAnyPublication_marshalJSONLD(t *testing.T) {
 		`"as":"https://www.w3.org/ns/activitystreams"` +
 		`,` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -29,6 +31,12 @@ func TestAnyPublication_marshalJSONLD(t *testing.T) {
 		`"releaseDate":"cv:releaseDate"` +
 		`,` +
 		`"type":"cv:type"` +
+		`,` +
+		`"name":"as:name"` +
+		`,` +
+		`"summary":"as:summary"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -59,6 +67,8 @@ func TestAnyPublication_marshalJSONLD(t *testing.T) {
 				`"publisher":"O'Reilly"` +
 				`,` +
 				`"releaseDate":"2022-03-15"` +
+				`,` +
+				`"url":[]` +
 				`}`,
 		},
 	}

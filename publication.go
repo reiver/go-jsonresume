@@ -57,8 +57,6 @@ type Publication struct {
 	ID   jsonld.ID          `json:"id,omitempty"`
 	Type json.Const[string] `json:"type" json.value:"Publication"`
 
-	activitypub.CoreEntity
-	activitypub.CoreObject
 	CorePublication
 }
 
@@ -78,25 +76,27 @@ func (receiver Publication) ProtoEntity() activitypub.AnyEntity {
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
 	}
 }
 
 func (receiver Publication) ProtoObject() activitypub.AnyObject {
 	const _type string = TypePublication
 
-	var result = activitypub.AnyObject{
+	return activitypub.AnyObject{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
 
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
+		CoreObject: activitypub.CoreObject{
+			Summary: receiver.Summary,
+			URL:     receiver.URL,
+		},
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }
 
 func (receiver Publication) ProtoPublication() AnyPublication {

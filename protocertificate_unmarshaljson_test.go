@@ -1,11 +1,11 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
 	"reflect"
 	"testing"
 
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -16,15 +16,15 @@ func TestProtoCertificateUnmarshalJSON(t *testing.T) {
 		ExpectNil           bool
 		ExpectError         bool
 		ExpectedError       error
-		ExpectCertificateID bool
-		ExpectCertificate   bool
-		Expected            jsonresume.ProtoCertificate
+		ExpectCertificateID  bool
+		ExpectAnyCertificate bool
+		Expected            ProtoCertificate
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -37,15 +37,16 @@ func TestProtoCertificateUnmarshalJSON(t *testing.T) {
 		{
 			JSON:                []byte(`"http://example.com/resume/certificate/aws-solutions-architect"`),
 			ExpectCertificateID: true,
-			Expected:            jsonresume.SomeCertificateID("http://example.com/resume/certificate/aws-solutions-architect"),
+			Expected:            SomeCertificateID("http://example.com/resume/certificate/aws-solutions-architect"),
 		},
 
-		// 3: JSON object → Certificate
+		// 3: JSON object → AnyCertificate
 		{
 			JSON:              []byte(`{"type":"Certificate","date":"2023-03-15","issuer":"Amazon Web Services"}`),
-			ExpectCertificate: true,
-			Expected: jsonresume.Certificate{
-				CoreCertificate: jsonresume.CoreCertificate{
+			ExpectAnyCertificate: true,
+			Expected: AnyCertificate{
+				Type: jsonld.SomeType("Certificate"),
+				CoreCertificate: CoreCertificate{
 					Date:   nul.Something("2023-03-15"),
 					Issuer: nul.Something("Amazon Web Services"),
 				},
@@ -56,34 +57,34 @@ func TestProtoCertificateUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 5: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 6: another JSON string (IRI)
 		{
 			JSON:                []byte(`"http://example.com/resume/certificate/cka"`),
 			ExpectCertificateID: true,
-			Expected:            jsonresume.SomeCertificateID("http://example.com/resume/certificate/cka"),
+			Expected:            SomeCertificateID("http://example.com/resume/certificate/cka"),
 		},
 
 		// 7: minimal JSON object
 		{
 			JSON:              []byte(`{}`),
-			ExpectCertificate: true,
-			Expected:          jsonresume.Certificate{},
+			ExpectAnyCertificate: true,
+			Expected:             AnyCertificate{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoCertificateUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoCertificate, CertificateID, AnyCertificate](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -128,17 +129,17 @@ func TestProtoCertificateUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectCertificateID {
-			if _, ok := actual.(jsonresume.CertificateID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.CertificateID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(CertificateID); !ok {
+				t.Errorf("For test #%d, expected type CertificateID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectCertificate {
-			if _, ok := actual.(jsonresume.Certificate); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Certificate but actually got %T.", testNumber, actual)
+		if test.ExpectAnyCertificate {
+			if _, ok := actual.(AnyCertificate); !ok {
+				t.Errorf("For test #%d, expected type AnyCertificate but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

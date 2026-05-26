@@ -15,6 +15,8 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 		`"as":"https://www.w3.org/ns/activitystreams"` +
 		`,` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -39,6 +41,10 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 		`"startDate":"cv:startDate"` +
 		`,` +
 		`"type":"cv:type"` +
+		`,` +
+		`"name":"as:name"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -73,10 +79,6 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 				`,` +
 				`"description":"An ActivityPub server"` +
 				`,` +
-				`"endDate":null` +
-				`,` +
-				`"entity":null` +
-				`,` +
 				`"highlights":"federation support"` +
 				`,` +
 				`"keywords":["activitypub","go"]` +
@@ -84,6 +86,8 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 				`"roles":"lead developer"` +
 				`,` +
 				`"startDate":"2023-01-01"` +
+				`,` +
+				`"url":[]` +
 				`}`,
 		},
 	}

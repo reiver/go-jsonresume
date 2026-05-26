@@ -12,6 +12,8 @@ func TestAnyProfile_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -22,6 +24,8 @@ func TestAnyProfile_marshalJSONLD(t *testing.T) {
 		`"type":"cv:type"` +
 		`,` +
 		`"username":"cv:username"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -48,6 +52,8 @@ func TestAnyProfile_marshalJSONLD(t *testing.T) {
 				`"network":"Mastodon"` +
 				`,` +
 				`"username":"@joe@example.com"` +
+				`,` +
+				`"url":[]` +
 				`}`,
 		},
 	}

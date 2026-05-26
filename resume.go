@@ -1,7 +1,10 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
 )
@@ -13,8 +16,6 @@ type Resume struct {
 	ID   jsonld.ID          `json:"id,omitempty"`
 	Type json.Const[string] `json:"type" json.value:"Resume"`
 
-	activitypub.CoreEntity
-	activitypub.CoreObject
 	CoreResume
 }
 
@@ -33,26 +34,16 @@ func (receiver Resume) ProtoEntity() activitypub.AnyEntity {
 	return activitypub.AnyEntity{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
-
-		CoreEntity: receiver.CoreEntity,
 	}
 }
 
 func (receiver Resume) ProtoObject() activitypub.AnyObject {
 	const _type string = TypeResume
 
-	var result = activitypub.AnyObject{
+	return activitypub.AnyObject{
 		ID:   receiver.ID,
 		Type: jsonld.SomeType(_type),
-
-		CoreEntity: receiver.CoreEntity,
-		CoreObject: receiver.CoreObject,
 	}
-
-	result.Attachments = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Attachments...)
-	result.Tags = append([]activitypub.ProtoObjectOrProtoLink(nil), receiver.Tags...)
-
-	return result
 }
 
 func (receiver Resume) ProtoResume() AnyResume {
@@ -64,4 +55,191 @@ func (receiver Resume) ProtoResume() AnyResume {
 
 		CoreResume: receiver.CoreResume,
 	}
+}
+
+func (receiver Resume) String() string {
+	bytes, err := gojson.MarshalIndent(receiver, "", "  ")
+	if nil != err {
+		return "{}"
+	}
+
+	return string(bytes)
+}
+
+//@TODO: the user should NOT unmarshal into this, but should instead unmarshal into [AnyResume]
+func (receiver *Resume) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawResume
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal resume")
+		return err
+	}
+
+	{
+		{
+			var bb []byte = []byte(raw.Awards)
+
+			if 0 < len(bb) {
+				protoAwardSlice, err := protoSliceUnmarshalJSON[ProtoAward, AwardID, AnyAward](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume awards")
+					return err
+				}
+				receiver.Awards       = protoAwardSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Basics)
+
+			if 0 < len(bb) {
+				protoBasics, err := protoUnmarshalJSON[ProtoBasics, BasicsID, AnyBasics](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume basics")
+					return err
+				}
+				receiver.Basics       = protoBasics
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Certificates)
+
+			if 0 < len(bb) {
+				protoCertificateSlice, err := protoSliceUnmarshalJSON[ProtoCertificate, CertificateID, AnyCertificate](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume certificates")
+					return err
+				}
+				receiver.Certificates = protoCertificateSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Education)
+
+			if 0 < len(bb) {
+				protoEducationSlice, err := protoSliceUnmarshalJSON[ProtoEducation, EducationID, AnyEducation](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume education")
+					return err
+				}
+				receiver.Education    = protoEducationSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Interests)
+
+			if 0 < len(bb) {
+				protoInterestSlice, err := protoSliceUnmarshalJSON[ProtoInterest, InterestID, AnyInterest](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume interests")
+					return err
+				}
+				receiver.Interests    = protoInterestSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Languages)
+
+			if 0 < len(bb) {
+				protoLanguageSlice, err := protoSliceUnmarshalJSON[ProtoLanguage, LanguageID, AnyLanguage](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume languages")
+					return err
+				}
+				receiver.Languages    = protoLanguageSlice
+			}
+		}
+
+			
+//@TODO: Name
+			
+
+		{
+			var bb []byte = []byte(raw.Projects)
+
+			if 0 < len(bb) {
+				protoProjectSlice, err := protoSliceUnmarshalJSON[ProtoProject, ProjectID, AnyProject](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume projects")
+					return err
+				}
+				receiver.Projects     = protoProjectSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Publications)
+
+			if 0 < len(bb) {
+				protoPublicationSlice, err := protoSliceUnmarshalJSON[ProtoPublication, PublicationID, AnyPublication](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume publications")
+					return err
+				}
+				receiver.Publications = protoPublicationSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.References)
+
+			if 0 < len(bb) {
+				protoReferenceSlice, err := protoSliceUnmarshalJSON[ProtoReference, ReferenceID, AnyReference](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume references")
+					return err
+				}
+				receiver.References   = protoReferenceSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Skills)
+
+			if 0 < len(bb) {
+				protoSkillSlice, err := protoSliceUnmarshalJSON[ProtoSkill, SkillID, AnySkill](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume skills")
+					return err
+				}
+				receiver.Skills       = protoSkillSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Volunteer)
+
+			if 0 < len(bb) {
+				protoVolunteerSlice, err := protoSliceUnmarshalJSON[ProtoExperience, ExperienceID, AnyExperience](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume volunteer")
+					return err
+				}
+				receiver.Volunteer    = protoVolunteerSlice
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Work)
+
+			if 0 < len(bb) {
+				protoWorkSlice, err := protoSliceUnmarshalJSON[ProtoExperience, ExperienceID, AnyExperience](bb)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume work")
+					return err
+				}
+				receiver.Work         = protoWorkSlice
+			}
+		}
+	}
+
+	return nil
 }

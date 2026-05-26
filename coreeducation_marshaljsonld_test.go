@@ -13,6 +13,8 @@ func TestCoreEducation_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -29,6 +31,8 @@ func TestCoreEducation_marshalJSONLD(t *testing.T) {
 		`"startDate":"cv:startDate"` +
 		`,` +
 		`"studyType":"cv:studyType"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -61,6 +65,8 @@ func TestCoreEducation_marshalJSONLD(t *testing.T) {
 				`"startDate":"2010-09-01"` +
 				`,` +
 				`"studyType":"Bachelor"` +
+				`,` +
+				`"url":[]` +
 				`}`,
 		},
 	}

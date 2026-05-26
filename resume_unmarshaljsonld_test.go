@@ -3,7 +3,9 @@ package jsonresume_test
 import (
 	"testing"
 
-	"github.com/reiver/go-json"
+	"codeberg.org/reiver/go-activitypub"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-jsonresume"
 	"github.com/reiver/go-nul"
@@ -12,146 +14,46 @@ import (
 
 func TestResume_unmarshalJSONLD(t *testing.T) {
 
+	cmpOpts := cmp.Options{
+		cmpopts.EquateComparable(
+			jsonld.ID{},
+			opt.Optional[string]{},
+			nul.Nullable[string]{},
+			activitypub.Strings{},
+			jsonresume.AwardID{},
+			jsonresume.ExperienceID{},
+			jsonresume.SkillID{},
+			jsonld.Types{},
+		),
+	}
+
 	tests := []struct {
-		JSON string
-
-		ExpectedID        jsonld.ID
-		ExpectedName      opt.Optional[string]
-		ExpectedSummary   nul.Nullable[string]
-		ExpectedPublished opt.Optional[string]
-		ExpectedContent   opt.Optional[string]
-
-		ExpectedAwardsLen       int
-		ExpectedCertificatesLen int
-		ExpectedEducationLen    int
-		ExpectedInterestsLen    int
-		ExpectedLanguagesLen    int
-		ExpectedProjectsLen     int
-		ExpectedPublicationsLen int
-		ExpectedReferencesLen   int
-		ExpectedSkillsLen       int
-		ExpectedVolunteerLen    int
-		ExpectedWorkLen         int
-
-		ExpectedBasicsNil bool
-
-		ExpectedAwardsNil       bool
-		ExpectedCertificatesNil bool
-		ExpectedEducationNil    bool
-		ExpectedInterestsNil    bool
-		ExpectedLanguagesNil    bool
-		ExpectedProjectsNil     bool
-		ExpectedPublicationsNil bool
-		ExpectedReferencesNil   bool
-		ExpectedSkillsNil       bool
-		ExpectedVolunteerNil    bool
-		ExpectedWorkNil         bool
+		JSON     string
+		Expected jsonresume.Resume
 	}{
 		// 0: minimal — just type
 		{
 			JSON: `{"type":"Resume"}`,
-
-			ExpectedBasicsNil: true,
-
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
 		},
 
-		// 1: with name
+		// 1: with name (ignored — Resume has no Name field)
 		{
 			JSON: `{"type":"Resume","name":"Joe Blow"}`,
-
-			ExpectedName: opt.Something("Joe Blow"),
-
-			ExpectedBasicsNil: true,
-
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
 		},
 
-		// 2: with name and summary
+		// 2: with name and summary (ignored — Resume has no Name or Summary field)
 		{
 			JSON: `{"type":"Resume","name":"Joe Blow","summary":"CTO, Experienced Programmer"}`,
-
-			ExpectedName:    opt.Something("Joe Blow"),
-			ExpectedSummary: nul.Something("CTO, Experienced Programmer"),
-
-			ExpectedBasicsNil: true,
-
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
 		},
 
-		// 3: with name and summary null
+		// 3: with name and summary null (ignored)
 		{
 			JSON: `{"type":"Resume","name":"Joe Blow","summary":null}`,
-
-			ExpectedName:    opt.Something("Joe Blow"),
-			ExpectedSummary: nul.Null[string](),
-
-			ExpectedBasicsNil: true,
-
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
 		},
 
-		// 4: with id, name, summary
+		// 4: with id, name, summary (name and summary ignored)
 		{
 			JSON: `{"id":"http://example.com/resume/1","type":"Resume","name":"Joe Blow","summary":"CTO"}`,
-
-			ExpectedID:      jsonld.SomeID("http://example.com/resume/1"),
-			ExpectedName:    opt.Something("Joe Blow"),
-			ExpectedSummary: nul.Something("CTO"),
-
-			ExpectedBasicsNil: true,
-
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
 		},
 
 		// 5: with @context (should be ignored)
@@ -167,22 +69,6 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`,` +
 				`"name":"Joe Blow"` +
 				`}`,
-
-			ExpectedName: opt.Something("Joe Blow"),
-
-			ExpectedBasicsNil: true,
-
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
 		},
 
 		// 6: empty collections, basics null
@@ -214,8 +100,6 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`,` +
 				`"work":[]` +
 				`}`,
-
-			ExpectedBasicsNil: true,
 		},
 
 		// 7: full with id, name, summary, empty collections, @context
@@ -259,15 +143,9 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`,` +
 				`"work":[]` +
 				`}`,
-
-			ExpectedID:      jsonld.SomeID("http://example.com/resume/executive"),
-			ExpectedName:    opt.Something("Jane Doe"),
-			ExpectedSummary: nul.Something("Senior Software Engineer"),
-
-			ExpectedBasicsNil: true,
 		},
 
-		// 8: with published and content (CoreObject fields)
+		// 8: with published and content (ignored — Resume has no Published or Content field)
 		{
 			JSON: `{` +
 				`"type":"Resume"` +
@@ -280,46 +158,11 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`,` +
 				`"content":"Full resume content here."` +
 				`}`,
-
-			ExpectedName:      opt.Something("Joe Blow"),
-			ExpectedSummary:   nul.Something("CTO"),
-			ExpectedPublished: opt.Something("2024-01-15"),
-			ExpectedContent:   opt.Something("Full resume content here."),
-
-			ExpectedBasicsNil: true,
-
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
 		},
 
-		// 9: name only, no type (type is Const so always set)
+		// 9: name only, no type
 		{
 			JSON: `{"name":"Alice"}`,
-
-			ExpectedName: opt.Something("Alice"),
-
-			ExpectedBasicsNil: true,
-
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
 		},
 
 		// 10: partial collections — only some present
@@ -335,38 +178,189 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 				`,` +
 				`"work":[]` +
 				`}`,
-
-			ExpectedName: opt.Something("Bob"),
-
-			ExpectedBasicsNil: true,
-
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedVolunteerNil:    true,
 		},
 
 		// 11: empty JSON object
 		{
 			JSON: `{}`,
+		},
 
-			ExpectedBasicsNil: true,
+		// 12: single award as JSON object
+		{
+			JSON: `{` +
+				`"type":"Resume"` +
+				`,` +
+				`"awards":[{"title":"Best Employee (2024)","date":"2024-05-21","awarder":"SuperCo","summary":"He did good work."}]` +
+				`}`,
+			Expected: jsonresume.Resume{
+				CoreResume: jsonresume.CoreResume{
+					Awards: []jsonresume.ProtoAward{
+						jsonresume.AnyAward{
+							CoreAward: jsonresume.CoreAward{
+								Title:   nul.Something("Best Employee (2024)"),
+								Date:    nul.Something("2024-05-21"),
+								Awarder: nul.Something("SuperCo"),
+								Summary: nul.Something("He did good work."),
+							},
+						},
+					},
+				},
+			},
+		},
 
-			ExpectedAwardsNil:       true,
-			ExpectedCertificatesNil: true,
-			ExpectedEducationNil:    true,
-			ExpectedInterestsNil:    true,
-			ExpectedLanguagesNil:    true,
-			ExpectedProjectsNil:     true,
-			ExpectedPublicationsNil: true,
-			ExpectedReferencesNil:   true,
-			ExpectedSkillsNil:       true,
-			ExpectedVolunteerNil:    true,
-			ExpectedWorkNil:         true,
+		// 13: multiple awards as JSON objects
+		{
+			JSON: `{` +
+				`"type":"Resume"` +
+				`,` +
+				`"awards":[` +
+				`{"title":"Best Employee (2024)","awarder":"SuperCo"}` +
+				`,` +
+				`{"title":"Innovation Prize","awarder":"Acme"}` +
+				`]` +
+				`}`,
+			Expected: jsonresume.Resume{
+				CoreResume: jsonresume.CoreResume{
+					Awards: []jsonresume.ProtoAward{
+						jsonresume.AnyAward{
+							CoreAward: jsonresume.CoreAward{
+								Title:   nul.Something("Best Employee (2024)"),
+								Awarder: nul.Something("SuperCo"),
+							},
+						},
+						jsonresume.AnyAward{
+							CoreAward: jsonresume.CoreAward{
+								Title:   nul.Something("Innovation Prize"),
+								Awarder: nul.Something("Acme"),
+							},
+						},
+					},
+				},
+			},
+		},
+
+		// 14: award as IRI string (JSON-LD style)
+		{
+			JSON: `{` +
+				`"type":"Resume"` +
+				`,` +
+				`"awards":["http://example.com/resume/award/best-employee-2024"]` +
+				`}`,
+			Expected: jsonresume.Resume{
+				CoreResume: jsonresume.CoreResume{
+					Awards: []jsonresume.ProtoAward{
+						jsonresume.SomeAwardID("http://example.com/resume/award/best-employee-2024"),
+					},
+				},
+			},
+		},
+
+		// 15: single work experience
+		{
+			JSON: `{` +
+				`"type":"Resume"` +
+				`,` +
+				`"work":[{"name":"SuperCo","position":"CTO","startDate":"2024-01-01","summary":"Technical leadership."}]` +
+				`}`,
+			Expected: jsonresume.Resume{
+				CoreResume: jsonresume.CoreResume{
+					Work: []jsonresume.ProtoExperience{
+						jsonresume.AnyExperience{
+							CoreExperience: jsonresume.CoreExperience{
+								Name:      nul.Something("SuperCo"),
+								Position:  activitypub.SomeStrings("CTO"),
+								StartDate: nul.Something("2024-01-01"),
+								Summary:   nul.Something("Technical leadership."),
+							},
+						},
+					},
+				},
+			},
+		},
+
+		// 16: single skill
+		{
+			JSON: `{` +
+				`"type":"Resume"` +
+				`,` +
+				`"skills":[{"name":"Go","level":"advanced"}]` +
+				`}`,
+			Expected: jsonresume.Resume{
+				CoreResume: jsonresume.CoreResume{
+					Skills: []jsonresume.ProtoSkill{
+						jsonresume.AnySkill{
+							CoreSkill: jsonresume.CoreSkill{
+								Name:  nul.Something("Go"),
+								Level: nul.Something("advanced"),
+							},
+						},
+					},
+				},
+			},
+		},
+
+		// 17: mixed — awards, skills, and work together
+		{
+			JSON: `{` +
+				`"type":"Resume"` +
+				`,` +
+				`"awards":[{"title":"Best Employee"}]` +
+				`,` +
+				`"skills":[{"name":"Go"}]` +
+				`,` +
+				`"work":[{"name":"SuperCo"}]` +
+				`}`,
+			Expected: jsonresume.Resume{
+				CoreResume: jsonresume.CoreResume{
+					Awards: []jsonresume.ProtoAward{
+						jsonresume.AnyAward{
+							CoreAward: jsonresume.CoreAward{
+								Title: nul.Something("Best Employee"),
+							},
+						},
+					},
+					Skills: []jsonresume.ProtoSkill{
+						jsonresume.AnySkill{
+							CoreSkill: jsonresume.CoreSkill{
+								Name: nul.Something("Go"),
+							},
+						},
+					},
+					Work: []jsonresume.ProtoExperience{
+						jsonresume.AnyExperience{
+							CoreExperience: jsonresume.CoreExperience{
+								Name: nul.Something("SuperCo"),
+							},
+						},
+					},
+				},
+			},
+		},
+
+		// 18: mixed awards — one IRI string, one JSON object
+		{
+			JSON: `{` +
+				`"type":"Resume"` +
+				`,` +
+				`"awards":[` +
+				`"http://example.com/resume/award/innovation-prize"` +
+				`,` +
+				`{"title":"Best Employee","awarder":"SuperCo"}` +
+				`]` +
+				`}`,
+			Expected: jsonresume.Resume{
+				CoreResume: jsonresume.CoreResume{
+					Awards: []jsonresume.ProtoAward{
+						jsonresume.SomeAwardID("http://example.com/resume/award/innovation-prize"),
+						jsonresume.AnyAward{
+							CoreAward: jsonresume.CoreAward{
+								Title:   nul.Something("Best Employee"),
+								Awarder: nul.Something("SuperCo"),
+							},
+						},
+					},
+				},
+			},
 		},
 	}
 
@@ -374,7 +368,7 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 
 		var actual jsonresume.Resume
 
-		err := json.Unmarshal([]byte(test.JSON), &actual)
+		err := jsonld.Unmarshal([]byte(test.JSON), &actual)
 		if nil != err {
 			t.Errorf("For test #%d, did not expect an error but actually got one.", testNumber)
 			t.Logf("ERROR: %s", err)
@@ -382,118 +376,10 @@ func TestResume_unmarshalJSONLD(t *testing.T) {
 			continue
 		}
 
-		{
-			expected := test.ExpectedID
-			actual := actual.ID
-			if expected != actual {
-				t.Errorf("For test #%d, ID is not what was expected.", testNumber)
-				t.Logf("EXPECTED: %#v", expected)
-				t.Logf("ACTUAL:   %#v", actual)
-				t.Logf("JSON:\n%s", test.JSON)
-				continue
-			}
-		}
-
-		{
-			expected := test.ExpectedName
-			actual := actual.Name
-			if expected != actual {
-				t.Errorf("For test #%d, Name is not what was expected.", testNumber)
-				t.Logf("EXPECTED: %#v", expected)
-				t.Logf("ACTUAL:   %#v", actual)
-				t.Logf("JSON:\n%s", test.JSON)
-				continue
-			}
-		}
-
-		{
-			expected := test.ExpectedSummary
-			actual := actual.Summary
-			if expected != actual {
-				t.Errorf("For test #%d, Summary is not what was expected.", testNumber)
-				t.Logf("EXPECTED: %#v", expected)
-				t.Logf("ACTUAL:   %#v", actual)
-				t.Logf("JSON:\n%s", test.JSON)
-				continue
-			}
-		}
-
-		{
-			expected := test.ExpectedPublished
-			actual := actual.Published
-			if expected != actual {
-				t.Errorf("For test #%d, Published is not what was expected.", testNumber)
-				t.Logf("EXPECTED: %#v", expected)
-				t.Logf("ACTUAL:   %#v", actual)
-				t.Logf("JSON:\n%s", test.JSON)
-				continue
-			}
-		}
-
-		{
-			expected := test.ExpectedContent
-			actual := actual.Content
-			if expected != actual {
-				t.Errorf("For test #%d, Content is not what was expected.", testNumber)
-				t.Logf("EXPECTED: %#v", expected)
-				t.Logf("ACTUAL:   %#v", actual)
-				t.Logf("JSON:\n%s", test.JSON)
-				continue
-			}
-		}
-
-		{
-			expected := test.ExpectedBasicsNil
-			actual := actual.Basics == nil
-			if expected != actual {
-				t.Errorf("For test #%d, Basics nil is not what was expected.", testNumber)
-				t.Logf("EXPECTED nil: %v", expected)
-				t.Logf("ACTUAL nil:   %v", actual)
-				t.Logf("JSON:\n%s", test.JSON)
-				continue
-			}
-		}
-
-		// Check collection lengths and nil-ness.
-		{
-			type collectionCheck struct {
-				Name        string
-				ActualLen   int
-				ActualNil   bool
-				ExpectedLen int
-				ExpectedNil bool
-			}
-
-			checks := []collectionCheck{
-				{"Awards",       len(actual.Awards),       actual.Awards == nil,       test.ExpectedAwardsLen,       test.ExpectedAwardsNil},
-				{"Certificates", len(actual.Certificates), actual.Certificates == nil, test.ExpectedCertificatesLen, test.ExpectedCertificatesNil},
-				{"Education",    len(actual.Education),    actual.Education == nil,    test.ExpectedEducationLen,    test.ExpectedEducationNil},
-				{"Interests",    len(actual.Interests),    actual.Interests == nil,    test.ExpectedInterestsLen,    test.ExpectedInterestsNil},
-				{"Languages",    len(actual.Languages),    actual.Languages == nil,    test.ExpectedLanguagesLen,    test.ExpectedLanguagesNil},
-				{"Projects",     len(actual.Projects),     actual.Projects == nil,     test.ExpectedProjectsLen,     test.ExpectedProjectsNil},
-				{"Publications", len(actual.Publications), actual.Publications == nil, test.ExpectedPublicationsLen, test.ExpectedPublicationsNil},
-				{"References",   len(actual.References),   actual.References == nil,   test.ExpectedReferencesLen,   test.ExpectedReferencesNil},
-				{"Skills",       len(actual.Skills),       actual.Skills == nil,       test.ExpectedSkillsLen,       test.ExpectedSkillsNil},
-				{"Volunteer",    len(actual.Volunteer),     actual.Volunteer == nil,    test.ExpectedVolunteerLen,    test.ExpectedVolunteerNil},
-				{"Work",         len(actual.Work),          actual.Work == nil,         test.ExpectedWorkLen,         test.ExpectedWorkNil},
-			}
-
-			for _, check := range checks {
-				if check.ExpectedNil != check.ActualNil {
-					t.Errorf("For test #%d, %s nil is not what was expected.", testNumber, check.Name)
-					t.Logf("EXPECTED nil: %v", check.ExpectedNil)
-					t.Logf("ACTUAL nil:   %v", check.ActualNil)
-					t.Logf("JSON:\n%s", test.JSON)
-					continue
-				}
-				if check.ExpectedLen != check.ActualLen {
-					t.Errorf("For test #%d, %s length is not what was expected.", testNumber, check.Name)
-					t.Logf("EXPECTED len: %d", check.ExpectedLen)
-					t.Logf("ACTUAL len:   %d", check.ActualLen)
-					t.Logf("JSON:\n%s", test.JSON)
-					continue
-				}
-			}
+		if diff := cmp.Diff(test.Expected, actual, cmpOpts); diff != "" {
+			t.Errorf("For test #%d, actual result is not what was expected (-expected +actual):\n%s", testNumber, diff)
+			t.Logf("JSON:\n%s", test.JSON)
+			continue
 		}
 	}
 }

@@ -15,6 +15,8 @@ func TestAnyReference_marshalJSONLD(t *testing.T) {
 		`"as":"https://www.w3.org/ns/activitystreams"` +
 		`,` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -27,6 +29,8 @@ func TestAnyReference_marshalJSONLD(t *testing.T) {
 		`"reference":"cv:reference"` +
 		`,` +
 		`"type":"cv:type"` +
+		`,` +
+		`"name":"as:name"` +
 	`}`
 
 	tests := []struct {

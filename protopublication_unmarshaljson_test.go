@@ -1,11 +1,11 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
 	"reflect"
 	"testing"
 
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -16,15 +16,15 @@ func TestProtoPublicationUnmarshalJSON(t *testing.T) {
 		ExpectNil           bool
 		ExpectError         bool
 		ExpectedError       error
-		ExpectPublicationID bool
-		ExpectPublication   bool
-		Expected            jsonresume.ProtoPublication
+		ExpectPublicationID  bool
+		ExpectAnyPublication bool
+		Expected            ProtoPublication
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -37,15 +37,16 @@ func TestProtoPublicationUnmarshalJSON(t *testing.T) {
 		{
 			JSON:                []byte(`"http://example.com/resume/publication/my-paper"`),
 			ExpectPublicationID: true,
-			Expected:            jsonresume.SomePublicationID("http://example.com/resume/publication/my-paper"),
+			Expected:            SomePublicationID("http://example.com/resume/publication/my-paper"),
 		},
 
 		// 3: JSON object → Publication
 		{
 			JSON:              []byte(`{"type":"Publication","publisher":"IEEE","releaseDate":"2023-01-15"}`),
-			ExpectPublication: true,
-			Expected: jsonresume.Publication{
-				CorePublication: jsonresume.CorePublication{
+			ExpectAnyPublication: true,
+			Expected: AnyPublication{
+				Type: jsonld.SomeType("Publication"),
+				CorePublication: CorePublication{
 					Publisher:   nul.Something("IEEE"),
 					ReleaseDate: nul.Something("2023-01-15"),
 				},
@@ -56,34 +57,34 @@ func TestProtoPublicationUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 5: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 6: another JSON string (IRI)
 		{
 			JSON:                []byte(`"http://example.com/resume/publication/research-2024"`),
 			ExpectPublicationID: true,
-			Expected:            jsonresume.SomePublicationID("http://example.com/resume/publication/research-2024"),
+			Expected:            SomePublicationID("http://example.com/resume/publication/research-2024"),
 		},
 
 		// 7: minimal JSON object
 		{
 			JSON:              []byte(`{}`),
-			ExpectPublication: true,
-			Expected:          jsonresume.Publication{},
+			ExpectAnyPublication: true,
+			Expected:             AnyPublication{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoPublicationUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoPublication, PublicationID, AnyPublication](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -128,17 +129,17 @@ func TestProtoPublicationUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectPublicationID {
-			if _, ok := actual.(jsonresume.PublicationID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.PublicationID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(PublicationID); !ok {
+				t.Errorf("For test #%d, expected type PublicationID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectPublication {
-			if _, ok := actual.(jsonresume.Publication); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Publication but actually got %T.", testNumber, actual)
+		if test.ExpectAnyPublication {
+			if _, ok := actual.(AnyPublication); !ok {
+				t.Errorf("For test #%d, expected type AnyPublication but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

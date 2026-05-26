@@ -15,6 +15,8 @@ func TestAnyCertificate_marshalJSONLD(t *testing.T) {
 		`"as":"https://www.w3.org/ns/activitystreams"` +
 		`,` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -29,6 +31,10 @@ func TestAnyCertificate_marshalJSONLD(t *testing.T) {
 		`"issuer":"cv:issuer"` +
 		`,` +
 		`"type":"cv:type"` +
+		`,` +
+		`"name":"as:name"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -59,6 +65,8 @@ func TestAnyCertificate_marshalJSONLD(t *testing.T) {
 				`"date":"2023-06-01"` +
 				`,` +
 				`"issuer":"Amazon"` +
+				`,` +
+				`"url ":[]` +
 				`}`,
 		},
 	}

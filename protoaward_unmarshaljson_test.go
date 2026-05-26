@@ -1,11 +1,11 @@
-package jsonresume_test
+package jsonresume
 
 import (
 	"errors"
 	"reflect"
 	"testing"
 
-	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
 )
 
@@ -16,15 +16,15 @@ func TestProtoAwardUnmarshalJSON(t *testing.T) {
 		ExpectNil     bool
 		ExpectError   bool
 		ExpectedError error
-		ExpectAwardID bool
-		ExpectAward   bool
-		Expected      jsonresume.ProtoAward
+		ExpectAwardID  bool
+		ExpectAnyAward bool
+		Expected      ProtoAward
 	}{
 		// 0: empty bytes
 		{
 			JSON:          []byte{},
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrBytesEmpty,
+			ExpectedError: ErrBytesEmpty,
 		},
 
 		// 1: null
@@ -37,15 +37,16 @@ func TestProtoAwardUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`"http://example.com/resume/award/best-employee-2024"`),
 			ExpectAwardID: true,
-			Expected:      jsonresume.SomeAwardID("http://example.com/resume/award/best-employee-2024"),
+			Expected:      SomeAwardID("http://example.com/resume/award/best-employee-2024"),
 		},
 
-		// 3: JSON object → Award
+		// 3: JSON object → AnyAward
 		{
 			JSON:        []byte(`{"type":"Award","awarder":"SuperCo","date":"2024-05-21","title":"Best Employee (2024)"}`),
-			ExpectAward: true,
-			Expected: jsonresume.Award{
-				CoreAward: jsonresume.CoreAward{
+			ExpectAnyAward: true,
+			Expected: AnyAward{
+				Type: jsonld.SomeType("Award"),
+				CoreAward: CoreAward{
 					Awarder: nul.Something("SuperCo"),
 					Date:    nul.Something("2024-05-21"),
 					Title:   nul.Something("Best Employee (2024)"),
@@ -57,34 +58,34 @@ func TestProtoAwardUnmarshalJSON(t *testing.T) {
 		{
 			JSON:          []byte(`[1,2,3]`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 5: unsupported type (number)
 		{
 			JSON:          []byte(`42`),
 			ExpectError:   true,
-			ExpectedError: jsonresume.ErrTypeUnsupported,
+			ExpectedError: ErrTypeUnsupported,
 		},
 
 		// 6: another JSON string (IRI)
 		{
 			JSON:          []byte(`"http://example.com/resume/award/innovation-prize"`),
 			ExpectAwardID: true,
-			Expected:      jsonresume.SomeAwardID("http://example.com/resume/award/innovation-prize"),
+			Expected:      SomeAwardID("http://example.com/resume/award/innovation-prize"),
 		},
 
 		// 7: minimal JSON object
 		{
 			JSON:        []byte(`{}`),
-			ExpectAward: true,
-			Expected:    jsonresume.Award{},
+			ExpectAnyAward: true,
+			Expected:      AnyAward{},
 		},
 	}
 
 	for testNumber, test := range tests {
 
-		actual, err := jsonresume.ProtoAwardUnmarshalJSON(test.JSON)
+		actual, err := protoUnmarshalJSON[ProtoAward, AwardID, AnyAward](test.JSON)
 
 		if test.ExpectError {
 			if nil == err {
@@ -129,17 +130,17 @@ func TestProtoAwardUnmarshalJSON(t *testing.T) {
 		}
 
 		if test.ExpectAwardID {
-			if _, ok := actual.(jsonresume.AwardID); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.AwardID but actually got %T.", testNumber, actual)
+			if _, ok := actual.(AwardID); !ok {
+				t.Errorf("For test #%d, expected type AwardID but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue
 			}
 		}
 
-		if test.ExpectAward {
-			if _, ok := actual.(jsonresume.Award); !ok {
-				t.Errorf("For test #%d, expected type jsonresume.Award but actually got %T.", testNumber, actual)
+		if test.ExpectAnyAward {
+			if _, ok := actual.(AnyAward); !ok {
+				t.Errorf("For test #%d, expected type AnyAward but actually got %T.", testNumber, actual)
 				t.Logf("ACTUAL: %#v", actual)
 				t.Logf("JSON:\n%s", test.JSON)
 				continue

@@ -1,6 +1,9 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
 )
 
@@ -15,6 +18,35 @@ type JSONResume struct {
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
 	Resume []ProtoResume `json:"resume"`
+}
+
+func (receiver *JSONResume) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw struct {
+		Resume gojson.RawMessage `json:"resume"`
+	}
+
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		return erorr.Wrap(err, "failed to json-unmarshal json-resume")
+	}
+
+	{
+		var bb []byte = []byte(raw.Resume)
+
+		if 0 < len(bb) {
+			protoResumeSlice, err := protoSliceUnmarshalJSON[ProtoResume, ResumeID, AnyResume](bb)
+			if nil != err {
+				return erorr.Wrap(err, "failed to json-unmarshal json-resume resume")
+			}
+			receiver.Resume = protoResumeSlice
+		}
+	}
+
+	return nil
 }
 
 func (receiver *JSONResume) AppendResumeID(id string) {

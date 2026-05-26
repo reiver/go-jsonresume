@@ -11,6 +11,8 @@ func TestCoreBasics_marshalJSONLD(t *testing.T) {
 
 	const context string = `"@context":{` +
 		`"cv":"https://w3id.org/fep/6158"` +
+		`,` +
+		`"as":"http://www.w3.org/ns/activitystreams"` +
 
 		`,` +
 
@@ -18,9 +20,19 @@ func TestCoreBasics_marshalJSONLD(t *testing.T) {
 		`,` +
 		`"label":"cv:label"` +
 		`,` +
+		`"location":"cv:location"` +
+		`,` +
 		`"phone":"cv:phone"` +
 		`,` +
 		`"profiles":"cv:profiles"` +
+		`,` +
+		`"image":"as:image"` +
+		`,` +
+		`"name":"as:name"` +
+		`,` +
+		`"summary":"as:summary"` +
+		`,` +
+		`"url":"as:url"` +
 	`}`
 
 	tests := []struct {
@@ -35,11 +47,17 @@ func TestCoreBasics_marshalJSONLD(t *testing.T) {
 				`,` +
 				`"email":null` +
 				`,` +
+				`"image":[]` +
+				`,` +
 				`"label":null` +
+				`,` +
+				`"location":[]` +
 				`,` +
 				`"phone":null` +
 				`,` +
 				`"profiles":[]` +
+				`,` +
+				`"url":[]` +
 				`}`,
 		},
 	}
