@@ -30,8 +30,8 @@ import (
 //		LastModified: nul.Something("2017-12-24T15:53:00"),
 //	}
 //
-// Note that you should use Meta for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyMeta].
+// Meta is for marshaling with a fixed type of "Meta".
+// For unmarshaling use [AnyMeta] instead.
 //
 // See also:
 //

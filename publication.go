@@ -54,8 +54,11 @@ import (
 //		Summary:     nul.Something("An introduction to video compression."),
 //	})
 //
-// Note that you should use Publication for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyPublication].
+// Publication is for marshaling with a fixed type of "Publication".
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Publication", "cv:Publication", or "https://w3id.org/fep/6158#Publication".
+//
+// For unmarshaling that accepts any type value, use [AnyPublication] instead.
 //
 // See also:
 //

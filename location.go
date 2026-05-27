@@ -34,8 +34,8 @@ import (
 //		PostalCode:  nul.Something("H0H 0H0"),
 //	}
 //
-// Note that you should use Location for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyLocation].
+// Location is for marshaling with a fixed type of "Location".
+// For unmarshaling use [AnyLocation] instead.
 //
 // See also:
 //

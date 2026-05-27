@@ -66,8 +66,11 @@ import (
 //		),
 //	})
 //
-// Note that you should use Project for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyProject].
+// Project is for marshaling with a fixed type of "Project".
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Project", "cv:Project", or "https://w3id.org/fep/6158#Project".
+//
+// For unmarshaling that accepts any type value, use [AnyProject] instead.
 //
 // See also:
 //

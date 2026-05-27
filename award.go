@@ -47,8 +47,8 @@ import (
 //		Summary: nul.Something("For Joe Blow's excellent work."),
 //	})
 //
-// Note that you should use Award for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyAward].
+// Award is for marshaling with a fixed type of "Award".
+// For unmarshaling use [AnyAward] instead.
 //
 // See also:
 //

@@ -124,8 +124,11 @@ import (
 //			),
 //	})
 //
-// Note that you should use Education for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyEducation].
+// Education is for marshaling with a fixed type of "Education".
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Education", "cv:Education", or "https://w3id.org/fep/6158#Education".
+//
+// For unmarshaling that accepts any type value, use [AnyEducation] instead.
 //
 // See also:
 //

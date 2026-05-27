@@ -39,8 +39,8 @@ import (
 //		Fluency:  nul.Something("Beginner"),
 //	})
 //
-// Note that you should use Language for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyLanguage].
+// Language is for marshaling with a fixed type of "Language".
+// For unmarshaling use [AnyLanguage] instead.
 //
 // See also:
 //

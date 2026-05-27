@@ -39,8 +39,8 @@ import (
 //		Reference: nul.Something("I enjoyed working with Joe Blow and give them my highest recommendation without reservation."),
 //	})
 //
-// Note that you should use Reference for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyReference].
+// Reference is for marshaling with a fixed type of "Reference".
+// For unmarshaling use [AnyReference] instead.
 //
 // See also:
 //

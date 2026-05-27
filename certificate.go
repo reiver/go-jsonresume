@@ -50,8 +50,11 @@ import (
 //		URL:    activitypub.HRef("http://engworks.example"),
 //	})
 //
-// Note that you should use Certificate for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyCertificate].
+// Certificate is for marshaling with a fixed type of "Certificate".
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Certificate", "cv:Certificate", or "https://w3id.org/fep/6158#Certificate".
+//
+// For unmarshaling that accepts any type value, use [AnyCertificate] instead.
 //
 // See also:
 //

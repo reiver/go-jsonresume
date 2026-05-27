@@ -9,8 +9,11 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
-// Note that you should use Resume for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyResume].
+// Resume is for marshaling a JSON Resume with a fixed type of "Resume".
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Resume", "cv:Resume", or "https://w3id.org/fep/6158#Resume".
+//
+// For unmarshaling that accepts any type value, use [AnyResume] instead.
 //
 // See also:
 //
@@ -67,7 +70,6 @@ func (receiver Resume) ProtoResume() AnyResume {
 	}
 }
 
-//@TODO: the user should NOT unmarshal into this, but should instead unmarshal into [AnyResume]
 func (receiver *Resume) UnmarshalJSON(bytes []byte) error {
 	if nil == receiver {
 		return ErrReceiverNil

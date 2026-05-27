@@ -39,8 +39,8 @@ import (
 //		Keywords: activitypub.SomeStrings("CSS", "HTML", "JavaScript"),
 //	})
 //
-// Note that you should use Interest for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyInterest].
+// Interest is for marshaling with a fixed type of "Interest".
+// For unmarshaling use [AnyInterest] instead.
 //
 // See also:
 //

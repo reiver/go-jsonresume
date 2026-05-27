@@ -63,8 +63,8 @@ import (
 //	
 //	cv.Basics = basics
 //
-// Note that you should use Basics for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyBasics].
+// Basics is for marshaling with a fixed type of "Basics".
+// For unmarshaling use [AnyBasics] instead.
 //
 // See also:
 //

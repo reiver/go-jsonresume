@@ -46,8 +46,11 @@ import (
 //		URL:       activitypub.HRef("https://pixelfed.example/joeblow"),
 //	})
 //
-// Note that you should use Profile for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyProfile].
+// Profile is for marshaling with a fixed type of "Profile".
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Profile", "cv:Profile", or "https://w3id.org/fep/6158#Profile".
+//
+// For unmarshaling that accepts any type value, use [AnyProfile] instead.
 //
 // See also:
 //

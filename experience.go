@@ -126,8 +126,11 @@ import (
 //		),
 //	})
 //
-// Note that you should use Experience for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnyExperience].
+// Experience is for marshaling with a fixed type of "Experience".
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Experience", "cv:Experience", or "https://w3id.org/fep/6158#Experience".
+//
+// For unmarshaling that accepts any type value, use [AnyExperience] instead.
 //
 // See also:
 //

@@ -39,8 +39,8 @@ import (
 //		Keywords: activitypub.SomeString("Furniture"),
 //	})
 //
-// Note that you should use Skill for marshaling but not unmarshaling.
-// For unmarshaling instead use [AnySkill].
+// Skill is for marshaling with a fixed type of "Skill".
+// For unmarshaling use [AnySkill] instead.
 //
 // See also:
 //
