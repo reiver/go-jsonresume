@@ -1,7 +1,10 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
 )
@@ -40,7 +43,10 @@ import (
 //	})
 //
 // Interest is for marshaling with a fixed type of "Interest".
-// For unmarshaling use [AnyInterest] instead.
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Interest", "cv:Interest", or "https://w3id.org/fep/6158#Interest".
+//
+// For unmarshaling that accepts any type value, use [AnyInterest] instead.
 //
 // See also:
 //
@@ -57,6 +63,41 @@ type Interest struct {
 	Type json.Const[string] `json:"type" json.value:"Interest"`
 
 	CoreInterest
+}
+
+func (receiver *Interest) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawInterest
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal interest")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			var typeValue string
+			err := gojson.Unmarshal(bb, &typeValue)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal interest type")
+				return err
+			}
+
+			switch typeValue {
+			case TypeInterest, CompactTypeInterest, ExpandedTypeInterest:
+				// OK
+			default:
+				return erorr.Errorf("jsonresume: unexpected type for interest: %q", typeValue)
+			}
+		}
+	}
+
+	return receiver.CoreInterest.unmarshalRawInterest(raw, &receiver.ID)
 }
 
 func (receiver Interest) ProtoNode() activitypub.AnyNode {

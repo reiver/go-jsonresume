@@ -2,6 +2,7 @@ package jsonresume
 
 import (
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
 )
 
@@ -13,6 +14,33 @@ type AnyAward struct {
 	Type jsonld.Types `json:"type,omitempty"`
 
 	CoreAward
+}
+
+func (receiver *AnyAward) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawAward
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal award")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			err := jsonld.Unmarshal(bb, &receiver.Type)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal award type")
+				return err
+			}
+		}
+	}
+
+	return receiver.CoreAward.unmarshalRawAward(raw, &receiver.ID)
 }
 
 func (receiver AnyAward) ProtoNode() activitypub.AnyNode {

@@ -1,7 +1,10 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
 )
@@ -48,7 +51,10 @@ import (
 //	})
 //
 // Award is for marshaling with a fixed type of "Award".
-// For unmarshaling use [AnyAward] instead.
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Award", "cv:Award", or "https://w3id.org/fep/6158#Award".
+//
+// For unmarshaling that accepts any type value, use [AnyAward] instead.
 //
 // See also:
 //
@@ -65,6 +71,41 @@ type Award struct {
 	Type json.Const[string] `json:"type" json.value:"Award"`
 
 	CoreAward
+}
+
+func (receiver *Award) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawAward
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal award")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			var typeValue string
+			err := gojson.Unmarshal(bb, &typeValue)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal award type")
+				return err
+			}
+
+			switch typeValue {
+			case TypeAward, CompactTypeAward, ExpandedTypeAward:
+				// OK
+			default:
+				return erorr.Errorf("jsonresume: unexpected type for award: %q", typeValue)
+			}
+		}
+	}
+
+	return receiver.CoreAward.unmarshalRawAward(raw, &receiver.ID)
 }
 
 func (receiver Award) ProtoNode() activitypub.AnyNode {

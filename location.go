@@ -1,7 +1,10 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
 )
@@ -35,7 +38,10 @@ import (
 //	}
 //
 // Location is for marshaling with a fixed type of "Location".
-// For unmarshaling use [AnyLocation] instead.
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Location", "cv:Location", or "https://w3id.org/fep/6158#Location".
+//
+// For unmarshaling that accepts any type value, use [AnyLocation] instead.
 //
 // See also:
 //
@@ -52,6 +58,41 @@ type Location struct {
 	Type json.Const[string] `json:"type" json.value:"Location"`
 
 	CoreLocation
+}
+
+func (receiver *Location) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawLocation
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal location")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			var typeValue string
+			err := gojson.Unmarshal(bb, &typeValue)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal location type")
+				return err
+			}
+
+			switch typeValue {
+			case TypeLocation, CompactTypeLocation, ExpandedTypeLocation:
+				// OK
+			default:
+				return erorr.Errorf("jsonresume: unexpected type for location: %q", typeValue)
+			}
+		}
+	}
+
+	return receiver.CoreLocation.unmarshalRawLocation(raw, &receiver.ID)
 }
 
 func (receiver Location) ProtoNode() activitypub.AnyNode {

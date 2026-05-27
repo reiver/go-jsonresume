@@ -2,6 +2,7 @@ package jsonresume
 
 import (
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
 )
 
@@ -13,6 +14,33 @@ type AnyLanguage struct {
 	Type jsonld.Types `json:"type,omitempty"`
 
 	CoreLanguage
+}
+
+func (receiver *AnyLanguage) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawLanguage
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal language")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			err := jsonld.Unmarshal(bb, &receiver.Type)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal language type")
+				return err
+			}
+		}
+	}
+
+	return receiver.CoreLanguage.unmarshalRawLanguage(raw, &receiver.ID)
 }
 
 func (receiver AnyLanguage) ProtoNode() activitypub.AnyNode {

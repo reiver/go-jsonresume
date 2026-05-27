@@ -1,7 +1,10 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
 )
@@ -40,7 +43,10 @@ import (
 //	})
 //
 // Language is for marshaling with a fixed type of "Language".
-// For unmarshaling use [AnyLanguage] instead.
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Language", "cv:Language", or "https://w3id.org/fep/6158#Language".
+//
+// For unmarshaling that accepts any type value, use [AnyLanguage] instead.
 //
 // See also:
 //
@@ -57,6 +63,41 @@ type Language struct {
 	Type json.Const[string] `json:"type" json.value:"Language"`
 
 	CoreLanguage
+}
+
+func (receiver *Language) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawLanguage
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal language")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			var typeValue string
+			err := gojson.Unmarshal(bb, &typeValue)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal language type")
+				return err
+			}
+
+			switch typeValue {
+			case TypeLanguage, CompactTypeLanguage, ExpandedTypeLanguage:
+				// OK
+			default:
+				return erorr.Errorf("jsonresume: unexpected type for language: %q", typeValue)
+			}
+		}
+	}
+
+	return receiver.CoreLanguage.unmarshalRawLanguage(raw, &receiver.ID)
 }
 
 func (receiver Language) ProtoNode() activitypub.AnyNode {

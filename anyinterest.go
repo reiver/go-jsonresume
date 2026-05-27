@@ -2,6 +2,7 @@ package jsonresume
 
 import (
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
 )
 
@@ -13,6 +14,33 @@ type AnyInterest struct {
 	Type jsonld.Types `json:"type,omitempty"`
 
 	CoreInterest
+}
+
+func (receiver *AnyInterest) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawInterest
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal interest")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			err := jsonld.Unmarshal(bb, &receiver.Type)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal interest type")
+				return err
+			}
+		}
+	}
+
+	return receiver.CoreInterest.unmarshalRawInterest(raw, &receiver.ID)
 }
 
 func (receiver AnyInterest) ProtoNode() activitypub.AnyNode {

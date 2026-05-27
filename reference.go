@@ -1,7 +1,10 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
 )
@@ -40,7 +43,10 @@ import (
 //	})
 //
 // Reference is for marshaling with a fixed type of "Reference".
-// For unmarshaling use [AnyReference] instead.
+// It can also be used for unmarshaling when strict type validation is desired —
+// it rejects any type value other than "Reference", "cv:Reference", or "https://w3id.org/fep/6158#Reference".
+//
+// For unmarshaling that accepts any type value, use [AnyReference] instead.
 //
 // See also:
 //
@@ -57,6 +63,41 @@ type Reference struct {
 	Type json.Const[string] `json:"type" json.value:"Reference"`
 
 	CoreReference
+}
+
+func (receiver *Reference) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawReference
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal reference")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			var typeValue string
+			err := gojson.Unmarshal(bb, &typeValue)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal reference type")
+				return err
+			}
+
+			switch typeValue {
+			case TypeReference, CompactTypeReference, ExpandedTypeReference:
+				// OK
+			default:
+				return erorr.Errorf("jsonresume: unexpected type for reference: %q", typeValue)
+			}
+		}
+	}
+
+	return receiver.CoreReference.unmarshalRawReference(raw, &receiver.ID)
 }
 
 func (receiver Reference) ProtoNode() activitypub.AnyNode {
