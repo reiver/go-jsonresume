@@ -48,6 +48,43 @@ func TestResume_UnmarshalJSON_malformedJSON(t *testing.T) {
 	}
 }
 
+// TestResume_UnmarshalJSON_directMalformed calls UnmarshalJSON directly
+// (bypassing the outer jsonld.Unmarshal) to verify that the inner
+// jsonld.Unmarshal error path returns an error wrapping the cause,
+// rather than panicking or silently proceeding with a zero-value rawResume.
+func TestResume_UnmarshalJSON_directMalformed(t *testing.T) {
+
+	tests := []struct {
+		Name  string
+		Bytes []byte
+	}{
+		{
+			Name:  "truncated object",
+			Bytes: []byte(`{"type":"Resume","awards":[`),
+		},
+		{
+			Name:  "bare string",
+			Bytes: []byte(`not json`),
+		},
+		{
+			Name:  "empty",
+			Bytes: []byte(``),
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Name, func(t *testing.T) {
+			var actual jsonresume.Resume
+
+			err := actual.UnmarshalJSON(test.Bytes)
+			if nil == err {
+				t.Errorf("Expected an error but did not get one.")
+				t.Logf("BYTES: %q", test.Bytes)
+			}
+		})
+	}
+}
+
 func TestResume_UnmarshalJSON_typeFieldMalformed(t *testing.T) {
 
 	tests := []struct {
