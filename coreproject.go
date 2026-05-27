@@ -7,6 +7,11 @@ import (
 	"github.com/reiver/go-nul"
 )
 
+// CoreProject holds the shared fields for [Project] and [AnyProject].
+//
+// The Type field here is the JSON Resume project category (e.g., "application", "library", "tool") — NOT the JSON-LD type.
+// The JSON-LD type is stored in [Project].AtType or [AnyProject].AtType as "@type".
+// This separation exists because JSON Resume's "type" field on projects collides with ActivityPub/ActivityStreams JSON-LD's "type".
 type CoreProject struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
@@ -19,7 +24,7 @@ type CoreProject struct {
 	Name        nul.Nullable[string]    `json:"name,omitempty"               jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 	Roles       activitypub.Strings     `json:"roles,omitempty"`
 	StartDate   nul.Nullable[string]    `json:"startDate,omitempty"`
-	Type        nul.Nullable[string]    `json:"type,omitempty"`
+	Type        nul.Nullable[string]    `json:"type,omitempty"`              // project category (e.g., "application"), not the JSON-LD type
 	URL         []activitypub.ProtoLink `json:"url,omitempty,jsonld.compact" jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 }
 

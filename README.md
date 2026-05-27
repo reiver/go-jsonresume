@@ -74,6 +74,20 @@ To install package **jsonresume** do the following:
 GOPROXY=direct go get github.com/reiver/go-jsonresume
 ```
 
+## Project `@type` vs `type`
+
+JSON Resume's `projects[].type` field holds a project category string (e.g., "application", "library", "tool").
+ActivityPub/ActivityStreams JSON-LD uses `type` as an alias for `@type` to declare an object's type (e.g., "Project").
+These two meanings collide on the same JSON key.
+
+This package resolves the collision by using `@type` for the JSON-LD type only on Project objects, and `type` for the project category.
+All other types in this package use `type` for the ActivityPub/ActivityStreams JSON-LD type (since they have no conflicting field).
+
+In practice this means:
+
+* `Project.AtType` / `AnyProject.AtType` → `"@type"` in JSON (the JSON-LD type: `"Project"`)
+* `CoreProject.Type` → `"type"` in JSON (the project category: `"application"`)
+
 ## Author
 
 Package **jsonresume** was written by [Charles Iliya Krempeaux](http://reiver.link)
