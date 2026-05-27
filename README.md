@@ -24,7 +24,7 @@ import (
 var actor activitypub.Person
 //@TODO: set the values of the actor
 
-var jsonResume json.JSONResume
+var jsonResume jsonresume.JSONResume
 jsonResume.SetResumeID("https://example.com/path/to/resume")
 
 err := jsonld.Marshal(actor, jsonResume)
