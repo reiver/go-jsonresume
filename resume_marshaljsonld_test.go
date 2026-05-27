@@ -21,6 +21,8 @@ func TestResume_marshalJSONLD(t *testing.T) {
 
 		`,` +
 
+		`"$schema":"cv:$schema"` +
+		`,` +
 		`"awards":"cv:awards"` +
 		`,` +
 		`"basics":"cv:basics"` +

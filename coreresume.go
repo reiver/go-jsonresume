@@ -3,11 +3,14 @@ package jsonresume
 import (
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
+	"github.com/reiver/go-nul"
 )
 
 type CoreResume struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
+
+	Schema nul.Nullable[string] `json:"$schema,omitempty"`
 
 	Awards       []ProtoAward       `json:"awards,omitempty"`
 	Basics       ProtoBasics        `json:"basics,omitempty"`
@@ -235,6 +238,18 @@ func (receiver *CoreResume) unmarshalRawResume(raw rawResume, id *jsonld.ID) err
 			err := jsonld.Unmarshal(bb, id)
 			if nil != err {
 				err = erorr.Wrap(err, "failed to json-unmarshal resume id")
+				return err
+			}
+		}
+	}
+
+	{
+		var bb []byte = []byte(raw.Schema)
+
+		if 0 < len(bb) {
+			err := jsonld.Unmarshal(bb, &receiver.Schema)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal resume $schema")
 				return err
 			}
 		}

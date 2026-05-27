@@ -8,6 +8,7 @@ import (
 //
 // The JSON for [AnyResume] and [Resume] has a number of JSON resume fields:
 //
+//	• "$schema"
 //	• "awards"
 //	• "basics"
 //	• "certificates"
@@ -31,6 +32,7 @@ import (
 //
 // This has the effect of splitting that resume raw JSON into the fields:
 //
+//	• "$schema"      → rawResume.Schema
 //	• "awards"       → rawResume.Awards
 //	• "basics"       → rawResume.Basics
 //	• "certificates" → rawResume.Certificates
@@ -56,6 +58,7 @@ import (
 type rawResume struct {
 	ID           gojson.RawMessage `json:"id"`
 	Type         gojson.RawMessage `json:"type"`
+	Schema       gojson.RawMessage `json:"$schema"`
 	Awards       gojson.RawMessage `json:"awards"`
 	Basics       gojson.RawMessage `json:"basics"`
 	Certificates gojson.RawMessage `json:"certificates"`

@@ -8,6 +8,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-jsonresume"
+	"github.com/reiver/go-nul"
 	"github.com/reiver/go-opt"
 )
 
@@ -17,6 +18,7 @@ func TestJSONResume_unmarshalJSONLD(t *testing.T) {
 		cmpopts.EquateComparable(
 			jsonld.ID{},
 			jsonld.Types{},
+			nul.Nullable[string]{},
 			opt.Optional[string]{},
 			jsonresume.ResumeID{},
 		),

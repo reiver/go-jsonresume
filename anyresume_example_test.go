@@ -127,6 +127,7 @@ func ExampleAnyResume_jsonUnmarshal() {
 	// {
 	//   "@context": {
 	//     "cv": "https://w3id.org/fep/6158",
+	//     "$schema": "cv:$schema",
 	//     "awards": "cv:awards",
 	//     "basics": "cv:basics",
 	//     "certificates": "cv:certificates",
