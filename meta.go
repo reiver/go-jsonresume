@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-activitypub"
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
@@ -68,24 +66,8 @@ func (receiver *Meta) UnmarshalJSON(bytes []byte) error {
 		return err
 	}
 
-	{
-		var bb []byte = []byte(raw.Type)
-
-		if 0 < len(bb) {
-			var typeValue string
-			err := gojson.Unmarshal(bb, &typeValue)
-			if nil != err {
-				err = erorr.Wrap(err, "failed to json-unmarshal meta type")
-				return err
-			}
-
-			switch typeValue {
-			case TypeMeta, CompactTypeMeta, ExpandedTypeMeta:
-				// OK
-			default:
-				return erorr.Errorf("jsonresume: unexpected type for meta: %q", typeValue)
-			}
-		}
+	if err := validateTypeForUnmarshalJSON([]byte(raw.Type), "meta", TypeMeta, CompactTypeMeta, ExpandedTypeMeta); nil != err {
+		return err
 	}
 
 	return receiver.CoreMeta.unmarshalRawMeta(raw, &receiver.ID)

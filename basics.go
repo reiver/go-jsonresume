@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-activitypub"
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
@@ -101,24 +99,8 @@ func (receiver *Basics) UnmarshalJSON(bytes []byte) error {
 		return err
 	}
 
-	{
-		var bb []byte = []byte(raw.Type)
-
-		if 0 < len(bb) {
-			var typeValue string
-			err := gojson.Unmarshal(bb, &typeValue)
-			if nil != err {
-				err = erorr.Wrap(err, "failed to json-unmarshal basics type")
-				return err
-			}
-
-			switch typeValue {
-			case TypeBasics, CompactTypeBasics, ExpandedTypeBasics:
-				// OK
-			default:
-				return erorr.Errorf("jsonresume: unexpected type for basics: %q", typeValue)
-			}
-		}
+	if err := validateTypeForUnmarshalJSON([]byte(raw.Type), "basics", TypeBasics, CompactTypeBasics, ExpandedTypeBasics); nil != err {
+		return err
 	}
 
 	return receiver.CoreBasics.unmarshalRawBasics(raw, &receiver.ID)

@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-activitypub"
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
@@ -82,24 +80,8 @@ func (receiver *Resume) UnmarshalJSON(bytes []byte) error {
 		return err
 	}
 
-	{
-		var bb []byte = []byte(raw.Type)
-
-		if 0 < len(bb) {
-			var typeValue string
-			err := gojson.Unmarshal(bb, &typeValue)
-			if nil != err {
-				err = erorr.Wrap(err, "failed to json-unmarshal resume type")
-				return err
-			}
-
-			switch typeValue {
-			case TypeResume, CompactTypeResume, ExpandedTypeResume:
-				// OK
-			default:
-				return erorr.Errorf("jsonresume: unexpected type for resume: %q", typeValue)
-			}
-		}
+	if err := validateTypeForUnmarshalJSON([]byte(raw.Type), "resume", TypeResume, CompactTypeResume, ExpandedTypeResume); nil != err {
+		return err
 	}
 
 	return receiver.CoreResume.unmarshalRawResume(raw, &receiver.ID)

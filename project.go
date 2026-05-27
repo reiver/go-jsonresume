@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-activitypub"
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
@@ -112,24 +110,8 @@ func (receiver *Project) UnmarshalJSON(bytes []byte) error {
 		return err
 	}
 
-	{
-		var bb []byte = []byte(raw.Type)
-
-		if 0 < len(bb) {
-			var typeValue string
-			err := gojson.Unmarshal(bb, &typeValue)
-			if nil != err {
-				err = erorr.Wrap(err, "failed to json-unmarshal project type")
-				return err
-			}
-
-			switch typeValue {
-			case TypeProject, CompactTypeProject, ExpandedTypeProject:
-				// OK
-			default:
-				return erorr.Errorf("jsonresume: unexpected type for project: %q", typeValue)
-			}
-		}
+	if err := validateTypeForUnmarshalJSON([]byte(raw.Type), "project", TypeProject, CompactTypeProject, ExpandedTypeProject); nil != err {
+		return err
 	}
 
 	return receiver.CoreProject.unmarshalRawProject(raw, &receiver.ID)

@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-activitypub"
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
@@ -85,24 +83,8 @@ func (receiver *Award) UnmarshalJSON(bytes []byte) error {
 		return err
 	}
 
-	{
-		var bb []byte = []byte(raw.Type)
-
-		if 0 < len(bb) {
-			var typeValue string
-			err := gojson.Unmarshal(bb, &typeValue)
-			if nil != err {
-				err = erorr.Wrap(err, "failed to json-unmarshal award type")
-				return err
-			}
-
-			switch typeValue {
-			case TypeAward, CompactTypeAward, ExpandedTypeAward:
-				// OK
-			default:
-				return erorr.Errorf("jsonresume: unexpected type for award: %q", typeValue)
-			}
-		}
+	if err := validateTypeForUnmarshalJSON([]byte(raw.Type), "award", TypeAward, CompactTypeAward, ExpandedTypeAward); nil != err {
+		return err
 	}
 
 	return receiver.CoreAward.unmarshalRawAward(raw, &receiver.ID)
