@@ -73,7 +73,7 @@ func (receiver ProjectID) ProtoProject() AnyProject {
 
 	return AnyProject{
 		ID:     jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
-		AtType: jsonld.SomeType(_type),
+		Type: jsonld.SomeType(_type),
 	}
 }
 

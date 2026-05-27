@@ -95,7 +95,7 @@ type Project struct {
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
 	ID     jsonld.ID          `json:"id,omitempty"`
-	AtType json.Const[string] `json:"@type" json.value:"Project"`
+	Type json.Const[string] `json:"@type" json.value:"Project"`
 
 	CoreProject
 }
@@ -113,7 +113,7 @@ func (receiver *Project) UnmarshalJSON(bytes []byte) error {
 	}
 
 	{
-		var bb []byte = []byte(raw.AtType)
+		var bb []byte = []byte(raw.Type)
 
 		if 0 < len(bb) {
 			var typeValue string
@@ -178,7 +178,7 @@ func (receiver Project) ProtoProject() AnyProject {
 
 	return AnyProject{
 		ID:     receiver.ID,
-		AtType: jsonld.SomeType(_type),
+		Type: jsonld.SomeType(_type),
 
 		CoreProject: receiver.CoreProject,
 	}

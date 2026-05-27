@@ -10,7 +10,7 @@ import (
 // CoreProject holds the shared fields for [Project] and [AnyProject].
 //
 // The ProjectType field holds the JSON Resume project category (e.g., "application", "library", "tool") — NOT the JSON-LD type.
-// The JSON-LD type is stored in [Project].AtType or [AnyProject].AtType as "@type".
+// The JSON-LD type is stored in [Project].Type or [AnyProject].Type as "@type".
 // This separation exists because JSON Resume's "type" field on projects collides with ActivityPub/ActivityStreams JSON-LD's "type".
 type CoreProject struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`

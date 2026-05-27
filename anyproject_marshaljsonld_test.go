@@ -58,7 +58,7 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 		{
 			Value: jsonresume.AnyProject{
 				ID:     jsonld.SomeID("http://example.com/resume/project/microdon"),
-				AtType: jsonld.SomeType("Project"),
+				Type: jsonld.SomeType("Project"),
 				CoreProject: jsonresume.CoreProject{
 					Description: nul.Something("An ActivityPub server"),
 					StartDate:   nul.Something("2023-01-01"),

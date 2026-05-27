@@ -13,7 +13,7 @@ import (
 // using [jsonld.UnmarshalJSONStringOrJSONObjectOrJSONArray] or similar.
 type rawProject struct {
 	ID          gojson.RawMessage `json:"id"`
-	AtType      gojson.RawMessage `json:"@type"`
+	Type        gojson.RawMessage `json:"@type"`
 	Description gojson.RawMessage `json:"description"`
 	EndDate     gojson.RawMessage `json:"endDate"`
 	Entity      gojson.RawMessage `json:"entity"`
