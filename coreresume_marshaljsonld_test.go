@@ -48,30 +48,6 @@ func TestCoreResume_marshalJSONLD(t *testing.T) {
 			Value: jsonresume.CoreResume{},
 			Expected: `{` +
 				context +
-				`,` +
-				`"awards":[]` +
-				`,` +
-				`"basics":null` +
-				`,` +
-				`"certificates":[]` +
-				`,` +
-				`"education":[]` +
-				`,` +
-				`"interests":[]` +
-				`,` +
-				`"languages":[]` +
-				`,` +
-				`"projects":[]` +
-				`,` +
-				`"publications":[]` +
-				`,` +
-				`"references":[]` +
-				`,` +
-				`"skills":[]` +
-				`,` +
-				`"volunteer":[]` +
-				`,` +
-				`"work":[]` +
 				`}`,
 		},
 	}

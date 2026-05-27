@@ -32,31 +32,30 @@ func ExampleResume_jsonUnmarshal() {
 
 	// Output:
 	// {
-	//   "NameSpace": {},
-	//   "Prefix": {},
-	//   "id": null,
-	//   "type": {},
-	//   "awards": null,
-	//   "basics": null,
-	//   "certificates": null,
-	//   "education": null,
-	//   "interests": null,
-	//   "languages": null,
-	//   "projects": null,
-	//   "publications": null,
+	//   "@context": {
+	//     "cv": "https://w3id.org/fep/6158",
+	//     "awards": "cv:awards",
+	//     "basics": "cv:basics",
+	//     "certificates": "cv:certificates",
+	//     "education": "cv:education",
+	//     "id": "cv:id",
+	//     "interests": "cv:interests",
+	//     "languages": "cv:languages",
+	//     "projects": "cv:projects",
+	//     "publications": "cv:publications",
+	//     "references": "cv:references",
+	//     "skills": "cv:skills",
+	//     "type": "cv:type",
+	//     "volunteer": "cv:volunteer",
+	//     "work": "cv:work"
+	//   },
+	//   "type": "Resume",
 	//   "references": [
 	//     {
-	//       "NameSpace": {},
-	//       "Prefix": {},
-	//       "id": null,
-	//       "type": null,
 	//       "name": "Jane Doe",
 	//       "reference": "Reference…"
 	//     }
-	//   ],
-	//   "skills": null,
-	//   "volunteer": null,
-	//   "work": null
+	//   ]
 	// }
 }
 
@@ -125,7 +124,7 @@ func ExampleResume_jsonldMarshal() {
 	fmt.Println(string(bytes))
 
 	// Output:
-	// {"@context":{"cv":"https://w3id.org/fep/6158","as":"http://www.w3.org/ns/activitystreams","awards":"cv:awards","basics":"cv:basics","certificates":"cv:certificates","education":"cv:education","email":"cv:email","id":"cv:id","interests":"cv:interests","label":"cv:label","languages":"cv:languages","location":"cv:location","phone":"cv:phone","profiles":"cv:profiles","projects":"cv:projects","publications":"cv:publications","references":"cv:references","skills":"cv:skills","type":"cv:type","volunteer":"cv:volunteer","work":"cv:work","image":"as:image","name":"as:name","summary":"as:summary","url":"as:url"},"type":"Resume","awards":[{"type":"Award","awarder":"SuperCo","date":"2024-05-21","title":"Best Employee (2024)"}],"basics":{"type":"Basics","email":"joeblow@example.com","image":[],"label":"Programmer","location":[],"name":"Joe Blow","phone":"(604) 555-1234","profiles":[{"type":"Profile","network":"Mastodon","username":"joeblow","url":[]}],"summary":"CTO, Experienced Programmer","url":[]},"certificates":[],"education":[],"interests":[],"languages":[{"type":"Language","fluency":"Fluent","language":"English"}],"projects":[],"publications":[],"references":[],"skills":[{"type":"Skill","keywords":["Golang","PHP","HTTP"],"level":"Senior"}],"volunteer":[],"work":[{"type":"Experience","highlights":["Hired initial team.","Created architecture."],"organization":"SuperCo","position":"Chief Technology Officer (CTO)","startDate":"2024-01-01","url":[]}]}
+	// {"@context":{"cv":"https://w3id.org/fep/6158","as":"http://www.w3.org/ns/activitystreams","awards":"cv:awards","basics":"cv:basics","certificates":"cv:certificates","education":"cv:education","email":"cv:email","id":"cv:id","interests":"cv:interests","label":"cv:label","languages":"cv:languages","location":"cv:location","phone":"cv:phone","profiles":"cv:profiles","projects":"cv:projects","publications":"cv:publications","references":"cv:references","skills":"cv:skills","type":"cv:type","volunteer":"cv:volunteer","work":"cv:work","image":"as:image","name":"as:name","summary":"as:summary","url":"as:url"},"type":"Resume","awards":[{"type":"Award","awarder":"SuperCo","date":"2024-05-21","title":"Best Employee (2024)"}],"basics":{"type":"Basics","email":"joeblow@example.com","label":"Programmer","name":"Joe Blow","phone":"(604) 555-1234","profiles":[{"type":"Profile","network":"Mastodon","username":"joeblow"}],"summary":"CTO, Experienced Programmer"},"languages":[{"type":"Language","fluency":"Fluent","language":"English"}],"skills":[{"type":"Skill","keywords":["Golang","PHP","HTTP"],"level":"Senior"}],"work":[{"type":"Experience","highlights":["Hired initial team.","Created architecture."],"organization":"SuperCo","position":"Chief Technology Officer (CTO)","startDate":"2024-01-01"}]}
 }
 
 func ExampleResume_withIDs() {
@@ -154,5 +153,5 @@ func ExampleResume_withIDs() {
 	fmt.Println(string(bytes))
 
 	// Output:
-	// {"@context":{"cv":"https://w3id.org/fep/6158","awards":"cv:awards","basics":"cv:basics","certificates":"cv:certificates","education":"cv:education","id":"cv:id","interests":"cv:interests","languages":"cv:languages","projects":"cv:projects","publications":"cv:publications","references":"cv:references","skills":"cv:skills","type":"cv:type","volunteer":"cv:volunteer","work":"cv:work"},"type":"Resume","awards":["http://example.com/resume/award/best-employee-2024","http://example.com/resume/award/acme-excellence-2021"],"basics":"http://example.com/resume/basics","certificates":[],"education":[],"interests":[],"languages":["http://example.com/resume/language/english"],"projects":[],"publications":[],"references":[],"skills":["http://example.com/resume/skill/backend-development"],"volunteer":["http://example.com/resume/experience/4"],"work":["http://example.com/resume/experience/3","http://example.com/resume/experience/2"]}
+	// {"@context":{"cv":"https://w3id.org/fep/6158","awards":"cv:awards","basics":"cv:basics","certificates":"cv:certificates","education":"cv:education","id":"cv:id","interests":"cv:interests","languages":"cv:languages","projects":"cv:projects","publications":"cv:publications","references":"cv:references","skills":"cv:skills","type":"cv:type","volunteer":"cv:volunteer","work":"cv:work"},"type":"Resume","awards":["http://example.com/resume/award/best-employee-2024","http://example.com/resume/award/acme-excellence-2021"],"basics":"http://example.com/resume/basics","languages":["http://example.com/resume/language/english"],"skills":["http://example.com/resume/skill/backend-development"],"volunteer":["http://example.com/resume/experience/4"],"work":["http://example.com/resume/experience/3","http://example.com/resume/experience/2"]}
 }

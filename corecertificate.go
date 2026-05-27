@@ -11,7 +11,7 @@ type CoreCertificate struct {
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
 	Date   nul.Nullable[string]    `json:"date,omitempty"`
-	Name   nul.Nullable[string]    `json:"name,omitempty"   jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
+	Name   nul.Nullable[string]    `json:"name,omitempty"               jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 	Issuer nul.Nullable[string]    `json:"issuer,omitempty"`
-	URL    []activitypub.ProtoLink `json:"url "   jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
+	URL    []activitypub.ProtoLink `json:"url,omitempty,jsonld.compact" jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 }

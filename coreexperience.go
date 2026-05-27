@@ -12,12 +12,12 @@ type CoreExperience struct {
 
 	Description  nul.Nullable[string]    `json:"description,omitempty"`
 	EndDate      nul.Nullable[string]    `json:"endDate,omitempty"`
-	Highlights   activitypub.Strings     `json:"highlights"`
+	Highlights   activitypub.Strings     `json:"highlights,omitempty"`
 	Location     nul.Nullable[string]    `json:"location,omitempty"`
-	Name         nul.Nullable[string]    `json:"name,omitempty"         jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
+	Name         nul.Nullable[string]    `json:"name,omitempty"                    jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 	Organization nul.Nullable[string]    `json:"organization,omitempty"`
-	Position     activitypub.Strings     `json:"position"`
+	Position     activitypub.Strings     `json:"position,omitempty,jsonld.compact"`
 	StartDate    nul.Nullable[string]    `json:"startDate,omitempty"`
-	Summary      nul.Nullable[string]    `json:"summary,omitempty"      jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
-	URL          []activitypub.ProtoLink `json:"url"          jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
+	Summary      nul.Nullable[string]    `json:"summary,omitempty"                 jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
+	URL          []activitypub.ProtoLink `json:"url,omitempty,jsonld.compact"      jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 }

@@ -11,5 +11,5 @@ type CoreInterest struct {
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
 	Name     nul.Nullable[string] `json:"name,omitempty"     jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
-	Keywords activitypub.Strings  `json:"keywords"`
+	Keywords activitypub.Strings  `json:"keywords,omitempty"`
 }

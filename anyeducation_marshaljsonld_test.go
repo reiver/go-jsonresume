@@ -66,8 +66,6 @@ func TestAnyEducation_marshalJSONLD(t *testing.T) {
 				`,` +
 				`"area":"Computer Science"` +
 				`,` +
-				`"courses":null` +
-				`,` +
 				`"endDate":"2014-06-15"` +
 				`,` +
 				`"institution":"MIT"` +
@@ -77,8 +75,6 @@ func TestAnyEducation_marshalJSONLD(t *testing.T) {
 				`"startDate":"2010-09-01"` +
 				`,` +
 				`"studyType":"Bachelor"` +
-				`,` +
-				`"url":[]` +
 				`}`,
 		},
 	}

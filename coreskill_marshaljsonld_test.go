@@ -36,8 +36,6 @@ func TestCoreSkill_marshalJSONLD(t *testing.T) {
 			},
 			Expected: `{` +
 				context +
-				`,` +
-				`"keywords":null` +
 				`}`,
 		},
 

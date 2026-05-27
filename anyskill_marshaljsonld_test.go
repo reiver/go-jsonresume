@@ -55,8 +55,6 @@ func TestAnySkill_marshalJSONLD(t *testing.T) {
 				`"name":"Go"` +
 				`,` +
 				`"type":"Skill"` +
-				`,` +
-				`"keywords":null` +
 				`}`,
 		},
 

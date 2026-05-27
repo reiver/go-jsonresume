@@ -65,8 +65,6 @@ func TestAnyCertificate_marshalJSONLD(t *testing.T) {
 				`"date":"2023-06-01"` +
 				`,` +
 				`"issuer":"Amazon"` +
-				`,` +
-				`"url ":[]` +
 				`}`,
 		},
 	}

@@ -67,30 +67,6 @@ func TestAnyResume_marshalJSONLD(t *testing.T) {
 				`"name":"Joe Blow"` +
 				`,` +
 				`"type":"Resume"` +
-				`,` +
-				`"awards":[]` +
-				`,` +
-				`"basics":null` +
-				`,` +
-				`"certificates":[]` +
-				`,` +
-				`"education":[]` +
-				`,` +
-				`"interests":[]` +
-				`,` +
-				`"languages":[]` +
-				`,` +
-				`"projects":[]` +
-				`,` +
-				`"publications":[]` +
-				`,` +
-				`"references":[]` +
-				`,` +
-				`"skills":[]` +
-				`,` +
-				`"volunteer":[]` +
-				`,` +
-				`"work":[]` +
 				`}`,
 		},
 	}

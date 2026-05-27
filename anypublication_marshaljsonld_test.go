@@ -67,8 +67,6 @@ func TestAnyPublication_marshalJSONLD(t *testing.T) {
 				`"publisher":"O'Reilly"` +
 				`,` +
 				`"releaseDate":"2022-03-15"` +
-				`,` +
-				`"url":[]` +
 				`}`,
 		},
 	}

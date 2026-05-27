@@ -86,8 +86,6 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 				`"roles":"lead developer"` +
 				`,` +
 				`"startDate":"2023-01-01"` +
-				`,` +
-				`"url":[]` +
 				`}`,
 		},
 	}

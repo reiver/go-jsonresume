@@ -63,20 +63,6 @@ func TestAnyBasics_marshalJSONLD(t *testing.T) {
 				`"name":"Joe Blow"` +
 				`,` +
 				`"type":"Basics"` +
-				`,` +
-				`"email":null` +
-				`,` +
-				`"image":[]` +
-				`,` +
-				`"label":null` +
-				`,` +
-				`"location":[]` +
-				`,` +
-				`"phone":null` +
-				`,` +
-				`"profiles":[]` +
-				`,` +
-				`"url":[]` +
 				`}`,
 		},
 	}

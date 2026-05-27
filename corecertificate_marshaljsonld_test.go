@@ -38,8 +38,6 @@ func TestCoreCertificate_marshalJSONLD(t *testing.T) {
 			},
 			Expected: `{` +
 				context +
-				`,` +
-				`"url ":[]` +
 				`}`,
 		},
 
@@ -55,8 +53,6 @@ func TestCoreCertificate_marshalJSONLD(t *testing.T) {
 				`"date":"2023-06-01"` +
 				`,` +
 				`"issuer":"Amazon"` +
-				`,` +
-				`"url ":[]` +
 				`}`,
 		},
 	}

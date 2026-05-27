@@ -8,18 +8,18 @@ type CoreResume struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
-	Awards       []ProtoAward       `json:"awards"`
-	Basics       ProtoBasics        `json:"basics"`
-	Certificates []ProtoCertificate `json:"certificates"`
-	Education    []ProtoEducation   `json:"education"`
-	Interests    []ProtoInterest    `json:"interests"`
-	Languages    []ProtoLanguage    `json:"languages"`
-	Projects     []ProtoProject     `json:"projects"`
-	Publications []ProtoPublication `json:"publications"`
-	References   []ProtoReference   `json:"references"`
-	Skills       []ProtoSkill       `json:"skills"`
-	Volunteer    []ProtoExperience  `json:"volunteer"`
-	Work         []ProtoExperience  `json:"work"`
+	Awards       []ProtoAward       `json:"awards,omitempty"`
+	Basics       ProtoBasics        `json:"basics,omitempty"`
+	Certificates []ProtoCertificate `json:"certificates,omitempty"`
+	Education    []ProtoEducation   `json:"education,omitempty"`
+	Interests    []ProtoInterest    `json:"interests,omitempty"`
+	Languages    []ProtoLanguage    `json:"languages,omitempty"`
+	Projects     []ProtoProject     `json:"projects,omitempty"`
+	Publications []ProtoPublication `json:"publications,omitempty"`
+	References   []ProtoReference   `json:"references,omitempty"`
+	Skills       []ProtoSkill       `json:"skills,omitempty"`
+	Volunteer    []ProtoExperience  `json:"volunteer,omitempty"`
+	Work         []ProtoExperience  `json:"work,omitempty"`
 }
 
 func (receiver *CoreResume) AppendAwardID(id string) {

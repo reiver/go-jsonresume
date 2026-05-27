@@ -60,8 +60,6 @@ func TestCoreExperience_marshalJSONLD(t *testing.T) {
 				`"position":"Software Engineer"` +
 				`,` +
 				`"startDate":"2020-01-01"` +
-				`,` +
-				`"url":[]` +
 				`}`,
 		},
 	}

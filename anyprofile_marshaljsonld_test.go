@@ -52,8 +52,6 @@ func TestAnyProfile_marshalJSONLD(t *testing.T) {
 				`"network":"Mastodon"` +
 				`,` +
 				`"username":"@joe@example.com"` +
-				`,` +
-				`"url":[]` +
 				`}`,
 		},
 	}

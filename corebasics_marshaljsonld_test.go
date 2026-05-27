@@ -44,20 +44,6 @@ func TestCoreBasics_marshalJSONLD(t *testing.T) {
 			Value: jsonresume.CoreBasics{},
 			Expected: `{` +
 				context +
-				`,` +
-				`"email":null` +
-				`,` +
-				`"image":[]` +
-				`,` +
-				`"label":null` +
-				`,` +
-				`"location":[]` +
-				`,` +
-				`"phone":null` +
-				`,` +
-				`"profiles":[]` +
-				`,` +
-				`"url":[]` +
 				`}`,
 		},
 	}

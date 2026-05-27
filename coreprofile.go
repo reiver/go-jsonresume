@@ -12,5 +12,5 @@ type CoreProfile struct {
 
 	Network  nul.Nullable[string]    `json:"network,omitempty"`
 	UserName nul.Nullable[string]    `json:"username,omitempty"`
-	URL      []activitypub.ProtoLink `json:"url"      jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
+	URL      []activitypub.ProtoLink `json:"url,omitempty,jsonld.compact" jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 }

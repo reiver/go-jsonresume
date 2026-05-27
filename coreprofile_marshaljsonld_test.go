@@ -40,8 +40,6 @@ func TestCoreProfile_marshalJSONLD(t *testing.T) {
 				`"network":"Mastodon"` +
 				`,` +
 				`"username":"@joe@example.com"` +
-				`,` +
-				`"url":[]` +
 				`}`,
 		},
 	}
