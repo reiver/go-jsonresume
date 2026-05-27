@@ -299,6 +299,116 @@ func TestID_ProtoSpecific(t *testing.T) {
 				Type: jsonld.SomeType(TypeResume),
 			},
 		},
+
+		// 4
+		{
+			Name:   "BasicsID.ProtoBasics",
+			Actual: SomeBasicsID(iri).ProtoBasics(),
+			Expected: AnyBasics{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeBasics),
+			},
+		},
+
+		// 5
+		{
+			Name:   "EducationID.ProtoEducation",
+			Actual: SomeEducationID(iri).ProtoEducation(),
+			Expected: AnyEducation{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeEducation),
+			},
+		},
+
+		// 6
+		{
+			Name:   "ExperienceID.ProtoExperience",
+			Actual: SomeExperienceID(iri).ProtoExperience(),
+			Expected: AnyExperience{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeExperience),
+			},
+		},
+
+		// 7
+		{
+			Name:   "InterestID.ProtoInterest",
+			Actual: SomeInterestID(iri).ProtoInterest(),
+			Expected: AnyInterest{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeInterest),
+			},
+		},
+
+		// 8
+		{
+			Name:   "LanguageID.ProtoLanguage",
+			Actual: SomeLanguageID(iri).ProtoLanguage(),
+			Expected: AnyLanguage{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeLanguage),
+			},
+		},
+
+		// 9
+		{
+			Name:   "LocationID.ProtoLocation",
+			Actual: SomeLocationID(iri).ProtoLocation(),
+			Expected: AnyLocation{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeLocation),
+			},
+		},
+
+		// 10
+		{
+			Name:   "MetaID.ProtoMeta",
+			Actual: SomeMetaID(iri).ProtoMeta(),
+			Expected: AnyMeta{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeMeta),
+			},
+		},
+
+		// 11
+		{
+			Name:   "ProfileID.ProtoProfile",
+			Actual: SomeProfileID(iri).ProtoProfile(),
+			Expected: AnyProfile{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeProfile),
+			},
+		},
+
+		// 12
+		{
+			Name:   "PublicationID.ProtoPublication",
+			Actual: SomePublicationID(iri).ProtoPublication(),
+			Expected: AnyPublication{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypePublication),
+			},
+		},
+
+		// 13
+		{
+			Name:   "ReferenceID.ProtoReference",
+			Actual: SomeReferenceID(iri).ProtoReference(),
+			Expected: AnyReference{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeReference),
+			},
+		},
+
+		// 14
+		{
+			Name:   "SkillID.ProtoSkill",
+			Actual: SomeSkillID(iri).ProtoSkill(),
+			Expected: AnySkill{
+				ID:   expectedID,
+				Type: jsonld.SomeType(TypeSkill),
+			},
+		},
 	}
 
 	for testNumber, test := range tests {
