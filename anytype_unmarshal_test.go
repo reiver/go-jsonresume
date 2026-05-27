@@ -1,7 +1,9 @@
 package jsonresume_test
 
 import (
+	"errors"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/reiver/go-jsonld"
@@ -289,5 +291,129 @@ func TestAnyType_UnmarshalJSON_typeAccepted(t *testing.T) {
 			continue
 		}
 		checkTypes(t, "AnyProject", inputNumber, input.JSON, v.Type, input.ExpectedTypes)
+	}
+}
+
+// TestAnyType_UnmarshalJSON_nilReceiver verifies that calling UnmarshalJSON
+// on a nil pointer returns ErrReceiverNil rather than panicking.
+func TestAnyType_UnmarshalJSON_nilReceiver(t *testing.T) {
+
+	tests := []struct {
+		Name string
+		Fn   func([]byte) error
+	}{
+		{Name: "AnyAward",       Fn: (*jsonresume.AnyAward)(nil).UnmarshalJSON},
+		{Name: "AnyBasics",      Fn: (*jsonresume.AnyBasics)(nil).UnmarshalJSON},
+		{Name: "AnyCertificate", Fn: (*jsonresume.AnyCertificate)(nil).UnmarshalJSON},
+		{Name: "AnyEducation",   Fn: (*jsonresume.AnyEducation)(nil).UnmarshalJSON},
+		{Name: "AnyExperience",  Fn: (*jsonresume.AnyExperience)(nil).UnmarshalJSON},
+		{Name: "AnyInterest",    Fn: (*jsonresume.AnyInterest)(nil).UnmarshalJSON},
+		{Name: "AnyLanguage",    Fn: (*jsonresume.AnyLanguage)(nil).UnmarshalJSON},
+		{Name: "AnyLocation",    Fn: (*jsonresume.AnyLocation)(nil).UnmarshalJSON},
+		{Name: "AnyMeta",        Fn: (*jsonresume.AnyMeta)(nil).UnmarshalJSON},
+		{Name: "AnyProfile",     Fn: (*jsonresume.AnyProfile)(nil).UnmarshalJSON},
+		{Name: "AnyProject",     Fn: (*jsonresume.AnyProject)(nil).UnmarshalJSON},
+		{Name: "AnyPublication", Fn: (*jsonresume.AnyPublication)(nil).UnmarshalJSON},
+		{Name: "AnyReference",   Fn: (*jsonresume.AnyReference)(nil).UnmarshalJSON},
+		{Name: "AnyResume",      Fn: (*jsonresume.AnyResume)(nil).UnmarshalJSON},
+		{Name: "AnySkill",       Fn: (*jsonresume.AnySkill)(nil).UnmarshalJSON},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Name, func(t *testing.T) {
+			err := test.Fn([]byte(`{}`))
+			if nil == err {
+				t.Errorf("Expected an error but did not get one.")
+				return
+			}
+			if !errors.Is(err, jsonresume.ErrReceiverNil) {
+				t.Errorf("Expected ErrReceiverNil but got: %s", err)
+			}
+		})
+	}
+}
+
+// TestAnyType_UnmarshalJSON_directMalformed calls UnmarshalJSON directly
+// (bypassing the outer jsonld.Unmarshal) to verify that the inner
+// jsonld.Unmarshal error path returns an error rather than panicking
+// or silently proceeding with a zero-value raw struct.
+func TestAnyType_UnmarshalJSON_directMalformed(t *testing.T) {
+
+	malformed := []byte(`{"type":"Award","title":`)
+
+	tests := []struct {
+		Name string
+		Fn   func([]byte) error
+	}{
+		{Name: "AnyAward",       Fn: new(jsonresume.AnyAward).UnmarshalJSON},
+		{Name: "AnyBasics",      Fn: new(jsonresume.AnyBasics).UnmarshalJSON},
+		{Name: "AnyCertificate", Fn: new(jsonresume.AnyCertificate).UnmarshalJSON},
+		{Name: "AnyEducation",   Fn: new(jsonresume.AnyEducation).UnmarshalJSON},
+		{Name: "AnyExperience",  Fn: new(jsonresume.AnyExperience).UnmarshalJSON},
+		{Name: "AnyInterest",    Fn: new(jsonresume.AnyInterest).UnmarshalJSON},
+		{Name: "AnyLanguage",    Fn: new(jsonresume.AnyLanguage).UnmarshalJSON},
+		{Name: "AnyLocation",    Fn: new(jsonresume.AnyLocation).UnmarshalJSON},
+		{Name: "AnyMeta",        Fn: new(jsonresume.AnyMeta).UnmarshalJSON},
+		{Name: "AnyProfile",     Fn: new(jsonresume.AnyProfile).UnmarshalJSON},
+		{Name: "AnyProject",     Fn: new(jsonresume.AnyProject).UnmarshalJSON},
+		{Name: "AnyPublication", Fn: new(jsonresume.AnyPublication).UnmarshalJSON},
+		{Name: "AnyReference",   Fn: new(jsonresume.AnyReference).UnmarshalJSON},
+		{Name: "AnyResume",      Fn: new(jsonresume.AnyResume).UnmarshalJSON},
+		{Name: "AnySkill",       Fn: new(jsonresume.AnySkill).UnmarshalJSON},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Name, func(t *testing.T) {
+			err := test.Fn(malformed)
+			if nil == err {
+				t.Errorf("Expected an error but did not get one.")
+			}
+		})
+	}
+}
+
+// TestAnyType_UnmarshalJSON_malformedType verifies that a non-string type
+// field value (e.g. a number) causes an error in the type unmarshal step,
+// rather than being silently accepted or causing a panic.
+func TestAnyType_UnmarshalJSON_malformedType(t *testing.T) {
+
+	// "type" is a number — valid JSON object but invalid for jsonld.Types.
+	typeJSON := []byte(`{"type":123}`)
+	// AnyProject uses "@type" instead of "type".
+	projectJSON := []byte(`{"@type":123}`)
+
+	tests := []struct {
+		Name  string
+		Fn    func([]byte) error
+		Input []byte
+	}{
+		{Name: "AnyAward",       Fn: new(jsonresume.AnyAward).UnmarshalJSON,       Input: typeJSON},
+		{Name: "AnyBasics",      Fn: new(jsonresume.AnyBasics).UnmarshalJSON,      Input: typeJSON},
+		{Name: "AnyCertificate", Fn: new(jsonresume.AnyCertificate).UnmarshalJSON, Input: typeJSON},
+		{Name: "AnyEducation",   Fn: new(jsonresume.AnyEducation).UnmarshalJSON,   Input: typeJSON},
+		{Name: "AnyExperience",  Fn: new(jsonresume.AnyExperience).UnmarshalJSON,  Input: typeJSON},
+		{Name: "AnyInterest",    Fn: new(jsonresume.AnyInterest).UnmarshalJSON,    Input: typeJSON},
+		{Name: "AnyLanguage",    Fn: new(jsonresume.AnyLanguage).UnmarshalJSON,    Input: typeJSON},
+		{Name: "AnyLocation",    Fn: new(jsonresume.AnyLocation).UnmarshalJSON,    Input: typeJSON},
+		{Name: "AnyMeta",        Fn: new(jsonresume.AnyMeta).UnmarshalJSON,        Input: typeJSON},
+		{Name: "AnyProfile",     Fn: new(jsonresume.AnyProfile).UnmarshalJSON,     Input: typeJSON},
+		{Name: "AnyProject",     Fn: new(jsonresume.AnyProject).UnmarshalJSON,     Input: projectJSON},
+		{Name: "AnyPublication", Fn: new(jsonresume.AnyPublication).UnmarshalJSON, Input: typeJSON},
+		{Name: "AnyReference",   Fn: new(jsonresume.AnyReference).UnmarshalJSON,   Input: typeJSON},
+		{Name: "AnyResume",      Fn: new(jsonresume.AnyResume).UnmarshalJSON,      Input: typeJSON},
+		{Name: "AnySkill",       Fn: new(jsonresume.AnySkill).UnmarshalJSON,       Input: typeJSON},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Name, func(t *testing.T) {
+			err := test.Fn(test.Input)
+			if nil == err {
+				t.Errorf("Expected an error but did not get one.")
+				return
+			}
+			if !strings.Contains(err.Error(), "type") {
+				t.Errorf("Expected error to mention 'type' but got: %s", err)
+			}
+		})
 	}
 }
