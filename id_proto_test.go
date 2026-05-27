@@ -178,6 +178,78 @@ func TestID_ProtoNode(t *testing.T) {
 	}
 }
 
+func TestID_ProtoEntity(t *testing.T) {
+
+	const iri = "http://example.com/thing/1"
+	expectedID := jsonld.SomeID(iri)
+
+	tests := []struct {
+		Name     string
+		Actual   activitypub.AnyEntity
+		Expected activitypub.AnyEntity
+	}{
+		{Name: "AwardID", Actual: SomeAwardID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeAward)}},
+		{Name: "BasicsID", Actual: SomeBasicsID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeBasics)}},
+		{Name: "CertificateID", Actual: SomeCertificateID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeCertificate)}},
+		{Name: "EducationID", Actual: SomeEducationID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeEducation)}},
+		{Name: "ExperienceID", Actual: SomeExperienceID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeExperience)}},
+		{Name: "InterestID", Actual: SomeInterestID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeInterest)}},
+		{Name: "LanguageID", Actual: SomeLanguageID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeLanguage)}},
+		{Name: "LocationID", Actual: SomeLocationID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeLocation)}},
+		{Name: "MetaID", Actual: SomeMetaID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeMeta)}},
+		{Name: "ProfileID", Actual: SomeProfileID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeProfile)}},
+		{Name: "ProjectID", Actual: SomeProjectID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeProject)}},
+		{Name: "PublicationID", Actual: SomePublicationID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypePublication)}},
+		{Name: "ReferenceID", Actual: SomeReferenceID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeReference)}},
+		{Name: "ResumeID", Actual: SomeResumeID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeResume)}},
+		{Name: "SkillID", Actual: SomeSkillID(iri).ProtoEntity(), Expected: activitypub.AnyEntity{ID: expectedID, Type: jsonld.SomeType(TypeSkill)}},
+	}
+
+	for testNumber, test := range tests {
+		if !reflect.DeepEqual(test.Expected, test.Actual) {
+			t.Errorf("For test #%d (%s), the actual value is not what was expected.", testNumber, test.Name)
+			t.Logf("EXPECTED: %#v", test.Expected)
+			t.Logf("ACTUAL:   %#v", test.Actual)
+		}
+	}
+}
+
+func TestID_ProtoObject(t *testing.T) {
+
+	const iri = "http://example.com/thing/1"
+	expectedID := jsonld.SomeID(iri)
+
+	tests := []struct {
+		Name     string
+		Actual   activitypub.AnyObject
+		Expected activitypub.AnyObject
+	}{
+		{Name: "AwardID", Actual: SomeAwardID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeAward)}},
+		{Name: "BasicsID", Actual: SomeBasicsID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeBasics)}},
+		{Name: "CertificateID", Actual: SomeCertificateID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeCertificate)}},
+		{Name: "EducationID", Actual: SomeEducationID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeEducation)}},
+		{Name: "ExperienceID", Actual: SomeExperienceID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeExperience)}},
+		{Name: "InterestID", Actual: SomeInterestID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeInterest)}},
+		{Name: "LanguageID", Actual: SomeLanguageID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeLanguage)}},
+		{Name: "LocationID", Actual: SomeLocationID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeLocation)}},
+		{Name: "MetaID", Actual: SomeMetaID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeMeta)}},
+		{Name: "ProfileID", Actual: SomeProfileID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeProfile)}},
+		{Name: "ProjectID", Actual: SomeProjectID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeProject)}},
+		{Name: "PublicationID", Actual: SomePublicationID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypePublication)}},
+		{Name: "ReferenceID", Actual: SomeReferenceID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeReference)}},
+		{Name: "ResumeID", Actual: SomeResumeID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeResume)}},
+		{Name: "SkillID", Actual: SomeSkillID(iri).ProtoObject(), Expected: activitypub.AnyObject{ID: expectedID, Type: jsonld.SomeType(TypeSkill)}},
+	}
+
+	for testNumber, test := range tests {
+		if !reflect.DeepEqual(test.Expected, test.Actual) {
+			t.Errorf("For test #%d (%s), the actual value is not what was expected.", testNumber, test.Name)
+			t.Logf("EXPECTED: %#v", test.Expected)
+			t.Logf("ACTUAL:   %#v", test.Actual)
+		}
+	}
+}
+
 func TestID_ProtoSpecific(t *testing.T) {
 
 	const iri = "http://example.com/thing/1"
