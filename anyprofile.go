@@ -1,6 +1,7 @@
 package jsonresume
 
 import (
+	"codeberg.org/reiver/go-activitypub"
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
 )
@@ -40,4 +41,33 @@ func (receiver *AnyProfile) UnmarshalJSON(bytes []byte) error {
 	}
 
 	return receiver.CoreProfile.unmarshalRawProfile(raw, &receiver.ID)
+}
+
+func (receiver AnyProfile) ProtoNode() activitypub.AnyNode {
+	return activitypub.AnyNode{
+		ID:   receiver.ID,
+		Type: receiver.Type,
+	}
+}
+
+func (receiver AnyProfile) ProtoEntity() activitypub.AnyEntity {
+	return activitypub.AnyEntity{
+		ID:   receiver.ID,
+		Type: receiver.Type,
+	}
+}
+
+func (receiver AnyProfile) ProtoObject() activitypub.AnyObject {
+	return activitypub.AnyObject{
+		ID:   receiver.ID,
+		Type: receiver.Type,
+
+		CoreObject: activitypub.CoreObject{
+			URL: receiver.URL,
+		},
+	}
+}
+
+func (receiver AnyProfile) ProtoProfile() AnyProfile {
+	return receiver
 }

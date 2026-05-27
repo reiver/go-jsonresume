@@ -17,6 +17,7 @@ type ProtoResume interface {
 }
 
 var (
+	_ ProtoResume = AnyResume{}
 	_ ProtoResume = Resume{}
 	_ ProtoResume = ResumeID{}
 )

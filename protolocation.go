@@ -17,6 +17,7 @@ type ProtoLocation interface {
 }
 
 var (
+	_ ProtoLocation = AnyLocation{}
 	_ ProtoLocation = Location{}
 	_ ProtoLocation = LocationID{}
 )

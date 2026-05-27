@@ -17,6 +17,7 @@ type ProtoLanguage interface {
 }
 
 var (
+	_ ProtoLanguage = AnyLanguage{}
 	_ ProtoLanguage = Language{}
 	_ ProtoLanguage = LanguageID{}
 )

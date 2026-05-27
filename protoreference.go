@@ -17,6 +17,7 @@ type ProtoReference interface {
 }
 
 var (
+	_ ProtoReference = AnyReference{}
 	_ ProtoReference = Reference{}
 	_ ProtoReference = ReferenceID{}
 )

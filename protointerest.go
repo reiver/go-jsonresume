@@ -17,6 +17,7 @@ type ProtoInterest interface {
 }
 
 var (
+	_ ProtoInterest = AnyInterest{}
 	_ ProtoInterest = Interest{}
 	_ ProtoInterest = InterestID{}
 )

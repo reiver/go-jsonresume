@@ -17,6 +17,7 @@ type ProtoSkill interface {
 }
 
 var (
+	_ ProtoSkill = AnySkill{}
 	_ ProtoSkill = Skill{}
 	_ ProtoSkill = SkillID{}
 )

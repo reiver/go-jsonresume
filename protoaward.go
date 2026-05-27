@@ -17,6 +17,7 @@ type ProtoAward interface {
 }
 
 var (
+	_ ProtoAward = AnyAward{}
 	_ ProtoAward = Award{}
 	_ ProtoAward = AwardID{}
 )

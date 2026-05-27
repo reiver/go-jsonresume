@@ -17,6 +17,7 @@ type ProtoEducation interface {
 }
 
 var (
+	_ ProtoEducation = AnyEducation{}
 	_ ProtoEducation = Education{}
 	_ ProtoEducation = EducationID{}
 )

@@ -17,6 +17,7 @@ type ProtoProfile interface {
 }
 
 var (
+	_ ProtoProfile = AnyProfile{}
 	_ ProtoProfile = Profile{}
 	_ ProtoProfile = ProfileID{}
 )

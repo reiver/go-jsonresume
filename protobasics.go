@@ -17,6 +17,7 @@ type ProtoBasics interface {
 }
 
 var (
+	_ ProtoBasics = AnyBasics{}
 	_ ProtoBasics = Basics{}
 	_ ProtoBasics = BasicsID{}
 )

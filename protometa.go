@@ -17,6 +17,7 @@ type ProtoMeta interface {
 }
 
 var (
+	_ ProtoMeta = AnyMeta{}
 	_ ProtoMeta = Meta{}
 	_ ProtoMeta = MetaID{}
 )

@@ -17,6 +17,7 @@ type ProtoProject interface {
 }
 
 var (
+	_ ProtoProject = AnyProject{}
 	_ ProtoProject = Project{}
 	_ ProtoProject = ProjectID{}
 )

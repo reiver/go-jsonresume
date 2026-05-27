@@ -17,6 +17,7 @@ type ProtoExperience interface {
 }
 
 var (
+	_ ProtoExperience = AnyExperience{}
 	_ ProtoExperience = Experience{}
 	_ ProtoExperience = ExperienceID{}
 )
