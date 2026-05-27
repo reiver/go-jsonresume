@@ -182,18 +182,23 @@ func TestAny_ProtoNode(t *testing.T) {
 func TestAny_ProtoEntity(t *testing.T) {
 
 	id := jsonld.SomeID("http://example.com/thing/1")
-	typ := jsonld.SomeType("Experience")
+	typ := jsonld.SomeType("Thing")
 	name := nul.Something("Test Name")
 
-	// AnyExperience — propagates Name.
+	// Types that propagate Name to ProtoEntity.
 	{
-		actual := AnyExperience{
-			ID:   id,
-			Type: typ,
-			CoreExperience: CoreExperience{
-				Name: name,
-			},
-		}.ProtoEntity()
+		tests := []struct {
+			Name   string
+			Actual activitypub.AnyEntity
+		}{
+			{Name: "AnyBasics",      Actual: AnyBasics{ID: id, Type: typ, CoreBasics: CoreBasics{Name: name}}.ProtoEntity()},
+			{Name: "AnyCertificate", Actual: AnyCertificate{ID: id, Type: typ, CoreCertificate: CoreCertificate{Name: name}}.ProtoEntity()},
+			{Name: "AnyExperience",  Actual: AnyExperience{ID: id, Type: typ, CoreExperience: CoreExperience{Name: name}}.ProtoEntity()},
+			{Name: "AnyInterest",    Actual: AnyInterest{ID: id, Type: typ, CoreInterest: CoreInterest{Name: name}}.ProtoEntity()},
+			{Name: "AnyProject",     Actual: AnyProject{ID: id, Type: typ, CoreProject: CoreProject{Name: name}}.ProtoEntity()},
+			{Name: "AnyPublication", Actual: AnyPublication{ID: id, Type: typ, CorePublication: CorePublication{Name: name}}.ProtoEntity()},
+			{Name: "AnyReference",   Actual: AnyReference{ID: id, Type: typ, CoreReference: CoreReference{Name: name}}.ProtoEntity()},
+		}
 
 		expected := activitypub.AnyEntity{
 			ID:   id,
@@ -203,26 +208,42 @@ func TestAny_ProtoEntity(t *testing.T) {
 			},
 		}
 
-		if !reflect.DeepEqual(expected, actual) {
-			t.Errorf("For AnyExperience.ProtoEntity(), the actual value is not what was expected.")
-			t.Logf("EXPECTED: %#v", expected)
-			t.Logf("ACTUAL:   %#v", actual)
+		for testNumber, test := range tests {
+			if !reflect.DeepEqual(expected, test.Actual) {
+				t.Errorf("For test #%d (%s), ProtoEntity() did not propagate Name.", testNumber, test.Name)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", test.Actual)
+			}
 		}
 	}
 
-	// AnyAward — does not propagate Name.
+	// Types that do NOT propagate Name to ProtoEntity (ID+Type only).
 	{
-		actual := AnyAward{ID: id, Type: typ}.ProtoEntity()
+		tests := []struct {
+			Name   string
+			Actual activitypub.AnyEntity
+		}{
+			{Name: "AnyAward",    Actual: AnyAward{ID: id, Type: typ}.ProtoEntity()},
+			{Name: "AnyEducation", Actual: AnyEducation{ID: id, Type: typ}.ProtoEntity()},
+			{Name: "AnyLanguage", Actual: AnyLanguage{ID: id, Type: typ}.ProtoEntity()},
+			{Name: "AnyLocation", Actual: AnyLocation{ID: id, Type: typ}.ProtoEntity()},
+			{Name: "AnyMeta",     Actual: AnyMeta{ID: id, Type: typ}.ProtoEntity()},
+			{Name: "AnyProfile",  Actual: AnyProfile{ID: id, Type: typ}.ProtoEntity()},
+			{Name: "AnyResume",   Actual: AnyResume{ID: id, Type: typ}.ProtoEntity()},
+			{Name: "AnySkill",    Actual: AnySkill{ID: id, Type: typ}.ProtoEntity()},
+		}
 
 		expected := activitypub.AnyEntity{
 			ID:   id,
 			Type: typ,
 		}
 
-		if !reflect.DeepEqual(expected, actual) {
-			t.Errorf("For AnyAward.ProtoEntity(), the actual value is not what was expected.")
-			t.Logf("EXPECTED: %#v", expected)
-			t.Logf("ACTUAL:   %#v", actual)
+		for testNumber, test := range tests {
+			if !reflect.DeepEqual(expected, test.Actual) {
+				t.Errorf("For test #%d (%s), ProtoEntity() should only have ID+Type.", testNumber, test.Name)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", test.Actual)
+			}
 		}
 	}
 }
@@ -230,93 +251,193 @@ func TestAny_ProtoEntity(t *testing.T) {
 func TestAny_ProtoObject(t *testing.T) {
 
 	id := jsonld.SomeID("http://example.com/thing/1")
-	typ := jsonld.SomeType("Experience")
+	typ := jsonld.SomeType("Thing")
 	name := nul.Something("Test Name")
 	summary := nul.Something("A summary")
 	url := []activitypub.ProtoLink{activitypub.HRef("https://example.com")}
+	image := []activitypub.ProtoImageOrProtoLink{activitypub.HRef("https://example.com/photo.jpg")}
 
-	// AnyExperience — propagates Name, Summary, URL.
-	{
-		actual := AnyExperience{
-			ID:   id,
-			Type: typ,
-			CoreExperience: CoreExperience{
-				Name:    name,
-				Summary: summary,
-				URL:     url,
+	tests := []struct {
+		Name     string
+		Actual   activitypub.AnyObject
+		Expected activitypub.AnyObject
+	}{
+		// AnyAward — propagates Summary only (no Name, no URL).
+		{
+			Name: "AnyAward",
+			Actual: AnyAward{
+				ID: id, Type: typ,
+				CoreAward: CoreAward{Summary: summary},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreObject: activitypub.CoreObject{Summary: summary},
 			},
-		}.ProtoObject()
+		},
 
-		expected := activitypub.AnyObject{
-			ID:   id,
-			Type: typ,
-			CoreEntity: activitypub.CoreEntity{
-				Name: name,
+		// AnyBasics — propagates Name, Image, Summary, URL.
+		{
+			Name: "AnyBasics",
+			Actual: AnyBasics{
+				ID: id, Type: typ,
+				CoreBasics: CoreBasics{Name: name, Image: image, Summary: summary, URL: url},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreEntity: activitypub.CoreEntity{Name: name},
+				CoreObject: activitypub.CoreObject{Image: image, Summary: summary, URL: url},
 			},
-			CoreObject: activitypub.CoreObject{
-				Summary: summary,
-				URL:     url,
-			},
-		}
+		},
 
-		if !reflect.DeepEqual(expected, actual) {
-			t.Errorf("For AnyExperience.ProtoObject(), the actual value is not what was expected.")
-			t.Logf("EXPECTED: %#v", expected)
-			t.Logf("ACTUAL:   %#v", actual)
-		}
+		// AnyCertificate — propagates Name, URL.
+		{
+			Name: "AnyCertificate",
+			Actual: AnyCertificate{
+				ID: id, Type: typ,
+				CoreCertificate: CoreCertificate{Name: name, URL: url},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreEntity: activitypub.CoreEntity{Name: name},
+				CoreObject: activitypub.CoreObject{URL: url},
+			},
+		},
+
+		// AnyEducation — propagates URL only (no Name).
+		{
+			Name: "AnyEducation",
+			Actual: AnyEducation{
+				ID: id, Type: typ,
+				CoreEducation: CoreEducation{URL: url},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreObject: activitypub.CoreObject{URL: url},
+			},
+		},
+
+		// AnyExperience — propagates Name, Summary, URL.
+		{
+			Name: "AnyExperience",
+			Actual: AnyExperience{
+				ID: id, Type: typ,
+				CoreExperience: CoreExperience{Name: name, Summary: summary, URL: url},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreEntity: activitypub.CoreEntity{Name: name},
+				CoreObject: activitypub.CoreObject{Summary: summary, URL: url},
+			},
+		},
+
+		// AnyInterest — propagates Name only (no CoreObject fields).
+		{
+			Name: "AnyInterest",
+			Actual: AnyInterest{
+				ID: id, Type: typ,
+				CoreInterest: CoreInterest{Name: name},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreEntity: activitypub.CoreEntity{Name: name},
+			},
+		},
+
+		// AnyLanguage — ID+Type only (no propagated fields).
+		{
+			Name:     "AnyLanguage",
+			Actual:   AnyLanguage{ID: id, Type: typ}.ProtoObject(),
+			Expected: activitypub.AnyObject{ID: id, Type: typ},
+		},
+
+		// AnyLocation — ID+Type only (no propagated fields).
+		{
+			Name:     "AnyLocation",
+			Actual:   AnyLocation{ID: id, Type: typ}.ProtoObject(),
+			Expected: activitypub.AnyObject{ID: id, Type: typ},
+		},
+
+		// AnyMeta — ID+Type only (no propagated fields).
+		{
+			Name:     "AnyMeta",
+			Actual:   AnyMeta{ID: id, Type: typ}.ProtoObject(),
+			Expected: activitypub.AnyObject{ID: id, Type: typ},
+		},
+
+		// AnyProfile — propagates URL only (no Name).
+		{
+			Name: "AnyProfile",
+			Actual: AnyProfile{
+				ID: id, Type: typ,
+				CoreProfile: CoreProfile{URL: url},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreObject: activitypub.CoreObject{URL: url},
+			},
+		},
+
+		// AnyProject — propagates Name, URL.
+		{
+			Name: "AnyProject",
+			Actual: AnyProject{
+				ID: id, Type: typ,
+				CoreProject: CoreProject{Name: name, URL: url},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreEntity: activitypub.CoreEntity{Name: name},
+				CoreObject: activitypub.CoreObject{URL: url},
+			},
+		},
+
+		// AnyPublication — propagates Name, Summary, URL.
+		{
+			Name: "AnyPublication",
+			Actual: AnyPublication{
+				ID: id, Type: typ,
+				CorePublication: CorePublication{Name: name, Summary: summary, URL: url},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreEntity: activitypub.CoreEntity{Name: name},
+				CoreObject: activitypub.CoreObject{Summary: summary, URL: url},
+			},
+		},
+
+		// AnyReference — propagates Name only (no CoreObject fields).
+		{
+			Name: "AnyReference",
+			Actual: AnyReference{
+				ID: id, Type: typ,
+				CoreReference: CoreReference{Name: name},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreEntity: activitypub.CoreEntity{Name: name},
+			},
+		},
+
+		// AnyResume — ID+Type only (no propagated fields).
+		{
+			Name:     "AnyResume",
+			Actual:   AnyResume{ID: id, Type: typ}.ProtoObject(),
+			Expected: activitypub.AnyObject{ID: id, Type: typ},
+		},
+
+		// AnySkill — ID+Type only (no propagated fields).
+		{
+			Name:     "AnySkill",
+			Actual:   AnySkill{ID: id, Type: typ}.ProtoObject(),
+			Expected: activitypub.AnyObject{ID: id, Type: typ},
+		},
 	}
 
-	// AnyAward — propagates Summary only.
-	{
-		actual := AnyAward{
-			ID:   id,
-			Type: typ,
-			CoreAward: CoreAward{
-				Summary: summary,
-			},
-		}.ProtoObject()
-
-		expected := activitypub.AnyObject{
-			ID:   id,
-			Type: typ,
-			CoreObject: activitypub.CoreObject{
-				Summary: summary,
-			},
-		}
-
-		if !reflect.DeepEqual(expected, actual) {
-			t.Errorf("For AnyAward.ProtoObject(), the actual value is not what was expected.")
-			t.Logf("EXPECTED: %#v", expected)
-			t.Logf("ACTUAL:   %#v", actual)
-		}
-	}
-
-	// AnyProject — propagates Name and URL.
-	{
-		actual := AnyProject{
-			ID:   id,
-			Type: typ,
-			CoreProject: CoreProject{
-				Name: name,
-				URL:  url,
-			},
-		}.ProtoObject()
-
-		expected := activitypub.AnyObject{
-			ID:   id,
-			Type: typ,
-			CoreEntity: activitypub.CoreEntity{
-				Name: name,
-			},
-			CoreObject: activitypub.CoreObject{
-				URL: url,
-			},
-		}
-
-		if !reflect.DeepEqual(expected, actual) {
-			t.Errorf("For AnyProject.ProtoObject(), the actual value is not what was expected.")
-			t.Logf("EXPECTED: %#v", expected)
-			t.Logf("ACTUAL:   %#v", actual)
+	for testNumber, test := range tests {
+		if !reflect.DeepEqual(test.Expected, test.Actual) {
+			t.Errorf("For test #%d (%s), ProtoObject() did not return expected value.", testNumber, test.Name)
+			t.Logf("EXPECTED: %#v", test.Expected)
+			t.Logf("ACTUAL:   %#v", test.Actual)
 		}
 	}
 }
