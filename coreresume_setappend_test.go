@@ -242,3 +242,38 @@ func TestCoreResume_Append(t *testing.T) {
 		}
 	}
 }
+
+// TestCoreResume_SetAppend_nilReceiver verifies that all Set* and Append*
+// methods on a nil *CoreResume do not panic.
+func TestCoreResume_SetAppend_nilReceiver(t *testing.T) {
+
+	var r *CoreResume // nil
+
+	// Append methods — must not panic on nil receiver.
+	r.AppendAwardID("http://example.com/a")
+	r.AppendCertificateID("http://example.com/c")
+	r.AppendEducationID("http://example.com/e")
+	r.AppendInterestID("http://example.com/i")
+	r.AppendLanguageID("http://example.com/l")
+	r.AppendProjectID("http://example.com/p")
+	r.AppendPublicationID("http://example.com/pub")
+	r.AppendReferenceID("http://example.com/ref")
+	r.AppendSkillID("http://example.com/s")
+	r.AppendVolunteerID("http://example.com/v")
+	r.AppendWorkID("http://example.com/w")
+
+	// Set methods — must not panic on nil receiver.
+	r.SetAwardID("http://example.com/a")
+	r.SetCertificateID("http://example.com/c")
+	r.SetEducationID("http://example.com/e")
+	r.SetInterestID("http://example.com/i")
+	r.SetLanguageID("http://example.com/l")
+	r.SetProjectID("http://example.com/p")
+	r.SetPublicationID("http://example.com/pub")
+	r.SetReferenceID("http://example.com/ref")
+	r.SetSkillID("http://example.com/s")
+	r.SetVolunteerID("http://example.com/v")
+	r.SetWorkID("http://example.com/w")
+	r.SetBasicsID("http://example.com/b")
+	r.SetMetaID("http://example.com/m")
+}
