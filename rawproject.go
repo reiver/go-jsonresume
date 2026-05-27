@@ -22,6 +22,6 @@ type rawProject struct {
 	Name        gojson.RawMessage `json:"name"`
 	Roles       gojson.RawMessage `json:"roles"`
 	StartDate   gojson.RawMessage `json:"startDate"`
-	Type        gojson.RawMessage `json:"type"`
+	ProjectType gojson.RawMessage `json:"type"`
 	URL         gojson.RawMessage `json:"url"`
 }

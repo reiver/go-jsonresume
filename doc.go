@@ -31,7 +31,7 @@ Use [JSONResume] to attach resume references to an ActivityPub actor:
 
 Project uses "@type" (not "type") for the ActivityPub/ActivityStreams JSON-LD type field.
 This is because JSON Resume defines a "type" field on projects for the project category (e.g., "application", "library"), which collides with JSON-LD's use of "type" as an alias for "@type".
-To preserve both, [Project] and [AnyProject] use "@type" for the JSON-LD type, while [CoreProject].Type holds the project category.
+To preserve both, [Project] and [AnyProject] use "@type" for the JSON-LD type, while [CoreProject].ProjectType holds the project category.
 All other types use "type" for the ActivityPub/ActivityStreams JSON-LD type.
 */
 package jsonresume

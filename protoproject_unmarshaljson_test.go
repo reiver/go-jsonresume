@@ -83,7 +83,7 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 					Highlights:  activitypub.SomeStrings("Built API"),
 					Keywords:    activitypub.SomeStrings("Go"),
 					Roles:       activitypub.SomeStrings("Lead"),
-					Type:        nul.Something("application"),
+					ProjectType: nul.Something("application"),
 				},
 			},
 		},

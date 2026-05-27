@@ -80,7 +80,7 @@ import (
 //
 // Unlike all other types in this package, Project uses "@type" (not "type") for the ActivityPub/ActivityStreams JSON-LD type field.
 // This is because JSON Resume's projects schema defines a "type" field for the project category (e.g., "application", "library", "tool"), which collides with JSON-LD's use of "type" as an alias for "@type".
-// To preserve both fields, [Project] uses "@type" for the JSON-LD type and "type" for the project category (stored in [CoreProject].Type).
+// To preserve both fields, [Project] uses "@type" for the JSON-LD type and "type" for the project category (stored in [CoreProject].ProjectType).
 // See also [AnyProject], which follows the same convention.
 //
 // See also:

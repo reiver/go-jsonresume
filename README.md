@@ -86,7 +86,7 @@ All other types in this package use `type` for the ActivityPub/ActivityStreams J
 In practice this means:
 
 * `Project.AtType` / `AnyProject.AtType` → `"@type"` in JSON (the JSON-LD type: `"Project"`)
-* `CoreProject.Type` → `"type"` in JSON (the project category: `"application"`)
+* `CoreProject.ProjectType` → `"type"` in JSON (the project category: `"application"`)
 
 ## Author
 

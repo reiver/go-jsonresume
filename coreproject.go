@@ -9,7 +9,7 @@ import (
 
 // CoreProject holds the shared fields for [Project] and [AnyProject].
 //
-// The Type field here is the JSON Resume project category (e.g., "application", "library", "tool") — NOT the JSON-LD type.
+// The ProjectType field holds the JSON Resume project category (e.g., "application", "library", "tool") — NOT the JSON-LD type.
 // The JSON-LD type is stored in [Project].AtType or [AnyProject].AtType as "@type".
 // This separation exists because JSON Resume's "type" field on projects collides with ActivityPub/ActivityStreams JSON-LD's "type".
 type CoreProject struct {
@@ -24,7 +24,7 @@ type CoreProject struct {
 	Name        nul.Nullable[string]    `json:"name,omitempty"               jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 	Roles       activitypub.Strings     `json:"roles,omitempty"`
 	StartDate   nul.Nullable[string]    `json:"startDate,omitempty"`
-	Type        nul.Nullable[string]    `json:"type,omitempty"`              // project category (e.g., "application"), not the JSON-LD type
+	ProjectType nul.Nullable[string]    `json:"type,omitempty"`              // project category (e.g., "application"), not the JSON-LD type
 	URL         []activitypub.ProtoLink `json:"url,omitempty,jsonld.compact" jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 }
 
@@ -142,10 +142,10 @@ func (receiver *CoreProject) unmarshalRawProject(raw rawProject, id *jsonld.ID) 
 	}
 
 	{
-		var bb []byte = []byte(raw.Type)
+		var bb []byte = []byte(raw.ProjectType)
 
 		if 0 < len(bb) {
-			err := jsonld.Unmarshal(bb, &receiver.Type)
+			err := jsonld.Unmarshal(bb, &receiver.ProjectType)
 			if nil != err {
 				err = erorr.Wrap(err, "failed to json-unmarshal project type")
 				return err
