@@ -203,6 +203,18 @@ func (receiver *Resume) UnmarshalJSON(bytes []byte) error {
 		}
 
 
+		{
+			var bb []byte = []byte(raw.Meta)
+
+			if 0 < len(bb) {
+				err := jsonld.UnmarshalJSONStringOrJSONObject[ProtoMeta, MetaID, AnyMeta](bb, &receiver.Meta)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal resume meta")
+					return err
+				}
+			}
+		}
+
 //@TODO: Name
 
 

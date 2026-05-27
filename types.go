@@ -15,6 +15,7 @@ const (
 	TypeInterest     = "Interest"    // https://w3id.org/fep/6158#Interest
 	TypeLanguage     = "Language"    // https://w3id.org/fep/6158#Language
 	TypeLocation     = "Location"    // https://w3id.org/fep/6158#Location
+	TypeMeta         = "Meta"        // https://w3id.org/fep/6158#Meta
 	TypeProfile      = "Profile"     // https://w3id.org/fep/6158#Profile
 	TypeProject      = "Project"     // https://w3id.org/fep/6158#Project
 	TypePublication  = "Publication" // https://w3id.org/fep/6158#Publication
@@ -32,6 +33,7 @@ const (
 	CompactTypeInterest     = Prefix + TypeInterest    // cv:Interest      https://w3id.org/fep/6158#Interest
 	CompactTypeLanguage     = Prefix + TypeLanguage    // cv:Language      https://w3id.org/fep/6158#Language
 	CompactTypeLocation     = Prefix + TypeLocation    // cv:Location      https://w3id.org/fep/6158#Location
+	CompactTypeMeta         = Prefix + TypeMeta        // cv:Meta          https://w3id.org/fep/6158#Meta
 	CompactTypeProfile      = Prefix + TypeProfile     // cv:Profile       https://w3id.org/fep/6158#Profile
 	CompactTypeProject      = Prefix + TypeProject     // cv:Project       https://w3id.org/fep/6158#Project
 	CompactTypePublication  = Prefix + TypePublication // cv:Publication   https://w3id.org/fep/6158#Publication
@@ -49,6 +51,7 @@ const (
 	ExpandedTypeInterest     = NameSpace + TypeInterest    // https://w3id.org/fep/6158#Interest
 	ExpandedTypeLanguage     = NameSpace + TypeLanguage    // https://w3id.org/fep/6158#Language
 	ExpandedTypeLocation     = NameSpace + TypeLocation    // https://w3id.org/fep/6158#Location
+	ExpandedTypeMeta         = NameSpace + TypeMeta        // https://w3id.org/fep/6158#Meta
 	ExpandedTypeProfile      = NameSpace + TypeProfile     // https://w3id.org/fep/6158#Profile
 	ExpandedTypeProject      = NameSpace + TypeProject     // https://w3id.org/fep/6158#Project
 	ExpandedTypePublication  = NameSpace + TypePublication // https://w3id.org/fep/6158#Publication

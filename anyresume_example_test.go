@@ -134,6 +134,7 @@ func ExampleAnyResume_jsonUnmarshal() {
 	//     "id": "cv:id",
 	//     "interests": "cv:interests",
 	//     "languages": "cv:languages",
+	//     "meta": "cv:meta",
 	//     "projects": "cv:projects",
 	//     "publications": "cv:publications",
 	//     "references": "cv:references",

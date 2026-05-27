@@ -14,6 +14,7 @@ type CoreResume struct {
 	Education    []ProtoEducation   `json:"education,omitempty"`
 	Interests    []ProtoInterest    `json:"interests,omitempty"`
 	Languages    []ProtoLanguage    `json:"languages,omitempty"`
+	Meta         ProtoMeta          `json:"meta,omitempty"`
 	Projects     []ProtoProject     `json:"projects,omitempty"`
 	Publications []ProtoPublication `json:"publications,omitempty"`
 	References   []ProtoReference   `json:"references,omitempty"`

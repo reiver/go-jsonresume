@@ -26,6 +26,8 @@ func TestCoreResume_marshalJSONLD(t *testing.T) {
 		`,` +
 		`"languages":"cv:languages"` +
 		`,` +
+		`"meta":"cv:meta"` +
+		`,` +
 		`"projects":"cv:projects"` +
 		`,` +
 		`"publications":"cv:publications"` +
