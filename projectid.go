@@ -72,8 +72,8 @@ func (receiver ProjectID) ProtoProject() AnyProject {
 	const _type string = TypeProject
 
 	return AnyProject{
-		ID:   jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
-		Type: jsonld.SomeType(_type),
+		ID:     jsonld.SomeID(jsonld.ID(receiver).GetElse("")),
+		AtType: jsonld.SomeType(_type),
 	}
 }
 

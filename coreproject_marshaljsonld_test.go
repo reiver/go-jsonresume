@@ -32,6 +32,8 @@ func TestCoreProject_marshalJSONLD(t *testing.T) {
 		`,` +
 		`"startDate":"cv:startDate"` +
 		`,` +
+		`"type":"cv:type"` +
+		`,` +
 		`"name":"as:name"` +
 		`,` +
 		`"url":"as:url"` +

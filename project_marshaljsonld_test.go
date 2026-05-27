@@ -24,6 +24,8 @@ func TestProject_marshalJSONLD(t *testing.T) {
 
 		`,` +
 
+		`"@type":"cv:@type"` +
+		`,` +
 		`"description":"cv:description"` +
 		`,` +
 		`"endDate":"cv:endDate"` +
@@ -74,7 +76,7 @@ func TestProject_marshalJSONLD(t *testing.T) {
 				`,` +
 				`"id":"http://example.com/resume/project/microdon"` +
 				`,` +
-				`"type":"Project"` +
+				`"@type":"Project"` +
 				`,` +
 				`"description":"An ActivityPub server"` +
 				`,` +

@@ -19,6 +19,7 @@ type CoreProject struct {
 	Name        nul.Nullable[string]    `json:"name,omitempty"               jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 	Roles       activitypub.Strings     `json:"roles,omitempty"`
 	StartDate   nul.Nullable[string]    `json:"startDate,omitempty"`
+	Type        nul.Nullable[string]    `json:"type,omitempty"`
 	URL         []activitypub.ProtoLink `json:"url,omitempty,jsonld.compact" jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 }
 
@@ -130,6 +131,18 @@ func (receiver *CoreProject) unmarshalRawProject(raw rawProject, id *jsonld.ID) 
 			err := jsonld.Unmarshal(bb, &receiver.StartDate)
 			if nil != err {
 				err = erorr.Wrap(err, "failed to json-unmarshal project startDate")
+				return err
+			}
+		}
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			err := jsonld.Unmarshal(bb, &receiver.Type)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal project type")
 				return err
 			}
 		}

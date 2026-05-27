@@ -83,8 +83,8 @@ type Project struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
-	ID   jsonld.ID          `json:"id,omitempty"`
-	Type json.Const[string] `json:"type" json.value:"Project"`
+	ID     jsonld.ID          `json:"id,omitempty"`
+	AtType json.Const[string] `json:"@type" json.value:"Project"`
 
 	CoreProject
 }
@@ -102,7 +102,7 @@ func (receiver *Project) UnmarshalJSON(bytes []byte) error {
 	}
 
 	{
-		var bb []byte = []byte(raw.Type)
+		var bb []byte = []byte(raw.AtType)
 
 		if 0 < len(bb) {
 			var typeValue string
@@ -166,8 +166,8 @@ func (receiver Project) ProtoProject() AnyProject {
 	const _type string = TypeProject
 
 	return AnyProject{
-		ID:   receiver.ID,
-		Type: jsonld.SomeType(_type),
+		ID:     receiver.ID,
+		AtType: jsonld.SomeType(_type),
 
 		CoreProject: receiver.CoreProject,
 	}

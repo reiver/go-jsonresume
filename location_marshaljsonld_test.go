@@ -39,10 +39,10 @@ func TestLocation_marshalJSONLD(t *testing.T) {
 			Value: jsonresume.Location{
 				ID: jsonld.SomeID("http://example.com/resume/location/vancouver"),
 				CoreLocation: jsonresume.CoreLocation{
-					Address:     nul.Something("123 Main St"),
+					Address:     nul.Something("1234 Main Street"),
 					City:        nul.Something("Vancouver"),
 					CountryCode: nul.Something("CA"),
-					PostalCode:  nul.Something("V5K 0A1"),
+					PostalCode:  nul.Something("H0H 0H0"),
 					Region:      nul.Something("British Columbia"),
 				},
 			},

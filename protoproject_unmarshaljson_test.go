@@ -43,10 +43,10 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 
 		// 3: JSON object → Project
 		{
-			JSON:          []byte(`{"type":"Project","entity":"Acme Corp","startDate":"2023-06-01","description":"A cool project."}`),
+			JSON:          []byte(`{"@type":"Project","entity":"Acme Corp","startDate":"2023-06-01","description":"A cool project."}`),
 			ExpectAnyProject: true,
 			Expected: AnyProject{
-				Type: jsonld.SomeType("Project"),
+				AtType: jsonld.SomeType("Project"),
 				CoreProject: CoreProject{
 					Entity:      nul.Something("Acme Corp"),
 					StartDate:   nul.Something("2023-06-01"),
@@ -57,10 +57,10 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 
 		// 4: JSON object → Project with highlights, keywords, roles
 		{
-			JSON:          []byte(`{"type":"Project","highlights":["Built API","Wrote docs"],"keywords":["Go","REST"],"roles":["Lead","Developer"]}`),
+			JSON:          []byte(`{"@type":"Project","highlights":["Built API","Wrote docs"],"keywords":["Go","REST"],"roles":["Lead","Developer"]}`),
 			ExpectAnyProject: true,
 			Expected: AnyProject{
-				Type: jsonld.SomeType("Project"),
+				AtType: jsonld.SomeType("Project"),
 				CoreProject: CoreProject{
 					Highlights: activitypub.SomeStrings("Built API", "Wrote docs"),
 					Keywords:   activitypub.SomeStrings("Go", "REST"),
@@ -69,12 +69,12 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 			},
 		},
 
-		// 5: JSON object → Project with all fields
+		// 5: JSON object → Project with all fields including schema type
 		{
-			JSON:          []byte(`{"type":"Project","description":"A cool project.","entity":"Acme Corp","startDate":"2023-06-01","endDate":"2024-01-31","highlights":["Built API"],"keywords":["Go"],"roles":["Lead"]}`),
+			JSON:          []byte(`{"@type":"Project","type":"application","description":"A cool project.","entity":"Acme Corp","startDate":"2023-06-01","endDate":"2024-01-31","highlights":["Built API"],"keywords":["Go"],"roles":["Lead"]}`),
 			ExpectAnyProject: true,
 			Expected: AnyProject{
-				Type: jsonld.SomeType("Project"),
+				AtType: jsonld.SomeType("Project"),
 				CoreProject: CoreProject{
 					Description: nul.Something("A cool project."),
 					Entity:      nul.Something("Acme Corp"),
@@ -83,6 +83,7 @@ func TestProtoProjectUnmarshalJSON(t *testing.T) {
 					Highlights:  activitypub.SomeStrings("Built API"),
 					Keywords:    activitypub.SomeStrings("Go"),
 					Roles:       activitypub.SomeStrings("Lead"),
+					Type:        nul.Something("application"),
 				},
 			},
 		},

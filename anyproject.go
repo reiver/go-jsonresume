@@ -10,8 +10,8 @@ type AnyProject struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
-	ID   jsonld.ID    `json:"id,omitempty"`
-	Type jsonld.Types `json:"type,omitempty"`
+	ID   jsonld.ID      `json:"id,omitempty"`
+	AtType jsonld.Types `json:"@type,omitempty"`
 
 	CoreProject
 }
@@ -29,12 +29,12 @@ func (receiver *AnyProject) UnmarshalJSON(bytes []byte) error {
 	}
 
 	{
-		var bb []byte = []byte(raw.Type)
+		var bb []byte = []byte(raw.AtType)
 
 		if 0 < len(bb) {
-			err := jsonld.Unmarshal(bb, &receiver.Type)
+			err := jsonld.Unmarshal(bb, &receiver.AtType)
 			if nil != err {
-				err = erorr.Wrap(err, "failed to json-unmarshal project type")
+				err = erorr.Wrap(err, "failed to json-unmarshal project @type")
 				return err
 			}
 		}
@@ -46,14 +46,14 @@ func (receiver *AnyProject) UnmarshalJSON(bytes []byte) error {
 func (receiver AnyProject) ProtoNode() activitypub.AnyNode {
 	return activitypub.AnyNode{
 		ID:   receiver.ID,
-		Type: receiver.Type,
+		Type: receiver.AtType,
 	}
 }
 
 func (receiver AnyProject) ProtoEntity() activitypub.AnyEntity {
 	return activitypub.AnyEntity{
 		ID:   receiver.ID,
-		Type: receiver.Type,
+		Type: receiver.AtType,
 
 		CoreEntity: activitypub.CoreEntity{
 			Name: receiver.Name,
@@ -64,7 +64,7 @@ func (receiver AnyProject) ProtoEntity() activitypub.AnyEntity {
 func (receiver AnyProject) ProtoObject() activitypub.AnyObject {
 	return activitypub.AnyObject{
 		ID:   receiver.ID,
-		Type: receiver.Type,
+		Type: receiver.AtType,
 
 		CoreEntity: activitypub.CoreEntity{
 			Name: receiver.Name,

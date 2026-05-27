@@ -16,28 +16,31 @@ func TestProject_UnmarshalJSON_typeAccepted(t *testing.T) {
 			JSON: `{}`,
 		},
 		{
-			JSON: `{"type":"Project"}`,
+			JSON: `{"@type":"Project"}`,
 		},
 		{
-			JSON: `{"type":"cv:Project"}`,
+			JSON: `{"@type":"cv:Project"}`,
 		},
 		{
-			JSON: `{"type":"https://w3id.org/fep/6158#Project"}`,
+			JSON: `{"@type":"https://w3id.org/fep/6158#Project"}`,
 		},
 		{
-			JSON: `{"id":"http://example.com/project/1","type":"Project"}`,
+			JSON: `{"id":"http://example.com/project/1","@type":"Project"}`,
 		},
 		{
-			JSON: `{"id":"http://example.com/project/1","type":"https://w3id.org/fep/6158#Project"}`,
+			JSON: `{"id":"http://example.com/project/1","@type":"https://w3id.org/fep/6158#Project"}`,
 		},
 		{
-			JSON: `{"type":"Project","name":"Microdon"}`,
+			JSON: `{"@type":"Project","name":"Microdon"}`,
 		},
 		{
-			JSON: `{"type":"cv:Project","name":"Microdon"}`,
+			JSON: `{"@type":"cv:Project","name":"Microdon"}`,
 		},
 		{
-			JSON: `{"type":"https://w3id.org/fep/6158#Project","name":"Microdon"}`,
+			JSON: `{"@type":"https://w3id.org/fep/6158#Project","name":"Microdon"}`,
+		},
+		{
+			JSON: `{"@type":"Project","type":"application"}`,
 		},
 	}
 
@@ -60,25 +63,25 @@ func TestProject_UnmarshalJSON_typeRejected(t *testing.T) {
 		JSON string
 	}{
 		{
-			JSON: `{"type":"Person"}`,
+			JSON: `{"@type":"Person"}`,
 		},
 		{
-			JSON: `{"type":"Resume"}`,
+			JSON: `{"@type":"Resume"}`,
 		},
 		{
-			JSON: `{"type":""}`,
+			JSON: `{"@type":""}`,
 		},
 		{
-			JSON: `{"type":"project"}`,
+			JSON: `{"@type":"project"}`,
 		},
 		{
-			JSON: `{"type":"PROJECT"}`,
+			JSON: `{"@type":"PROJECT"}`,
 		},
 		{
-			JSON: `{"type":"https://w3id.org/fep/6158#Person"}`,
+			JSON: `{"@type":"https://w3id.org/fep/6158#Person"}`,
 		},
 		{
-			JSON: `{"type":"Person","name":"Microdon"}`,
+			JSON: `{"@type":"Person","name":"Microdon"}`,
 		},
 	}
 

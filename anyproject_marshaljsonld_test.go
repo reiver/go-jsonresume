@@ -24,6 +24,8 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 
 		`,` +
 
+		`"@type":"cv:@type"` +
+		`,` +
 		`"description":"cv:description"` +
 		`,` +
 		`"endDate":"cv:endDate"` +
@@ -55,8 +57,8 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 		// 0
 		{
 			Value: jsonresume.AnyProject{
-				ID:   jsonld.SomeID("http://example.com/resume/project/microdon"),
-				Type: jsonld.SomeType("Project"),
+				ID:     jsonld.SomeID("http://example.com/resume/project/microdon"),
+				AtType: jsonld.SomeType("Project"),
 				CoreProject: jsonresume.CoreProject{
 					Description: nul.Something("An ActivityPub server"),
 					StartDate:   nul.Something("2023-01-01"),
@@ -75,7 +77,7 @@ func TestAnyProject_marshalJSONLD(t *testing.T) {
 				`,` +
 				`"id":"http://example.com/resume/project/microdon"` +
 				`,` +
-				`"type":"Project"` +
+				`"@type":"Project"` +
 				`,` +
 				`"description":"An ActivityPub server"` +
 				`,` +
