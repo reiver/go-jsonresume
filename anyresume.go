@@ -157,9 +157,6 @@ func (receiver *AnyResume) UnmarshalJSON(bytes []byte) error {
 			}
 		}
 
-//@TODO: Name
-
-
 		{
 			var bb []byte = []byte(raw.Projects)
 
