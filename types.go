@@ -16,3 +16,20 @@ const (
 	TypeResume       = "Resume"      // https://w3id.org/fep/6158#Resume
 	TypeSkill        = "Skill"       // https://w3id.org/fep/6158#Skill
 )
+
+const (
+	ExpandedTypeAward        = "https://w3id.org/fep/6158#Award"
+	ExpandedTypeBasics       = "https://w3id.org/fep/6158#Basics"
+	ExpandedTypeCertificate  = "https://w3id.org/fep/6158#Certificate"
+	ExpandedTypeEducation    = "https://w3id.org/fep/6158#Education"
+	ExpandedTypeExperience   = "https://w3id.org/fep/6158#Experience"
+	ExpandedTypeInterest     = "https://w3id.org/fep/6158#Interest"
+	ExpandedTypeLanguage     = "https://w3id.org/fep/6158#Language"
+	ExpandedTypeLocation     = "https://w3id.org/fep/6158#Location"
+	ExpandedTypeProfile      = "https://w3id.org/fep/6158#Profile"
+	ExpandedTypeProject      = "https://w3id.org/fep/6158#Project"
+	ExpandedTypePublication  = "https://w3id.org/fep/6158#Publication"
+	ExpandedTypeReference    = "https://w3id.org/fep/6158#Reference"
+	ExpandedTypeResume       = "https://w3id.org/fep/6158#Resume"
+	ExpandedTypeSkill        = "https://w3id.org/fep/6158#Skill"
+)
