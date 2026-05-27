@@ -136,3 +136,11 @@ func (receiver *CoreEducation) unmarshalRawEducation(raw rawEducation, id *jsonl
 
 	return nil
 }
+
+func (receiver *CoreEducation) SetURL(url string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.URL = []activitypub.ProtoLink{activitypub.HRef(url)}
+}

@@ -152,3 +152,11 @@ func (receiver *CoreBasics) unmarshalRawBasics(raw rawBasics, id *jsonld.ID) err
 
 	return nil
 }
+
+func (receiver *CoreBasics) SetURL(url string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.URL = []activitypub.ProtoLink{activitypub.HRef(url)}
+}

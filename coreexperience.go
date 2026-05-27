@@ -162,3 +162,11 @@ func (receiver *CoreExperience) unmarshalRawExperience(raw rawExperience, id *js
 
 	return nil
 }
+
+func (receiver *CoreExperience) SetURL(url string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.URL = []activitypub.ProtoLink{activitypub.HRef(url)}
+}

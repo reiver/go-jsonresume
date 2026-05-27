@@ -84,3 +84,11 @@ func (receiver *CoreCertificate) unmarshalRawCertificate(raw rawCertificate, id 
 
 	return nil
 }
+
+func (receiver *CoreCertificate) SetURL(url string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.URL = []activitypub.ProtoLink{activitypub.HRef(url)}
+}

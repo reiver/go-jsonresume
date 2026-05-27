@@ -162,3 +162,11 @@ func (receiver *CoreProject) unmarshalRawProject(raw rawProject, id *jsonld.ID) 
 
 	return nil
 }
+
+func (receiver *CoreProject) SetURL(url string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.URL = []activitypub.ProtoLink{activitypub.HRef(url)}
+}

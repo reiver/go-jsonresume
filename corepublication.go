@@ -97,3 +97,11 @@ func (receiver *CorePublication) unmarshalRawPublication(raw rawPublication, id 
 
 	return nil
 }
+
+func (receiver *CorePublication) SetURL(url string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.URL = []activitypub.ProtoLink{activitypub.HRef(url)}
+}

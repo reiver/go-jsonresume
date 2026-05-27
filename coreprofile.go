@@ -71,3 +71,11 @@ func (receiver *CoreProfile) unmarshalRawProfile(raw rawProfile, id *jsonld.ID) 
 
 	return nil
 }
+
+func (receiver *CoreProfile) SetURL(url string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.URL = []activitypub.ProtoLink{activitypub.HRef(url)}
+}
