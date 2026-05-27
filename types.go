@@ -18,6 +18,23 @@ const (
 )
 
 const (
+	CompactTypeAward        = "cv:Award"       // https://w3id.org/fep/6158#Award
+	CompactTypeBasics       = "cv:Basics"      // https://w3id.org/fep/6158#Basics
+	CompactTypeCertificate  = "cv:Certificate" // https://w3id.org/fep/6158#Certificate
+	CompactTypeEducation    = "cv:Education"   // https://w3id.org/fep/6158#Education
+	CompactTypeExperience   = "cv:Experience"  // https://w3id.org/fep/6158#Experience
+	CompactTypeInterest     = "cv:Interest"    // https://w3id.org/fep/6158#Interest
+	CompactTypeLanguage     = "cv:Language"    // https://w3id.org/fep/6158#Language
+	CompactTypeLocation     = "cv:Location"    // https://w3id.org/fep/6158#Location
+	CompactTypeProfile      = "cv:Profile"     // https://w3id.org/fep/6158#Profile
+	CompactTypeProject      = "cv:Project"     // https://w3id.org/fep/6158#Project
+	CompactTypePublication  = "cv:Publication" // https://w3id.org/fep/6158#Publication
+	CompactTypeReference    = "cv:Reference"   // https://w3id.org/fep/6158#Reference
+	CompactTypeResume       = "cv:Resume"      // https://w3id.org/fep/6158#Resume
+	CompactTypeSkill        = "cv:Skill"       // https://w3id.org/fep/6158#Skill
+)
+
+const (
 	ExpandedTypeAward        = "https://w3id.org/fep/6158#Award"
 	ExpandedTypeBasics       = "https://w3id.org/fep/6158#Basics"
 	ExpandedTypeCertificate  = "https://w3id.org/fep/6158#Certificate"
