@@ -1,7 +1,10 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
 )
@@ -139,6 +142,151 @@ type Education struct {
 	Type json.Const[string] `json:"type" json.value:"Education"`
 
 	CoreEducation
+}
+
+func (receiver *Education) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawEducation
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal education")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.ID)
+
+		if 0 < len(bb) {
+			err := jsonld.Unmarshal(bb, &receiver.ID)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal education id")
+				return err
+			}
+		}
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			var typeValue string
+			err := gojson.Unmarshal(bb, &typeValue)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal education type")
+				return err
+			}
+
+			switch typeValue {
+			case TypeEducation, CompactTypeEducation, ExpandedTypeEducation:
+				// OK
+			default:
+				return erorr.Errorf("jsonresume: unexpected type for education: %q", typeValue)
+			}
+		}
+	}
+
+	{
+		{
+			var bb []byte = []byte(raw.Area)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.Area)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal education area")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Courses)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.Courses)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal education courses")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.EndDate)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.EndDate)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal education endDate")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Institution)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.Institution)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal education institution")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Score)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.Score)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal education score")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.StartDate)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.StartDate)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal education startDate")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.StudyType)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.StudyType)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal education studyType")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.URL)
+
+			if 0 < len(bb) {
+				err := jsonld.UnmarshalJSONStringOrJSONObjectOrJSONArray[activitypub.ProtoLink, activitypub.HRef, activitypub.AnyLink](bb, &receiver.URL)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal education url")
+					return err
+				}
+			}
+		}
+	}
+
+	return nil
 }
 
 func (receiver Education) ProtoNode() activitypub.AnyNode {

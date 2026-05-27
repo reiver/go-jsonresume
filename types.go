@@ -1,5 +1,11 @@
 package jsonresume
 
+const Vocabulary = "https://w3id.org/fep/6158"
+
+const NameSpace = Vocabulary + "#" // "https://w3id.org/fep/6158#"
+
+const Prefix = "cv:"
+
 const (
 	TypeAward        = "Award"       // https://w3id.org/fep/6158#Award
 	TypeBasics       = "Basics"      // https://w3id.org/fep/6158#Basics
@@ -18,35 +24,35 @@ const (
 )
 
 const (
-	CompactTypeAward        = "cv:Award"       // https://w3id.org/fep/6158#Award
-	CompactTypeBasics       = "cv:Basics"      // https://w3id.org/fep/6158#Basics
-	CompactTypeCertificate  = "cv:Certificate" // https://w3id.org/fep/6158#Certificate
-	CompactTypeEducation    = "cv:Education"   // https://w3id.org/fep/6158#Education
-	CompactTypeExperience   = "cv:Experience"  // https://w3id.org/fep/6158#Experience
-	CompactTypeInterest     = "cv:Interest"    // https://w3id.org/fep/6158#Interest
-	CompactTypeLanguage     = "cv:Language"    // https://w3id.org/fep/6158#Language
-	CompactTypeLocation     = "cv:Location"    // https://w3id.org/fep/6158#Location
-	CompactTypeProfile      = "cv:Profile"     // https://w3id.org/fep/6158#Profile
-	CompactTypeProject      = "cv:Project"     // https://w3id.org/fep/6158#Project
-	CompactTypePublication  = "cv:Publication" // https://w3id.org/fep/6158#Publication
-	CompactTypeReference    = "cv:Reference"   // https://w3id.org/fep/6158#Reference
-	CompactTypeResume       = "cv:Resume"      // https://w3id.org/fep/6158#Resume
-	CompactTypeSkill        = "cv:Skill"       // https://w3id.org/fep/6158#Skill
+	CompactTypeAward        = Prefix + TypeAward       // cv:Award         https://w3id.org/fep/6158#Award
+	CompactTypeBasics       = Prefix + TypeBasics      // cv:Basics        https://w3id.org/fep/6158#Basics
+	CompactTypeCertificate  = Prefix + TypeCertificate // cv:Certificate   https://w3id.org/fep/6158#Certificate
+	CompactTypeEducation    = Prefix + TypeEducation   // cv:Education     https://w3id.org/fep/6158#Education
+	CompactTypeExperience   = Prefix + TypeExperience  // cv:Experience    https://w3id.org/fep/6158#Experience
+	CompactTypeInterest     = Prefix + TypeInterest    // cv:Interest      https://w3id.org/fep/6158#Interest
+	CompactTypeLanguage     = Prefix + TypeLanguage    // cv:Language      https://w3id.org/fep/6158#Language
+	CompactTypeLocation     = Prefix + TypeLocation    // cv:Location      https://w3id.org/fep/6158#Location
+	CompactTypeProfile      = Prefix + TypeProfile     // cv:Profile       https://w3id.org/fep/6158#Profile
+	CompactTypeProject      = Prefix + TypeProject     // cv:Project       https://w3id.org/fep/6158#Project
+	CompactTypePublication  = Prefix + TypePublication // cv:Publication   https://w3id.org/fep/6158#Publication
+	CompactTypeReference    = Prefix + TypeReference   // cv:Reference     https://w3id.org/fep/6158#Reference
+	CompactTypeResume       = Prefix + TypeResume      // cv:Resume        https://w3id.org/fep/6158#Resume
+	CompactTypeSkill        = Prefix + TypeSkill       // cv:Skill         https://w3id.org/fep/6158#Skill
 )
 
 const (
-	ExpandedTypeAward        = "https://w3id.org/fep/6158#Award"
-	ExpandedTypeBasics       = "https://w3id.org/fep/6158#Basics"
-	ExpandedTypeCertificate  = "https://w3id.org/fep/6158#Certificate"
-	ExpandedTypeEducation    = "https://w3id.org/fep/6158#Education"
-	ExpandedTypeExperience   = "https://w3id.org/fep/6158#Experience"
-	ExpandedTypeInterest     = "https://w3id.org/fep/6158#Interest"
-	ExpandedTypeLanguage     = "https://w3id.org/fep/6158#Language"
-	ExpandedTypeLocation     = "https://w3id.org/fep/6158#Location"
-	ExpandedTypeProfile      = "https://w3id.org/fep/6158#Profile"
-	ExpandedTypeProject      = "https://w3id.org/fep/6158#Project"
-	ExpandedTypePublication  = "https://w3id.org/fep/6158#Publication"
-	ExpandedTypeReference    = "https://w3id.org/fep/6158#Reference"
-	ExpandedTypeResume       = "https://w3id.org/fep/6158#Resume"
-	ExpandedTypeSkill        = "https://w3id.org/fep/6158#Skill"
+	ExpandedTypeAward        = NameSpace + TypeAward       // https://w3id.org/fep/6158#Award
+	ExpandedTypeBasics       = NameSpace + TypeBasics      // https://w3id.org/fep/6158#Basics
+	ExpandedTypeCertificate  = NameSpace + TypeCertificate // https://w3id.org/fep/6158#Certificate
+	ExpandedTypeEducation    = NameSpace + TypeEducation   // https://w3id.org/fep/6158#Education
+	ExpandedTypeExperience   = NameSpace + TypeExperience  // https://w3id.org/fep/6158#Experience
+	ExpandedTypeInterest     = NameSpace + TypeInterest    // https://w3id.org/fep/6158#Interest
+	ExpandedTypeLanguage     = NameSpace + TypeLanguage    // https://w3id.org/fep/6158#Language
+	ExpandedTypeLocation     = NameSpace + TypeLocation    // https://w3id.org/fep/6158#Location
+	ExpandedTypeProfile      = NameSpace + TypeProfile     // https://w3id.org/fep/6158#Profile
+	ExpandedTypeProject      = NameSpace + TypeProject     // https://w3id.org/fep/6158#Project
+	ExpandedTypePublication  = NameSpace + TypePublication // https://w3id.org/fep/6158#Publication
+	ExpandedTypeReference    = NameSpace + TypeReference   // https://w3id.org/fep/6158#Reference
+	ExpandedTypeResume       = NameSpace + TypeResume      // https://w3id.org/fep/6158#Resume
+	ExpandedTypeSkill        = NameSpace + TypeSkill       // https://w3id.org/fep/6158#Skill
 )

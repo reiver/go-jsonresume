@@ -1,7 +1,10 @@
 package jsonresume
 
 import (
+	gojson "encoding/json"
+
 	"codeberg.org/reiver/go-activitypub"
+	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-json"
 	"github.com/reiver/go-jsonld"
 )
@@ -65,6 +68,103 @@ type Certificate struct {
 	Type json.Const[string] `json:"type" json.value:"Certificate"`
 
 	CoreCertificate
+}
+
+func (receiver *Certificate) UnmarshalJSON(bytes []byte) error {
+	if nil == receiver {
+		return ErrReceiverNil
+	}
+
+	var raw rawCertificate
+	err := jsonld.Unmarshal(bytes, &raw)
+	if nil != err {
+		err = erorr.Wrap(err, "failed to json-unmarshal certificate")
+		return err
+	}
+
+	{
+		var bb []byte = []byte(raw.ID)
+
+		if 0 < len(bb) {
+			err := jsonld.Unmarshal(bb, &receiver.ID)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal certificate id")
+				return err
+			}
+		}
+	}
+
+	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			var typeValue string
+			err := gojson.Unmarshal(bb, &typeValue)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal certificate type")
+				return err
+			}
+
+			switch typeValue {
+			case TypeCertificate, CompactTypeCertificate, ExpandedTypeCertificate:
+				// OK
+			default:
+				return erorr.Errorf("jsonresume: unexpected type for certificate: %q", typeValue)
+			}
+		}
+	}
+
+	{
+		{
+			var bb []byte = []byte(raw.Date)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.Date)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal certificate date")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Name)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.Name)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal certificate name")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.Issuer)
+
+			if 0 < len(bb) {
+				err := jsonld.Unmarshal(bb, &receiver.Issuer)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal certificate issuer")
+					return err
+				}
+			}
+		}
+
+		{
+			var bb []byte = []byte(raw.URL)
+
+			if 0 < len(bb) {
+				err := jsonld.UnmarshalJSONStringOrJSONObjectOrJSONArray[activitypub.ProtoLink, activitypub.HRef, activitypub.AnyLink](bb, &receiver.URL)
+				if nil != err {
+					err = erorr.Wrap(err, "failed to json-unmarshal certificate url")
+					return err
+				}
+			}
+		}
+	}
+
+	return nil
 }
 
 func (receiver Certificate) ProtoNode() activitypub.AnyNode {

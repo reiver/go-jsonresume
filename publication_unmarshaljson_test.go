@@ -1,0 +1,95 @@
+package jsonresume_test
+
+import (
+	"testing"
+
+	"github.com/reiver/go-jsonld"
+	"github.com/reiver/go-jsonresume"
+)
+
+func TestPublication_UnmarshalJSON_typeAccepted(t *testing.T) {
+
+	tests := []struct {
+		JSON string
+	}{
+		{
+			JSON: `{}`,
+		},
+		{
+			JSON: `{"type":"Publication"}`,
+		},
+		{
+			JSON: `{"type":"cv:Publication"}`,
+		},
+		{
+			JSON: `{"type":"https://w3id.org/fep/6158#Publication"}`,
+		},
+		{
+			JSON: `{"id":"http://example.com/pub/1","type":"Publication"}`,
+		},
+		{
+			JSON: `{"id":"http://example.com/pub/1","type":"https://w3id.org/fep/6158#Publication"}`,
+		},
+		{
+			JSON: `{"type":"Publication","name":"My Book"}`,
+		},
+		{
+			JSON: `{"type":"cv:Publication","name":"My Book"}`,
+		},
+		{
+			JSON: `{"type":"https://w3id.org/fep/6158#Publication","name":"My Book"}`,
+		},
+	}
+
+	for testNumber, test := range tests {
+		var actual jsonresume.Publication
+
+		err := jsonld.Unmarshal([]byte(test.JSON), &actual)
+		if nil != err {
+			t.Errorf("For test #%d, did not expect an error but actually got one.", testNumber)
+			t.Logf("ERROR: %s", err)
+			t.Logf("JSON:\n%s", test.JSON)
+			continue
+		}
+	}
+}
+
+func TestPublication_UnmarshalJSON_typeRejected(t *testing.T) {
+
+	tests := []struct {
+		JSON string
+	}{
+		{
+			JSON: `{"type":"Person"}`,
+		},
+		{
+			JSON: `{"type":"Resume"}`,
+		},
+		{
+			JSON: `{"type":""}`,
+		},
+		{
+			JSON: `{"type":"publication"}`,
+		},
+		{
+			JSON: `{"type":"PUBLICATION"}`,
+		},
+		{
+			JSON: `{"type":"https://w3id.org/fep/6158#Person"}`,
+		},
+		{
+			JSON: `{"type":"Person","name":"My Book"}`,
+		},
+	}
+
+	for testNumber, test := range tests {
+		var actual jsonresume.Publication
+
+		err := jsonld.Unmarshal([]byte(test.JSON), &actual)
+		if nil == err {
+			t.Errorf("For test #%d, expected an error but did not get one.", testNumber)
+			t.Logf("JSON:\n%s", test.JSON)
+			continue
+		}
+	}
+}

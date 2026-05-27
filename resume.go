@@ -110,6 +110,26 @@ func (receiver *Resume) UnmarshalJSON(bytes []byte) error {
 	}
 
 	{
+		var bb []byte = []byte(raw.Type)
+
+		if 0 < len(bb) {
+			var typeValue string
+			err := gojson.Unmarshal(bb, &typeValue)
+			if nil != err {
+				err = erorr.Wrap(err, "failed to json-unmarshal resume type")
+				return err
+			}
+
+			switch typeValue {
+			case TypeResume, CompactTypeResume, ExpandedTypeResume:
+				// OK
+			default:
+				return erorr.Errorf("jsonresume: unexpected type for resume: %q", typeValue)
+			}
+		}
+	}
+
+	{
 		{
 			var bb []byte = []byte(raw.Awards)
 
