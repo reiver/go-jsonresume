@@ -200,6 +200,22 @@ func (receiver *CoreResume) SetWorkID(id string) {
 	receiver.Work = []ProtoExperience{SomeExperienceID(id)}
 }
 
+func (receiver *CoreResume) SetBasicsID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Basics = SomeBasicsID(id)
+}
+
+func (receiver *CoreResume) SetMetaID(id string) {
+	if nil == receiver {
+		return
+	}
+
+	receiver.Meta = SomeMetaID(id)
+}
+
 // unmarshalRawResume unmarshals the ID and all CoreResume fields from a rawResume.
 //
 // This is the shared logic used by both [Resume.UnmarshalJSON] and [AnyResume.UnmarshalJSON].
