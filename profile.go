@@ -34,17 +34,21 @@ import (
 //	
 //	// ...
 //	
-//	basics.Profiles = append(basics.Profiles, jsonresume.Profile{
+//	profile1 := jsonresume.Profile{
 //		Network:   nul.Something("Mastodon"),
 //		UserName:  nul.Something("joeblow"),
-//		URL:       activitypub.HRef("https://mastodon.example/@joeblow"),
-//	})
-//	
-//	basics.Profiles = append(basics.Profiles, jsonresume.Profile{
+//	}
+//	profile1.SetURL("https://mastodon.example/@joeblow")
+//
+//	basics.Profiles = append(basics.Profiles, profile1)
+//
+//	profile2 := jsonresume.Profile{
 //		Network:   nul.Something("Pixelfed"),
 //		UserName:  nul.Something("joeblow"),
-//		URL:       activitypub.HRef("https://pixelfed.example/joeblow"),
-//	})
+//	}
+//	profile2.SetURL("https://pixelfed.example/joeblow")
+//
+//	basics.Profiles = append(basics.Profiles, profile2)
 //
 // Profile is for marshaling with a fixed type of "Profile".
 // It can also be used for unmarshaling when strict type validation is desired —

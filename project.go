@@ -44,19 +44,20 @@ import (
 //	
 //	// ...
 //	
-//	cv.Projects = append(cv.Projects, jsonresume.Project{
+//	project1 := jsonresume.Project{
 //		Name:        nul.Something("Microdon"),
-//		URL:         activitypub.HRef("https://codeberg.org/reiver/microdon"),
 //		StartDate:   nul.Something("2024-11-16"),
 //		Description: nul.Something("lightweight ActivityPub back-end"),
 //		Highlights:  activitypub.SomeStrings(
 //			"created ActivityPub back-end from scratch",
 //		),
-//	})
-//	
-//	cv.Projects = append(cv.Projects, jsonresume.Project{
+//	}
+//	project1.SetURL("https://codeberg.org/reiver/microdon")
+//
+//	cv.Projects = append(cv.Projects, project1)
+//
+//	project2 := jsonresume.Project{
 //		Name:        nul.Something("SpaceMax"),
-//		URL:         activitypub.HRef("https://spacemax.example"),
 //		StartDate:   nul.Something("2011-03-02"),
 //		EndDate:     nul.Something("2015-08-17"),
 //		Description: nul.Something("virtual drive"),
@@ -64,7 +65,10 @@ import (
 //			"reached more-than 100,000 users",
 //			"released version 2",
 //		),
-//	})
+//	}
+//	project2.SetURL("https://spacemax.example")
+//
+//	cv.Projects = append(cv.Projects, project2)
 //
 // Project is for marshaling with a fixed type of "Project".
 // It can also be used for unmarshaling when strict type validation is desired —

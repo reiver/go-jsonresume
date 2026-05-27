@@ -38,21 +38,25 @@ import (
 //
 //	// ...
 //
-//	cv.Publications = append(cv.Publications, jsonresume.Publication{
+//	publication1 := jsonresume.Publication{
 //		Name:        nul.Something("Distributed Systems for Fun and Profit"),
 //		Publisher:   nul.Something("Self"),
 //		ReleaseDate: nul.Something("2013-09-01"),
-//		URL:         activitypub.HRef("http://book.example/distsys/"),
 //		Summary:     nul.Something("A short book about distributed systems."),
-//	})
+//	}
+//	publication1.SetURL("http://book.example/distsys/")
 //
-//	cv.Publications = append(cv.Publications, jsonresume.Publication{
+//	cv.Publications = append(cv.Publications, publication1)
+//
+//	publication2 := jsonresume.Publication{
 //		Name:        nul.Something("Video Compression for Mere Mortals"),
 //		Publisher:   nul.Something("Whose Press"),
 //		ReleaseDate: nul.Something("2014-10-01"),
-//		URL:         activitypub.HRef("http://example.com/vcfmm"),
 //		Summary:     nul.Something("An introduction to video compression."),
-//	})
+//	}
+//	publication2.SetURL("http://example.com/vcfmm")
+//
+//	cv.Publications = append(cv.Publications, publication2)
 //
 // Publication is for marshaling with a fixed type of "Publication".
 // It can also be used for unmarshaling when strict type validation is desired —

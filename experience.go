@@ -73,9 +73,8 @@ import (
 //	
 //	// ...
 //	
-//	cv.Work = append(cv.Work, jsonresume.Experience{
+//	work1 := jsonresume.Experience{
 //		Name:         nul.Something("SuperCo"),
-//		URL:          nul.Something("http://super.example"),
 //		Position:     activitypub.SomeStrings("Chief Technology Officer (CTO)"),
 //		StartDate:    nul.Something("2024-01-01"),
 //		Summary:      nul.Something("Technical leadership for a company of 50+ people."),
@@ -84,11 +83,13 @@ import (
 //			"Created architecture.",
 //			"Set up management structure.",
 //		),
-//	})
-//	
-//	cv.Work = append(cv.Work, jsonresume.Experience{
+//	}
+//	work1.SetURL("http://super.example")
+//
+//	cv.Work = append(cv.Work, work1)
+//
+//	work2 := jsonresume.Experience{
 //		Name:         nul.Something("Acme"),
-//		URL:          nul.Something("http://acme.example"),
 //		Position:     activitypub.SomeStrings("Software Engineer"),
 //		StartDate:    nul.Something("2019-03-13"),
 //		EndDate:      nul.Something("2023-12-31"),
@@ -97,13 +98,15 @@ import (
 //			"Built the back-end in Golang from scratch",
 //			"Created payment system",
 //		),
-//	})
+//	}
+//	work2.SetURL("http://acme.example")
+//
+//	cv.Work = append(cv.Work, work2)
 //
 //	// ...
 //
-//	cv.Volunteer = append(cv.Volunteer, jsonresume.Experience{
+//	volunteer1 := jsonresume.Experience{
 //		Organization: nul.Something("Tech Conf"),
-//		URL:          nul.Something("http://techconf.example"),
 //		Position:     activitypub.SomeStrings("Organizer"),
 //		StartDate:    nul.Something("2025-02-01"),
 //		EndDate:      nul.Something("2026-08-24"),
@@ -112,11 +115,13 @@ import (
 //			"Organized Tech Conf",
 //			"Brought in sponsors",
 //		),
-//	})
-//	
-//	cv.Volunteer = append(cv.Volunteer, jsonresume.Experience{
+//	}
+//	volunteer1.SetURL("http://techconf.example")
+//
+//	cv.Volunteer = append(cv.Volunteer, volunteer1)
+//
+//	volunteer2 := jsonresume.Experience{
 //		Organization: nul.Something("Code School 123"),
-//		URL:          nul.Something("http://school123.example"),
 //		Position:     activitypub.SomeStrings("Instructor"),
 //		StartDate:    nul.Something("2018-03-13"),
 //		EndDate:      nul.Something("2024-07-07"),
@@ -124,7 +129,10 @@ import (
 //		Highlights:   activitypub.SomeStrings(
 //			"Taught 531 students the Go programming-language over a number of years.",
 //		),
-//	})
+//	}
+//	volunteer2.SetURL("http://school123.example")
+//
+//	cv.Volunteer = append(cv.Volunteer, volunteer2)
 //
 // Experience is for marshaling with a fixed type of "Experience".
 // It can also be used for unmarshaling when strict type validation is desired —

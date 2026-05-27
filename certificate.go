@@ -36,19 +36,23 @@ import (
 //	
 //	// ...
 //	
-//	cv.Certificates = append(cv.Certificates, jsonresume.Certificate{
+//	certificate1 := jsonresume.Certificate{
 //		Name:   nul.Something("CP+"),
 //		Date:   nul.Something("2018-06-01"),
 //		Issuer: nul.Something("CPEdu"),
-//		URL:    activitypub.HRef("http://cp.example"),
-//	})
+//	}
+//	certificate1.SetURL("http://cp.example")
 //
-//	cv.Certificates = append(cv.Certificates, jsonresume.Certificate{
+//	cv.Certificates = append(cv.Certificates, certificate1)
+//
+//	certificate2 := jsonresume.Certificate{
 //		Name:   nul.Something("Event Sourcing Core"),
 //		Date:   nul.Something("2017-03-12"),
 //		Issuer: nul.Something("EngWorks"),
-//		URL:    activitypub.HRef("http://engworks.example"),
-//	})
+//	}
+//	certificate2.SetURL("http://engworks.example")
+//
+//	cv.Certificates = append(cv.Certificates, certificate2)
 //
 // Certificate is for marshaling with a fixed type of "Certificate".
 // It can also be used for unmarshaling when strict type validation is desired —
