@@ -188,11 +188,17 @@ func TestProtoEntity(t *testing.T) {
 		Actual   activitypub.AnyEntity
 		Expected activitypub.AnyEntity
 	}{
-		// Types that propagate Name to CoreEntity:
+		// Types that propagate Name to CoreEntity (all fields populated to detect leakage):
 
 		{
-			Name:   "Basics",
-			Actual: Basics{ID: id, CoreBasics: CoreBasics{Name: name}}.ProtoEntity(),
+			Name: "Basics",
+			Actual: Basics{ID: id, CoreBasics: CoreBasics{
+				Name: name, Label: activitypub.SomeStrings("Programmer"),
+				EMail: activitypub.SomeStrings("joe@example.com"), Phone: activitypub.SomeStrings("555-1234"),
+				Summary: nul.Something("A developer"),
+				URL: []activitypub.ProtoLink{activitypub.HRef("https://example.com")},
+				Image: []activitypub.ProtoImageOrProtoLink{activitypub.HRef("https://example.com/photo.jpg")},
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeBasics),
@@ -200,8 +206,12 @@ func TestProtoEntity(t *testing.T) {
 			},
 		},
 		{
-			Name:   "Certificate",
-			Actual: Certificate{ID: id, CoreCertificate: CoreCertificate{Name: name}}.ProtoEntity(),
+			Name: "Certificate",
+			Actual: Certificate{ID: id, CoreCertificate: CoreCertificate{
+				Name: name, Date: nul.Something("2024-01-15"),
+				Issuer: nul.Something("Amazon"),
+				URL: []activitypub.ProtoLink{activitypub.HRef("https://example.com/cert")},
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeCertificate),
@@ -209,8 +219,14 @@ func TestProtoEntity(t *testing.T) {
 			},
 		},
 		{
-			Name:   "Experience",
-			Actual: Experience{ID: id, CoreExperience: CoreExperience{Name: name}}.ProtoEntity(),
+			Name: "Experience",
+			Actual: Experience{ID: id, CoreExperience: CoreExperience{
+				Name: name, Description: nul.Something("Did things"), EndDate: nul.Something("2024-01"),
+				Location: nul.Something("Remote"), Organization: nul.Something("Acme"), StartDate: nul.Something("2020-01"),
+				Summary: nul.Something("A role"), Highlights: activitypub.SomeStrings("Led team"),
+				Position: activitypub.SomeStrings("Engineer"),
+				URL: []activitypub.ProtoLink{activitypub.HRef("https://example.com")},
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeExperience),
@@ -218,8 +234,10 @@ func TestProtoEntity(t *testing.T) {
 			},
 		},
 		{
-			Name:   "Interest",
-			Actual: Interest{ID: id, CoreInterest: CoreInterest{Name: name}}.ProtoEntity(),
+			Name: "Interest",
+			Actual: Interest{ID: id, CoreInterest: CoreInterest{
+				Name: name, Keywords: activitypub.SomeStrings("Linux", "FreeBSD"),
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeInterest),
@@ -227,8 +245,15 @@ func TestProtoEntity(t *testing.T) {
 			},
 		},
 		{
-			Name:   "Project",
-			Actual: Project{ID: id, CoreProject: CoreProject{Name: name}}.ProtoEntity(),
+			Name: "Project",
+			Actual: Project{ID: id, CoreProject: CoreProject{
+				Name: name, Description: nul.Something("A project"), EndDate: nul.Something("2024-01"),
+				Entity: nul.Something("Acme"), StartDate: nul.Something("2020-01"),
+				ProjectType: nul.Something("application"),
+				Highlights: activitypub.SomeStrings("Built it"), Keywords: activitypub.SomeStrings("Go"),
+				Roles: activitypub.SomeStrings("Lead"),
+				URL: []activitypub.ProtoLink{activitypub.HRef("https://example.com")},
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeProject),
@@ -236,8 +261,12 @@ func TestProtoEntity(t *testing.T) {
 			},
 		},
 		{
-			Name:   "Publication",
-			Actual: Publication{ID: id, CorePublication: CorePublication{Name: name}}.ProtoEntity(),
+			Name: "Publication",
+			Actual: Publication{ID: id, CorePublication: CorePublication{
+				Name: name, Publisher: nul.Something("ACM"),
+				ReleaseDate: nul.Something("2023-06-15"), Summary: nul.Something("A paper"),
+				URL: []activitypub.ProtoLink{activitypub.HRef("https://example.com/paper")},
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypePublication),
@@ -245,8 +274,10 @@ func TestProtoEntity(t *testing.T) {
 			},
 		},
 		{
-			Name:   "Reference",
-			Actual: Reference{ID: id, CoreReference: CoreReference{Name: name}}.ProtoEntity(),
+			Name: "Reference",
+			Actual: Reference{ID: id, CoreReference: CoreReference{
+				Name: name, Reference: nul.Something("Great colleague"),
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeReference),
@@ -254,67 +285,93 @@ func TestProtoEntity(t *testing.T) {
 			},
 		},
 
-		// Types that do NOT propagate Name (ID+Type only):
+		// Types that do NOT propagate Name (all fields populated to detect leakage):
 
 		{
-			Name:   "Award",
-			Actual: Award{ID: id}.ProtoEntity(),
+			Name: "Award",
+			Actual: Award{ID: id, CoreAward: CoreAward{
+				Awarder: nul.Something("ACME Corp"), Date: nul.Something("2024-01-15"),
+				Title: nul.Something("Best Employee"), Summary: nul.Something("For excellence"),
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeAward),
 			},
 		},
 		{
-			Name:   "Education",
-			Actual: Education{ID: id}.ProtoEntity(),
+			Name: "Education",
+			Actual: Education{ID: id, CoreEducation: CoreEducation{
+				Institution: nul.Something("MIT"), Area: activitypub.SomeStrings("CS"),
+				StudyType: activitypub.SomeString("Bachelor"), StartDate: nul.Something("2018"),
+				EndDate: nul.Something("2022"), Score: nul.Something("3.9"),
+				Courses: activitypub.SomeStrings("Algorithms"),
+				URL: []activitypub.ProtoLink{activitypub.HRef("https://mit.edu")},
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeEducation),
 			},
 		},
 		{
-			Name:   "Language",
-			Actual: Language{ID: id}.ProtoEntity(),
+			Name: "Language",
+			Actual: Language{ID: id, CoreLanguage: CoreLanguage{
+				Language: nul.Something("English"), Fluency: nul.Something("Native"),
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeLanguage),
 			},
 		},
 		{
-			Name:   "Location",
-			Actual: Location{ID: id}.ProtoEntity(),
+			Name: "Location",
+			Actual: Location{ID: id, CoreLocation: CoreLocation{
+				Address: nul.Something("123 Main St"), City: nul.Something("Springfield"),
+				CountryCode: nul.Something("US"), PostalCode: nul.Something("62704"),
+				Region: nul.Something("Illinois"),
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeLocation),
 			},
 		},
 		{
-			Name:   "Meta",
-			Actual: Meta{ID: id}.ProtoEntity(),
+			Name: "Meta",
+			Actual: Meta{ID: id, CoreMeta: CoreMeta{
+				Canonical: nul.Something("https://example.com/resume.json"),
+				Version: nul.Something("v1.0.0"), LastModified: nul.Something("2024-05-21T00:00:00Z"),
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeMeta),
 			},
 		},
 		{
-			Name:   "Profile",
-			Actual: Profile{ID: id}.ProtoEntity(),
+			Name: "Profile",
+			Actual: Profile{ID: id, CoreProfile: CoreProfile{
+				Network: nul.Something("GitHub"), UserName: nul.Something("joeblow"),
+				URL: []activitypub.ProtoLink{activitypub.HRef("https://github.com/joeblow")},
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeProfile),
 			},
 		},
 		{
-			Name:   "Resume",
-			Actual: Resume{ID: id}.ProtoEntity(),
+			Name: "Resume",
+			Actual: Resume{ID: id, CoreResume: CoreResume{
+				Schema: nul.Something("https://jsonresume.org/schema"),
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeResume),
 			},
 		},
 		{
-			Name:   "Skill",
-			Actual: Skill{ID: id}.ProtoEntity(),
+			Name: "Skill",
+			Actual: Skill{ID: id, CoreSkill: CoreSkill{
+				Name: nul.Something("Go"), Level: nul.Something("Advanced"),
+				Keywords: activitypub.SomeStrings("concurrency", "testing"),
+			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeSkill),
@@ -344,10 +401,13 @@ func TestProtoObject(t *testing.T) {
 		Actual   activitypub.AnyObject
 		Expected activitypub.AnyObject
 	}{
-		// Award: Summary only
+		// Award: Summary only (all fields populated to detect leakage)
 		{
-			Name:   "Award",
-			Actual: Award{ID: id, CoreAward: CoreAward{Summary: summary}}.ProtoObject(),
+			Name: "Award",
+			Actual: Award{ID: id, CoreAward: CoreAward{
+				Awarder: nul.Something("ACME Corp"), Date: nul.Something("2024-01-15"),
+				Title: nul.Something("Best Employee"), Summary: summary,
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeAward),
@@ -357,11 +417,13 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Basics: Name, Image, Summary, URL
+		// Basics: Name, Image, Summary, URL (all fields populated to detect leakage)
 		{
 			Name: "Basics",
 			Actual: Basics{ID: id, CoreBasics: CoreBasics{
-				Name: name, Image: image, Summary: summary, URL: url,
+				Name: name, Label: activitypub.SomeStrings("Programmer"),
+				EMail: activitypub.SomeStrings("joe@example.com"), Phone: activitypub.SomeStrings("555-1234"),
+				Image: image, Summary: summary, URL: url,
 			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
@@ -375,10 +437,13 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Certificate: Name, URL
+		// Certificate: Name, URL (all fields populated to detect leakage)
 		{
-			Name:   "Certificate",
-			Actual: Certificate{ID: id, CoreCertificate: CoreCertificate{Name: name, URL: url}}.ProtoObject(),
+			Name: "Certificate",
+			Actual: Certificate{ID: id, CoreCertificate: CoreCertificate{
+				Name: name, Date: nul.Something("2024-01-15"),
+				Issuer: nul.Something("Amazon"), URL: url,
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeCertificate),
@@ -387,10 +452,15 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Education: URL only
+		// Education: URL only (all fields populated to detect leakage)
 		{
-			Name:   "Education",
-			Actual: Education{ID: id, CoreEducation: CoreEducation{URL: url}}.ProtoObject(),
+			Name: "Education",
+			Actual: Education{ID: id, CoreEducation: CoreEducation{
+				Institution: nul.Something("MIT"), Area: activitypub.SomeStrings("CS"),
+				StudyType: activitypub.SomeString("Bachelor"), StartDate: nul.Something("2018"),
+				EndDate: nul.Something("2022"), Score: nul.Something("3.9"),
+				Courses: activitypub.SomeStrings("Algorithms"), URL: url,
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeEducation),
@@ -398,11 +468,15 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Experience: Name, Summary, URL
+		// Experience: Name, Summary, URL (all fields populated to detect leakage)
 		{
 			Name: "Experience",
 			Actual: Experience{ID: id, CoreExperience: CoreExperience{
-				Name: name, Summary: summary, URL: url,
+				Name: name, Description: nul.Something("Did things"), EndDate: nul.Something("2024-01"),
+				Location: nul.Something("Remote"), Organization: nul.Something("Acme"),
+				StartDate: nul.Something("2020-01"), Summary: summary,
+				Highlights: activitypub.SomeStrings("Led team"), Position: activitypub.SomeStrings("Engineer"),
+				URL: url,
 			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
@@ -415,10 +489,12 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Interest: Name only
+		// Interest: Name only (all fields populated to detect leakage)
 		{
-			Name:   "Interest",
-			Actual: Interest{ID: id, CoreInterest: CoreInterest{Name: name}}.ProtoObject(),
+			Name: "Interest",
+			Actual: Interest{ID: id, CoreInterest: CoreInterest{
+				Name: name, Keywords: activitypub.SomeStrings("Linux", "FreeBSD"),
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeInterest),
@@ -426,40 +502,51 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Language: ID+Type only
+		// Language: ID+Type only (all fields populated to detect leakage)
 		{
-			Name:   "Language",
-			Actual: Language{ID: id}.ProtoObject(),
+			Name: "Language",
+			Actual: Language{ID: id, CoreLanguage: CoreLanguage{
+				Language: nul.Something("English"), Fluency: nul.Something("Native"),
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeLanguage),
 			},
 		},
 
-		// Location: ID+Type only
+		// Location: ID+Type only (all fields populated to detect leakage)
 		{
-			Name:   "Location",
-			Actual: Location{ID: id}.ProtoObject(),
+			Name: "Location",
+			Actual: Location{ID: id, CoreLocation: CoreLocation{
+				Address: nul.Something("123 Main St"), City: nul.Something("Springfield"),
+				CountryCode: nul.Something("US"), PostalCode: nul.Something("62704"),
+				Region: nul.Something("Illinois"),
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeLocation),
 			},
 		},
 
-		// Meta: ID+Type only
+		// Meta: ID+Type only (all fields populated to detect leakage)
 		{
-			Name:   "Meta",
-			Actual: Meta{ID: id}.ProtoObject(),
+			Name: "Meta",
+			Actual: Meta{ID: id, CoreMeta: CoreMeta{
+				Canonical: nul.Something("https://example.com/resume.json"),
+				Version: nul.Something("v1.0.0"), LastModified: nul.Something("2024-05-21T00:00:00Z"),
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeMeta),
 			},
 		},
 
-		// Profile: URL only
+		// Profile: URL only (all fields populated to detect leakage)
 		{
-			Name:   "Profile",
-			Actual: Profile{ID: id, CoreProfile: CoreProfile{URL: url}}.ProtoObject(),
+			Name: "Profile",
+			Actual: Profile{ID: id, CoreProfile: CoreProfile{
+				Network: nul.Something("GitHub"), UserName: nul.Something("joeblow"), URL: url,
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeProfile),
@@ -467,10 +554,16 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Project: Name, URL
+		// Project: Name, URL (all fields populated to detect leakage)
 		{
-			Name:   "Project",
-			Actual: Project{ID: id, CoreProject: CoreProject{Name: name, URL: url}}.ProtoObject(),
+			Name: "Project",
+			Actual: Project{ID: id, CoreProject: CoreProject{
+				Name: name, Description: nul.Something("A project"), EndDate: nul.Something("2024-01"),
+				Entity: nul.Something("Acme"), StartDate: nul.Something("2020-01"),
+				ProjectType: nul.Something("application"),
+				Highlights: activitypub.SomeStrings("Built it"), Keywords: activitypub.SomeStrings("Go"),
+				Roles: activitypub.SomeStrings("Lead"), URL: url,
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeProject),
@@ -479,11 +572,12 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Publication: Name, Summary, URL
+		// Publication: Name, Summary, URL (all fields populated to detect leakage)
 		{
 			Name: "Publication",
 			Actual: Publication{ID: id, CorePublication: CorePublication{
-				Name: name, Summary: summary, URL: url,
+				Name: name, Publisher: nul.Something("ACM"),
+				ReleaseDate: nul.Something("2023-06-15"), Summary: summary, URL: url,
 			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
@@ -496,10 +590,12 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Reference: Name only
+		// Reference: Name only (all fields populated to detect leakage)
 		{
-			Name:   "Reference",
-			Actual: Reference{ID: id, CoreReference: CoreReference{Name: name}}.ProtoObject(),
+			Name: "Reference",
+			Actual: Reference{ID: id, CoreReference: CoreReference{
+				Name: name, Reference: nul.Something("Great colleague"),
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeReference),
@@ -507,20 +603,25 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Resume: ID+Type only
+		// Resume: ID+Type only (all fields populated to detect leakage)
 		{
-			Name:   "Resume",
-			Actual: Resume{ID: id}.ProtoObject(),
+			Name: "Resume",
+			Actual: Resume{ID: id, CoreResume: CoreResume{
+				Schema: nul.Something("https://jsonresume.org/schema"),
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeResume),
 			},
 		},
 
-		// Skill: ID+Type only
+		// Skill: ID+Type only (all fields populated to detect leakage)
 		{
-			Name:   "Skill",
-			Actual: Skill{ID: id}.ProtoObject(),
+			Name: "Skill",
+			Actual: Skill{ID: id, CoreSkill: CoreSkill{
+				Name: nul.Something("Go"), Level: nul.Something("Advanced"),
+				Keywords: activitypub.SomeStrings("concurrency", "testing"),
+			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeSkill),
