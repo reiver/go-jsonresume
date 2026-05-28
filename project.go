@@ -93,7 +93,7 @@ type Project struct {
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
 
 	ID     jsonld.ID          `json:"id,omitempty"`
-	Type json.Const[string] `json:"@type" json.value:"Project"`
+	Type   json.Const[string] `json:"@type" json.value:"Project"`
 
 	CoreProject
 }
