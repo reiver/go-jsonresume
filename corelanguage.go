@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
@@ -14,13 +12,6 @@ type CoreLanguage struct {
 
 	Fluency  nul.Nullable[string] `json:"fluency,omitempty"`
 	Language nul.Nullable[string] `json:"language,omitempty"`
-}
-
-type rawLanguage struct {
-	ID       gojson.RawMessage `json:"id"`
-	Type     gojson.RawMessage `json:"type"`
-	Fluency  gojson.RawMessage `json:"fluency"`
-	Language gojson.RawMessage `json:"language"`
 }
 
 func (receiver *CoreLanguage) unmarshalRawLanguage(raw rawLanguage, id *jsonld.ID) error {

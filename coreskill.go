@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-activitypub"
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
@@ -16,14 +14,6 @@ type CoreSkill struct {
 	Keywords activitypub.Strings  `json:"keywords,omitempty"`
 	Level    nul.Nullable[string] `json:"level,omitempty"`
 	Name     nul.Nullable[string] `json:"name,omitempty"     jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
-}
-
-type rawSkill struct {
-	ID       gojson.RawMessage `json:"id"`
-	Type     gojson.RawMessage `json:"type"`
-	Keywords gojson.RawMessage `json:"keywords"`
-	Level    gojson.RawMessage `json:"level"`
-	Name     gojson.RawMessage `json:"name"`
 }
 
 func (receiver *CoreSkill) unmarshalRawSkill(raw rawSkill, id *jsonld.ID) error {

@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
@@ -14,13 +12,6 @@ type CoreReference struct {
 
 	Name      nul.Nullable[string] `json:"name,omitempty"      jsonld.namespace:"http://www.w3.org/ns/activitystreams" jsonld.prefix:"as"`
 	Reference nul.Nullable[string] `json:"reference,omitempty"`
-}
-
-type rawReference struct {
-	ID        gojson.RawMessage `json:"id"`
-	Type      gojson.RawMessage `json:"type"`
-	Name      gojson.RawMessage `json:"name"`
-	Reference gojson.RawMessage `json:"reference"`
 }
 
 func (receiver *CoreReference) unmarshalRawReference(raw rawReference, id *jsonld.ID) error {

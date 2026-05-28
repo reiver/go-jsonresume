@@ -1,8 +1,6 @@
 package jsonresume
 
 import (
-	gojson "encoding/json"
-
 	"codeberg.org/reiver/go-erorr"
 	"github.com/reiver/go-jsonld"
 	"github.com/reiver/go-nul"
@@ -17,16 +15,6 @@ type CoreLocation struct {
 	CountryCode nul.Nullable[string] `json:"countryCode,omitempty"`
 	PostalCode  nul.Nullable[string] `json:"postalCode,omitempty"`
 	Region      nul.Nullable[string] `json:"region,omitempty"`
-}
-
-type rawLocation struct {
-	ID          gojson.RawMessage `json:"id"`
-	Type        gojson.RawMessage `json:"type"`
-	Address     gojson.RawMessage `json:"address"`
-	City        gojson.RawMessage `json:"city"`
-	CountryCode gojson.RawMessage `json:"countryCode"`
-	PostalCode  gojson.RawMessage `json:"postalCode"`
-	Region      gojson.RawMessage `json:"region"`
 }
 
 func (receiver *CoreLocation) unmarshalRawLocation(raw rawLocation, id *jsonld.ID) error {
