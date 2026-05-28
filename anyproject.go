@@ -6,6 +6,8 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
+// AnyProject is similar to [Project] except that it is less restrictive about the (ActivityPub/ActivityStreams style) JSON-LD type.
+// Where [Project] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyProject allows anything to be loaded — including multple values, and sub-types.
 type AnyProject struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

@@ -6,6 +6,8 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
+// AnySkill is similar to [Skill] except that it is less restrictive about the (ActivityPub/ActivityStreams style) JSON-LD type.
+// Where [Skill] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnySkill allows anything to be loaded — including multple values, and sub-types.
 type AnySkill struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

@@ -6,6 +6,8 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
+// AnyCertificate is similar to [Certificate] except that it is less restrictive about the (ActivityPub/ActivityStreams style) JSON-LD type.
+// Where [Certificate] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyCertificate allows anything to be loaded — including multple values, and sub-types.
 type AnyCertificate struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

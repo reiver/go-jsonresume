@@ -6,6 +6,8 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
+// AnyMeta is similar to [Meta] except that it is less restrictive about the (ActivityPub/ActivityStreams style) JSON-LD type.
+// Where [Meta] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyMeta allows anything to be loaded — including multple values, and sub-types.
 type AnyMeta struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

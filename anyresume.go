@@ -6,6 +6,8 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
+// AnyResume is similar to [Resume] except that it is less restrictive about the (ActivityPub/ActivityStreams style) JSON-LD type.
+// Where [Resume] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyResume allows anything to be loaded — including multple values, and sub-types.
 type AnyResume struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

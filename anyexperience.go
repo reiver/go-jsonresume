@@ -6,6 +6,8 @@ import (
 	"github.com/reiver/go-jsonld"
 )
 
+// AnyExperience is similar to [Experience] except that it is less restrictive about the (ActivityPub/ActivityStreams style) JSON-LD type.
+// Where [Experience] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyExperience allows anything to be loaded — including multple values, and sub-types.
 type AnyExperience struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
