@@ -1784,6 +1784,263 @@ func TestString_full(t *testing.T) {
 	}
 }
 
+func TestString_nested(t *testing.T) {
+
+	tests := []struct {
+		Name     string
+		Actual   string
+		Expected string
+	}{
+		// 0: Basics with nested Location (single object, not array)
+		{
+			Name: "Basics with Location",
+			Actual: Basics{
+				CoreBasics: CoreBasics{
+					Name:    nul.Something("Jane Doe"),
+					Summary: nul.Something("A developer"),
+					Location: []ProtoLocation{
+						Location{
+							CoreLocation: CoreLocation{
+								City:        nul.Something("Vancouver"),
+								CountryCode: nul.Something("CA"),
+							},
+						},
+					},
+				},
+			}.String(),
+			Expected: "{\n" +
+				"  \"@context\": {\n" +
+				"    \"cv\": \"https://w3id.org/fep/6158\",\n" +
+				"    \"as\": \"http://www.w3.org/ns/activitystreams\",\n" +
+				"    \"email\": \"cv:email\",\n" +
+				"    \"id\": \"cv:id\",\n" +
+				"    \"label\": \"cv:label\",\n" +
+				"    \"location\": \"cv:location\",\n" +
+				"    \"phone\": \"cv:phone\",\n" +
+				"    \"profiles\": \"cv:profiles\",\n" +
+				"    \"type\": \"cv:type\",\n" +
+				"    \"image\": \"as:image\",\n" +
+				"    \"name\": \"as:name\",\n" +
+				"    \"summary\": \"as:summary\",\n" +
+				"    \"url\": \"as:url\"\n" +
+				"  },\n" +
+				"  \"type\": \"Basics\",\n" +
+				"  \"location\": {\n" +
+				"    \"type\": \"Location\",\n" +
+				"    \"city\": \"Vancouver\",\n" +
+				"    \"countryCode\": \"CA\"\n" +
+				"  },\n" +
+				"  \"name\": \"Jane Doe\",\n" +
+				"  \"summary\": \"A developer\"\n" +
+				"}",
+		},
+
+		// 1: Basics with nested Profiles array
+		{
+			Name: "Basics with Profiles",
+			Actual: Basics{
+				CoreBasics: CoreBasics{
+					Name: nul.Something("Jane Doe"),
+					Profiles: []ProtoProfile{
+						Profile{
+							CoreProfile: CoreProfile{
+								Network:  nul.Something("GitHub"),
+								UserName: nul.Something("janedoe"),
+								URL:      []activitypub.ProtoLink{activitypub.HRef("https://github.com/janedoe")},
+							},
+						},
+					},
+				},
+			}.String(),
+			Expected: "{\n" +
+				"  \"@context\": {\n" +
+				"    \"cv\": \"https://w3id.org/fep/6158\",\n" +
+				"    \"as\": \"http://www.w3.org/ns/activitystreams\",\n" +
+				"    \"email\": \"cv:email\",\n" +
+				"    \"id\": \"cv:id\",\n" +
+				"    \"label\": \"cv:label\",\n" +
+				"    \"location\": \"cv:location\",\n" +
+				"    \"phone\": \"cv:phone\",\n" +
+				"    \"profiles\": \"cv:profiles\",\n" +
+				"    \"type\": \"cv:type\",\n" +
+				"    \"image\": \"as:image\",\n" +
+				"    \"name\": \"as:name\",\n" +
+				"    \"summary\": \"as:summary\",\n" +
+				"    \"url\": \"as:url\"\n" +
+				"  },\n" +
+				"  \"type\": \"Basics\",\n" +
+				"  \"name\": \"Jane Doe\",\n" +
+				"  \"profiles\": [\n" +
+				"    {\n" +
+				"      \"type\": \"Profile\",\n" +
+				"      \"network\": \"GitHub\",\n" +
+				"      \"username\": \"janedoe\",\n" +
+				"      \"url\": \"https://github.com/janedoe\"\n" +
+				"    }\n" +
+				"  ]\n" +
+				"}",
+		},
+
+		// 2: Skill with multiple keywords (array formatting)
+		{
+			Name: "Skill with multiple keywords",
+			Actual: Skill{
+				CoreSkill: CoreSkill{
+					Name:     nul.Something("Backend"),
+					Level:    nul.Something("Senior"),
+					Keywords: activitypub.SomeStrings("Go", "Rust", "Python"),
+				},
+			}.String(),
+			Expected: "{\n" +
+				"  \"@context\": {\n" +
+				"    \"cv\": \"https://w3id.org/fep/6158\",\n" +
+				"    \"as\": \"http://www.w3.org/ns/activitystreams\",\n" +
+				"    \"id\": \"cv:id\",\n" +
+				"    \"keywords\": \"cv:keywords\",\n" +
+				"    \"level\": \"cv:level\",\n" +
+				"    \"type\": \"cv:type\",\n" +
+				"    \"name\": \"as:name\"\n" +
+				"  },\n" +
+				"  \"type\": \"Skill\",\n" +
+				"  \"keywords\": [\n" +
+				"    \"Go\",\n" +
+				"    \"Rust\",\n" +
+				"    \"Python\"\n" +
+				"  ],\n" +
+				"  \"level\": \"Senior\",\n" +
+				"  \"name\": \"Backend\"\n" +
+				"}",
+		},
+
+		// 3: Education with multiple courses
+		{
+			Name: "Education with multiple courses",
+			Actual: Education{
+				CoreEducation: CoreEducation{
+					Institution: nul.Something("MIT"),
+					Area:        activitypub.SomeString("Computer Science"),
+					Courses:     activitypub.SomeStrings("CS101", "CS201", "CS301"),
+				},
+			}.String(),
+			Expected: "{\n" +
+				"  \"@context\": {\n" +
+				"    \"cv\": \"https://w3id.org/fep/6158\",\n" +
+				"    \"as\": \"http://www.w3.org/ns/activitystreams\",\n" +
+				"    \"area\": \"cv:area\",\n" +
+				"    \"courses\": \"cv:courses\",\n" +
+				"    \"endDate\": \"cv:endDate\",\n" +
+				"    \"id\": \"cv:id\",\n" +
+				"    \"institution\": \"cv:institution\",\n" +
+				"    \"score\": \"cv:score\",\n" +
+				"    \"startDate\": \"cv:startDate\",\n" +
+				"    \"studyType\": \"cv:studyType\",\n" +
+				"    \"type\": \"cv:type\",\n" +
+				"    \"url\": \"as:url\"\n" +
+				"  },\n" +
+				"  \"type\": \"Education\",\n" +
+				"  \"area\": \"Computer Science\",\n" +
+				"  \"courses\": [\n" +
+				"    \"CS101\",\n" +
+				"    \"CS201\",\n" +
+				"    \"CS301\"\n" +
+				"  ],\n" +
+				"  \"institution\": \"MIT\"\n" +
+				"}",
+		},
+
+		// 4: Experience with multiple highlights
+		{
+			Name: "Experience with multiple highlights",
+			Actual: Experience{
+				CoreExperience: CoreExperience{
+					Name:       nul.Something("ACME Corp"),
+					Position:   activitypub.SomeString("Lead Engineer"),
+					Highlights: activitypub.SomeStrings("Shipped v2.0", "Grew team", "Reduced latency"),
+				},
+			}.String(),
+			Expected: "{\n" +
+				"  \"@context\": {\n" +
+				"    \"cv\": \"https://w3id.org/fep/6158\",\n" +
+				"    \"as\": \"http://www.w3.org/ns/activitystreams\",\n" +
+				"    \"description\": \"cv:description\",\n" +
+				"    \"endDate\": \"cv:endDate\",\n" +
+				"    \"highlights\": \"cv:highlights\",\n" +
+				"    \"id\": \"cv:id\",\n" +
+				"    \"location\": \"cv:location\",\n" +
+				"    \"organization\": \"cv:organization\",\n" +
+				"    \"position\": \"cv:position\",\n" +
+				"    \"startDate\": \"cv:startDate\",\n" +
+				"    \"type\": \"cv:type\",\n" +
+				"    \"name\": \"as:name\",\n" +
+				"    \"summary\": \"as:summary\",\n" +
+				"    \"url\": \"as:url\"\n" +
+				"  },\n" +
+				"  \"type\": \"Experience\",\n" +
+				"  \"highlights\": [\n" +
+				"    \"Shipped v2.0\",\n" +
+				"    \"Grew team\",\n" +
+				"    \"Reduced latency\"\n" +
+				"  ],\n" +
+				"  \"name\": \"ACME Corp\",\n" +
+				"  \"position\": \"Lead Engineer\"\n" +
+				"}",
+		},
+
+		// 5: AnyBasics with nested Location
+		{
+			Name: "AnyBasics with Location",
+			Actual: AnyBasics{
+				ID:   jsonld.SomeID("http://example.com/basics/1"),
+				Type: jsonld.SomeType("Basics"),
+				CoreBasics: CoreBasics{
+					Name: nul.Something("Jane Doe"),
+					Location: []ProtoLocation{
+						Location{
+							CoreLocation: CoreLocation{
+								City:   nul.Something("Vancouver"),
+								Region: nul.Something("BC"),
+							},
+						},
+					},
+				},
+			}.String(),
+			Expected: "{\n" +
+				"  \"@context\": {\n" +
+				"    \"cv\": \"https://w3id.org/fep/6158\",\n" +
+				"    \"as\": \"http://www.w3.org/ns/activitystreams\",\n" +
+				"    \"email\": \"cv:email\",\n" +
+				"    \"id\": \"cv:id\",\n" +
+				"    \"label\": \"cv:label\",\n" +
+				"    \"location\": \"cv:location\",\n" +
+				"    \"phone\": \"cv:phone\",\n" +
+				"    \"profiles\": \"cv:profiles\",\n" +
+				"    \"type\": \"cv:type\",\n" +
+				"    \"image\": \"as:image\",\n" +
+				"    \"name\": \"as:name\",\n" +
+				"    \"summary\": \"as:summary\",\n" +
+				"    \"url\": \"as:url\"\n" +
+				"  },\n" +
+				"  \"id\": \"http://example.com/basics/1\",\n" +
+				"  \"type\": \"Basics\",\n" +
+				"  \"location\": {\n" +
+				"    \"type\": \"Location\",\n" +
+				"    \"city\": \"Vancouver\",\n" +
+				"    \"region\": \"BC\"\n" +
+				"  },\n" +
+				"  \"name\": \"Jane Doe\"\n" +
+				"}",
+		},
+	}
+
+	for testNumber, test := range tests {
+		if test.Expected != test.Actual {
+			t.Errorf("For test #%d (%s), the actual value is not what was expected.", testNumber, test.Name)
+			t.Logf("EXPECTED:\n%s", test.Expected)
+			t.Logf("ACTUAL:\n%s", test.Actual)
+		}
+	}
+}
+
 // TestStringJSON_marshalFailure verifies that stringJSON gracefully returns "{}"
 // when given a value that jsonld.Marshal cannot serialize, rather than panicking
 // or returning corrupt output. jsonld.Marshal rejects non-struct/non-map values
