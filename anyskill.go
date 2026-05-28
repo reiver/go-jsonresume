@@ -56,6 +56,10 @@ func (receiver AnySkill) ProtoEntity() activitypub.AnyEntity {
 	return activitypub.AnyEntity{
 		ID:   receiver.ID,
 		Type: receiver.Type,
+
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
 	}
 }
 
@@ -63,6 +67,10 @@ func (receiver AnySkill) ProtoObject() activitypub.AnyObject {
 	return activitypub.AnyObject{
 		ID:   receiver.ID,
 		Type: receiver.Type,
+
+		CoreEntity: activitypub.CoreEntity{
+			Name: receiver.Name,
+		},
 	}
 }
 

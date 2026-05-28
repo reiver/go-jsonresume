@@ -198,6 +198,7 @@ func TestAny_ProtoEntity(t *testing.T) {
 			{Name: "AnyProject",     Actual: AnyProject{ID: id, Type: typ, CoreProject: CoreProject{Name: name}}.ProtoEntity()},
 			{Name: "AnyPublication", Actual: AnyPublication{ID: id, Type: typ, CorePublication: CorePublication{Name: name}}.ProtoEntity()},
 			{Name: "AnyReference",   Actual: AnyReference{ID: id, Type: typ, CoreReference: CoreReference{Name: name}}.ProtoEntity()},
+		{Name: "AnySkill",      Actual: AnySkill{ID: id, Type: typ, CoreSkill: CoreSkill{Name: name}}.ProtoEntity()},
 		}
 
 		expected := activitypub.AnyEntity{
@@ -230,7 +231,6 @@ func TestAny_ProtoEntity(t *testing.T) {
 			{Name: "AnyMeta",     Actual: AnyMeta{ID: id, Type: typ}.ProtoEntity()},
 			{Name: "AnyProfile",  Actual: AnyProfile{ID: id, Type: typ}.ProtoEntity()},
 			{Name: "AnyResume",   Actual: AnyResume{ID: id, Type: typ}.ProtoEntity()},
-			{Name: "AnySkill",    Actual: AnySkill{ID: id, Type: typ}.ProtoEntity()},
 		}
 
 		expected := activitypub.AnyEntity{
@@ -425,11 +425,17 @@ func TestAny_ProtoObject(t *testing.T) {
 			Expected: activitypub.AnyObject{ID: id, Type: typ},
 		},
 
-		// AnySkill — ID+Type only (no propagated fields).
+		// AnySkill — propagates Name only (no CoreObject fields).
 		{
-			Name:     "AnySkill",
-			Actual:   AnySkill{ID: id, Type: typ}.ProtoObject(),
-			Expected: activitypub.AnyObject{ID: id, Type: typ},
+			Name: "AnySkill",
+			Actual: AnySkill{
+				ID: id, Type: typ,
+				CoreSkill: CoreSkill{Name: name},
+			}.ProtoObject(),
+			Expected: activitypub.AnyObject{
+				ID: id, Type: typ,
+				CoreEntity: activitypub.CoreEntity{Name: name},
+			},
 		},
 	}
 

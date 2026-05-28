@@ -369,12 +369,13 @@ func TestProtoEntity(t *testing.T) {
 		{
 			Name: "Skill",
 			Actual: Skill{ID: id, CoreSkill: CoreSkill{
-				Name: nul.Something("Go"), Level: nul.Something("Advanced"),
+				Name: name, Level: nul.Something("Advanced"),
 				Keywords: activitypub.SomeStrings("concurrency", "testing"),
 			}}.ProtoEntity(),
 			Expected: activitypub.AnyEntity{
 				ID:   id,
 				Type: jsonld.SomeType(TypeSkill),
+				CoreEntity: activitypub.CoreEntity{Name: name},
 			},
 		},
 	}
@@ -615,16 +616,17 @@ func TestProtoObject(t *testing.T) {
 			},
 		},
 
-		// Skill: ID+Type only (all fields populated to detect leakage)
+		// Skill: Name only (all fields populated to detect leakage)
 		{
 			Name: "Skill",
 			Actual: Skill{ID: id, CoreSkill: CoreSkill{
-				Name: nul.Something("Go"), Level: nul.Something("Advanced"),
+				Name: name, Level: nul.Something("Advanced"),
 				Keywords: activitypub.SomeStrings("concurrency", "testing"),
 			}}.ProtoObject(),
 			Expected: activitypub.AnyObject{
 				ID:   id,
 				Type: jsonld.SomeType(TypeSkill),
+				CoreEntity: activitypub.CoreEntity{Name: name},
 			},
 		},
 	}
