@@ -1783,3 +1783,29 @@ func TestString_full(t *testing.T) {
 		}
 	}
 }
+
+// TestStringJSON_marshalFailure verifies that stringJSON gracefully returns "{}"
+// when given a value that jsonld.Marshal cannot serialize, rather than panicking
+// or returning corrupt output. jsonld.Marshal rejects non-struct/non-map values
+// that don't implement json.Marshaler.
+func TestStringJSON_marshalFailure(t *testing.T) {
+
+	tests := []struct {
+		Name  string
+		Value any
+	}{
+		{Name: "channel",  Value: make(chan int)},
+		{Name: "function", Value: func() {}},
+		{Name: "integer",  Value: 42},
+		{Name: "string",   Value: "hello"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Name, func(t *testing.T) {
+			result := stringJSON(test.Value)
+			if result != "{}" {
+				t.Errorf("Expected \"{}\" for unmarshalable %s but got: %s", test.Name, result)
+			}
+		})
+	}
+}
