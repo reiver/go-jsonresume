@@ -1,7 +1,9 @@
 package jsonresume_test
 
 import (
+	"errors"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/reiver/go-jsonresume"
@@ -86,5 +88,54 @@ func TestJSONResume_AppendResumeID(t *testing.T) {
 		var jr *jsonresume.JSONResume
 
 		jr.AppendResumeID("http://example.com/resume/1") // must not panic
+	}
+}
+
+// TestJSONResume_UnmarshalJSON_nilReceiver verifies that calling UnmarshalJSON
+// on a nil *JSONResume returns ErrReceiverNil rather than panicking.
+func TestJSONResume_UnmarshalJSON_nilReceiver(t *testing.T) {
+	var jr *jsonresume.JSONResume
+
+	err := jr.UnmarshalJSON([]byte(`{}`))
+	if nil == err {
+		t.Errorf("Expected an error but did not get one.")
+		return
+	}
+	if !errors.Is(err, jsonresume.ErrReceiverNil) {
+		t.Errorf("Expected ErrReceiverNil but got: %s", err)
+	}
+}
+
+// TestJSONResume_UnmarshalJSON_directMalformed verifies that calling
+// UnmarshalJSON directly with malformed bytes produces an error that
+// identifies the json-resume context. This exercises the inner
+// jsonld.Unmarshal error path that is unreachable through the outer
+// jsonld.Unmarshal (which fails first on malformed input).
+func TestJSONResume_UnmarshalJSON_directMalformed(t *testing.T) {
+	var jr jsonresume.JSONResume
+
+	err := jr.UnmarshalJSON([]byte(`{truncated`))
+	if nil == err {
+		t.Errorf("Expected an error but did not get one.")
+		return
+	}
+	if !strings.Contains(err.Error(), "json-resume") {
+		t.Errorf("Error should mention \"json-resume\" but got: %s", err)
+	}
+}
+
+// TestJSONResume_UnmarshalJSON_malformedResume verifies that a malformed
+// resume field value (number where array/object/string is expected) produces
+// an error that identifies the resume field.
+func TestJSONResume_UnmarshalJSON_malformedResume(t *testing.T) {
+	var jr jsonresume.JSONResume
+
+	err := jr.UnmarshalJSON([]byte(`{"resume":42}`))
+	if nil == err {
+		t.Errorf("Expected an error but did not get one.")
+		return
+	}
+	if !strings.Contains(err.Error(), "resume") {
+		t.Errorf("Error should mention \"resume\" but got: %s", err)
 	}
 }
