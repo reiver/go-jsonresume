@@ -7,7 +7,7 @@ import (
 )
 
 // AnyProfile is similar to [Profile] except that it is less restrictive about the (ActivityPub/ActivityStreams style) JSON-LD type.
-// Where [Profile] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyProfile allows anything to be loaded — including multple values, and sub-types.
+// Where [Profile] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyProfile allows anything to be loaded — including multiple values, and sub-types.
 type AnyProfile struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`

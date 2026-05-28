@@ -7,7 +7,7 @@ import (
 )
 
 // AnyPublication is similar to [Publication] except that it is less restrictive about the (ActivityPub/ActivityStreams style) JSON-LD type.
-// Where [Publication] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyPublication allows anything to be loaded — including multple values, and sub-types.
+// Where [Publication] hard-codes its (ActivityPub/ActivityStreams style) JSON-LD type, AnyPublication allows anything to be loaded — including multiple values, and sub-types.
 type AnyPublication struct {
 	NameSpace jsonld.NameSpace `jsonld:"https://w3id.org/fep/6158"`
 	Prefix    jsonld.Prefix    `jsonld:"cv"`
