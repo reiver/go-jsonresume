@@ -4,13 +4,16 @@ import (
 	"testing"
 
 	"github.com/reiver/go-jsonld"
+	"github.com/reiver/go-nul"
+
 	"github.com/reiver/go-jsonresume"
 )
 
 func TestLocation_UnmarshalJSON_typeAccepted(t *testing.T) {
 
 	tests := []struct {
-		JSON string
+		JSON         string
+		ExpectedCity nul.Nullable[string]
 	}{
 		{
 			JSON: `{}`,
@@ -31,13 +34,16 @@ func TestLocation_UnmarshalJSON_typeAccepted(t *testing.T) {
 			JSON: `{"id":"http://example.com/location/1","type":"https://w3id.org/fep/6158#Location"}`,
 		},
 		{
-			JSON: `{"type":"Location","city":"Vancouver"}`,
+			JSON:         `{"type":"Location","city":"Vancouver"}`,
+			ExpectedCity: nul.Something("Vancouver"),
 		},
 		{
-			JSON: `{"type":"cv:Location","city":"Vancouver"}`,
+			JSON:         `{"type":"cv:Location","city":"Vancouver"}`,
+			ExpectedCity: nul.Something("Vancouver"),
 		},
 		{
-			JSON: `{"type":"https://w3id.org/fep/6158#Location","city":"Vancouver"}`,
+			JSON:         `{"type":"https://w3id.org/fep/6158#Location","city":"Vancouver"}`,
+			ExpectedCity: nul.Something("Vancouver"),
 		},
 	}
 
@@ -50,6 +56,17 @@ func TestLocation_UnmarshalJSON_typeAccepted(t *testing.T) {
 			t.Logf("ERROR: %s", err)
 			t.Logf("JSON:\n%s", test.JSON)
 			continue
+		}
+
+		{
+			expected := test.ExpectedCity
+			if expected != actual.City {
+				t.Errorf("For test #%d, the actual City is not what was expected.", testNumber)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", actual.City)
+				t.Logf("JSON:\n%s", test.JSON)
+				continue
+			}
 		}
 	}
 }

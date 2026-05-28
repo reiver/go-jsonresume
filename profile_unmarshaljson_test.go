@@ -4,13 +4,16 @@ import (
 	"testing"
 
 	"github.com/reiver/go-jsonld"
+	"github.com/reiver/go-nul"
+
 	"github.com/reiver/go-jsonresume"
 )
 
 func TestProfile_UnmarshalJSON_typeAccepted(t *testing.T) {
 
 	tests := []struct {
-		JSON string
+		JSON            string
+		ExpectedNetwork nul.Nullable[string]
 	}{
 		{
 			JSON: `{}`,
@@ -31,13 +34,16 @@ func TestProfile_UnmarshalJSON_typeAccepted(t *testing.T) {
 			JSON: `{"id":"http://example.com/profile/1","type":"https://w3id.org/fep/6158#Profile"}`,
 		},
 		{
-			JSON: `{"type":"Profile","network":"Mastodon"}`,
+			JSON:            `{"type":"Profile","network":"Mastodon"}`,
+			ExpectedNetwork: nul.Something("Mastodon"),
 		},
 		{
-			JSON: `{"type":"cv:Profile","network":"Mastodon"}`,
+			JSON:            `{"type":"cv:Profile","network":"Mastodon"}`,
+			ExpectedNetwork: nul.Something("Mastodon"),
 		},
 		{
-			JSON: `{"type":"https://w3id.org/fep/6158#Profile","network":"Mastodon"}`,
+			JSON:            `{"type":"https://w3id.org/fep/6158#Profile","network":"Mastodon"}`,
+			ExpectedNetwork: nul.Something("Mastodon"),
 		},
 	}
 
@@ -50,6 +56,17 @@ func TestProfile_UnmarshalJSON_typeAccepted(t *testing.T) {
 			t.Logf("ERROR: %s", err)
 			t.Logf("JSON:\n%s", test.JSON)
 			continue
+		}
+
+		{
+			expected := test.ExpectedNetwork
+			if expected != actual.Network {
+				t.Errorf("For test #%d, the actual Network is not what was expected.", testNumber)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", actual.Network)
+				t.Logf("JSON:\n%s", test.JSON)
+				continue
+			}
 		}
 	}
 }

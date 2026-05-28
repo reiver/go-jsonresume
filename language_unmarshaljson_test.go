@@ -4,13 +4,16 @@ import (
 	"testing"
 
 	"github.com/reiver/go-jsonld"
+	"github.com/reiver/go-nul"
+
 	"github.com/reiver/go-jsonresume"
 )
 
 func TestLanguage_UnmarshalJSON_typeAccepted(t *testing.T) {
 
 	tests := []struct {
-		JSON string
+		JSON             string
+		ExpectedLanguage nul.Nullable[string]
 	}{
 		{
 			JSON: `{}`,
@@ -31,13 +34,16 @@ func TestLanguage_UnmarshalJSON_typeAccepted(t *testing.T) {
 			JSON: `{"id":"http://example.com/language/1","type":"https://w3id.org/fep/6158#Language"}`,
 		},
 		{
-			JSON: `{"type":"Language","language":"English"}`,
+			JSON:             `{"type":"Language","language":"English"}`,
+			ExpectedLanguage: nul.Something("English"),
 		},
 		{
-			JSON: `{"type":"cv:Language","language":"English"}`,
+			JSON:             `{"type":"cv:Language","language":"English"}`,
+			ExpectedLanguage: nul.Something("English"),
 		},
 		{
-			JSON: `{"type":"https://w3id.org/fep/6158#Language","language":"English"}`,
+			JSON:             `{"type":"https://w3id.org/fep/6158#Language","language":"English"}`,
+			ExpectedLanguage: nul.Something("English"),
 		},
 	}
 
@@ -50,6 +56,17 @@ func TestLanguage_UnmarshalJSON_typeAccepted(t *testing.T) {
 			t.Logf("ERROR: %s", err)
 			t.Logf("JSON:\n%s", test.JSON)
 			continue
+		}
+
+		{
+			expected := test.ExpectedLanguage
+			if expected != actual.Language {
+				t.Errorf("For test #%d, the actual Language is not what was expected.", testNumber)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", actual.Language)
+				t.Logf("JSON:\n%s", test.JSON)
+				continue
+			}
 		}
 	}
 }

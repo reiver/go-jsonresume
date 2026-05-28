@@ -4,13 +4,16 @@ import (
 	"testing"
 
 	"github.com/reiver/go-jsonld"
+	"github.com/reiver/go-nul"
+
 	"github.com/reiver/go-jsonresume"
 )
 
 func TestInterest_UnmarshalJSON_typeAccepted(t *testing.T) {
 
 	tests := []struct {
-		JSON string
+		JSON         string
+		ExpectedName nul.Nullable[string]
 	}{
 		{
 			JSON: `{}`,
@@ -31,13 +34,16 @@ func TestInterest_UnmarshalJSON_typeAccepted(t *testing.T) {
 			JSON: `{"id":"http://example.com/interest/1","type":"https://w3id.org/fep/6158#Interest"}`,
 		},
 		{
-			JSON: `{"type":"Interest","name":"Machine Learning"}`,
+			JSON:         `{"type":"Interest","name":"Machine Learning"}`,
+			ExpectedName: nul.Something("Machine Learning"),
 		},
 		{
-			JSON: `{"type":"cv:Interest","name":"Machine Learning"}`,
+			JSON:         `{"type":"cv:Interest","name":"Machine Learning"}`,
+			ExpectedName: nul.Something("Machine Learning"),
 		},
 		{
-			JSON: `{"type":"https://w3id.org/fep/6158#Interest","name":"Machine Learning"}`,
+			JSON:         `{"type":"https://w3id.org/fep/6158#Interest","name":"Machine Learning"}`,
+			ExpectedName: nul.Something("Machine Learning"),
 		},
 	}
 
@@ -50,6 +56,17 @@ func TestInterest_UnmarshalJSON_typeAccepted(t *testing.T) {
 			t.Logf("ERROR: %s", err)
 			t.Logf("JSON:\n%s", test.JSON)
 			continue
+		}
+
+		{
+			expected := test.ExpectedName
+			if expected != actual.Name {
+				t.Errorf("For test #%d, the actual Name is not what was expected.", testNumber)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", actual.Name)
+				t.Logf("JSON:\n%s", test.JSON)
+				continue
+			}
 		}
 	}
 }

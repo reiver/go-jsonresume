@@ -4,13 +4,17 @@ import (
 	"testing"
 
 	"github.com/reiver/go-jsonld"
+	"github.com/reiver/go-nul"
+
 	"github.com/reiver/go-jsonresume"
 )
 
 func TestProject_UnmarshalJSON_typeAccepted(t *testing.T) {
 
 	tests := []struct {
-		JSON string
+		JSON                string
+		ExpectedName        nul.Nullable[string]
+		ExpectedProjectType nul.Nullable[string]
 	}{
 		{
 			JSON: `{}`,
@@ -31,16 +35,20 @@ func TestProject_UnmarshalJSON_typeAccepted(t *testing.T) {
 			JSON: `{"id":"http://example.com/project/1","@type":"https://w3id.org/fep/6158#Project"}`,
 		},
 		{
-			JSON: `{"@type":"Project","name":"Microdon"}`,
+			JSON:         `{"@type":"Project","name":"Microdon"}`,
+			ExpectedName: nul.Something("Microdon"),
 		},
 		{
-			JSON: `{"@type":"cv:Project","name":"Microdon"}`,
+			JSON:         `{"@type":"cv:Project","name":"Microdon"}`,
+			ExpectedName: nul.Something("Microdon"),
 		},
 		{
-			JSON: `{"@type":"https://w3id.org/fep/6158#Project","name":"Microdon"}`,
+			JSON:         `{"@type":"https://w3id.org/fep/6158#Project","name":"Microdon"}`,
+			ExpectedName: nul.Something("Microdon"),
 		},
 		{
-			JSON: `{"@type":"Project","type":"application"}`,
+			JSON:                `{"@type":"Project","type":"application"}`,
+			ExpectedProjectType: nul.Something("application"),
 		},
 	}
 
@@ -53,6 +61,28 @@ func TestProject_UnmarshalJSON_typeAccepted(t *testing.T) {
 			t.Logf("ERROR: %s", err)
 			t.Logf("JSON:\n%s", test.JSON)
 			continue
+		}
+
+		{
+			expected := test.ExpectedName
+			if expected != actual.Name {
+				t.Errorf("For test #%d, the actual Name is not what was expected.", testNumber)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", actual.Name)
+				t.Logf("JSON:\n%s", test.JSON)
+				continue
+			}
+		}
+
+		{
+			expected := test.ExpectedProjectType
+			if expected != actual.ProjectType {
+				t.Errorf("For test #%d, the actual ProjectType is not what was expected.", testNumber)
+				t.Logf("EXPECTED: %#v", expected)
+				t.Logf("ACTUAL:   %#v", actual.ProjectType)
+				t.Logf("JSON:\n%s", test.JSON)
+				continue
+			}
 		}
 	}
 }
