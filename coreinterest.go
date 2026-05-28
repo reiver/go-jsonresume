@@ -29,7 +29,7 @@ func (receiver *CoreInterest) unmarshalRawInterest(raw rawInterest, id *jsonld.I
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {

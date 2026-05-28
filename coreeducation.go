@@ -26,7 +26,7 @@ func (receiver *CoreEducation) unmarshalRawEducation(raw rawEducation, id *jsonl
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {

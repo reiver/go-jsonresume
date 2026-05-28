@@ -22,7 +22,7 @@ func (receiver *CoreCertificate) unmarshalRawCertificate(raw rawCertificate, id 
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {

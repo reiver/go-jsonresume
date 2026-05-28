@@ -21,7 +21,7 @@ func (receiver *CoreProfile) unmarshalRawProfile(raw rawProfile, id *jsonld.ID) 
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {

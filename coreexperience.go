@@ -28,7 +28,7 @@ func (receiver *CoreExperience) unmarshalRawExperience(raw rawExperience, id *js
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {

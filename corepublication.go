@@ -23,7 +23,7 @@ func (receiver *CorePublication) unmarshalRawPublication(raw rawPublication, id 
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {

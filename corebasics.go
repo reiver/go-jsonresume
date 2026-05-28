@@ -27,7 +27,7 @@ func (receiver *CoreBasics) unmarshalRawBasics(raw rawBasics, id *jsonld.ID) err
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {

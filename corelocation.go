@@ -34,7 +34,7 @@ func (receiver *CoreLocation) unmarshalRawLocation(raw rawLocation, id *jsonld.I
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {

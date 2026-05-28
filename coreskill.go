@@ -31,7 +31,7 @@ func (receiver *CoreSkill) unmarshalRawSkill(raw rawSkill, id *jsonld.ID) error 
 		return ErrReceiverNil
 	}
 
-	{
+	if nil != id {
 		var bb []byte = []byte(raw.ID)
 
 		if 0 < len(bb) {
